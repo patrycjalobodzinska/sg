@@ -1,26 +1,81 @@
-@import "tailwindcss";
+/* SG Papertronics — global styles ported from the Claude Design source. */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;scroll-padding-top:84px}
+body{
+  margin:0;
+  background:#EFF1F5;
+  color:#14161C;
+  font-family:var(--font-montserrat),'Century Gothic','Helvetica Neue',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:#2E6BE6;text-decoration:none}
+a:hover{color:#1E54C7}
+input,textarea,button{font-family:inherit}
+::selection{background:#D6E2FB;color:#16346E}
+section{display:flex;flex-direction:column;justify-content:center}
+h1,h2{
+  font-family:var(--font-montserrat),'Century Gothic','Helvetica Neue',Arial,sans-serif;
+  font-weight:600;
+  letter-spacing:-.02em;
+}
+h1 span,h2 span{font-family:inherit}
+.eyebrow-i{font-style:italic}
+
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes heroRise{from{opacity:0;transform:translateY(46px)}to{opacity:1;transform:translateY(0)}}
+@keyframes heroFade{from{opacity:0}to{opacity:1}}
+@keyframes heroRiseSoft{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes qtDraw{to{stroke-dashoffset:0}}
+@keyframes sheenSweep{0%{transform:translateX(-130%) skewX(-18deg)}55%,100%{transform:translateX(230%) skewX(-18deg)}}
+
+/* Light sweep across primary CTAs */
+.sheen{position:relative;overflow:hidden;isolation:isolate}
+.sheen::after{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:55%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
+  transform:translateX(-130%) skewX(-18deg);
+  animation:sheenSweep 4s ease-in-out 1.5s infinite;
+  pointer-events:none;
+}
+@media (prefers-reduced-motion:reduce){
+  .sheen::after{animation:none;display:none}
+}
+@keyframes sheen{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+/* ----- Responsive grids -----
+   The design shipped these breakpoints via a resize handler; here they live in
+   CSS so layout is correct before hydration and without JS. */
+
+/* tablet */
+@media (max-width:1000px){
+  [data-benefitgrid],[data-newsgrid],[data-investgrid],[data-lifegrid]{grid-template-columns:repeat(2,1fr) !important}
+  [data-bento-a],[data-bento-b],[data-bento-c]{grid-template-columns:1fr !important}
+  [data-stepgrid]{grid-template-columns:1fr 1fr !important;gap:32px !important}
+  [data-stepline]{display:none !important}
+  [data-footgrid]{grid-template-columns:1fr 1fr !important}
+  [data-whygrid],[data-introgrid],[data-investtop]{grid-template-columns:1fr !important}
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* phone */
+@media (max-width:720px){
+  [data-benefitgrid],[data-newsgrid],[data-investgrid],[data-appgrid],
+  [data-projrow],[data-contactgrid],[data-lifegrid]{grid-template-columns:1fr !important}
+  [data-footgrid]{grid-template-columns:1fr 1fr !important}
+  [data-herostats]{grid-template-columns:1fr !important}
+  [data-herostats] > div{border-left:0 !important;padding-left:0 !important}
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* nav: collapse links behind burger below this width */
+@media (max-width:1120px){
+  nav[data-nav] [data-nav-links]{
+    display:none;
+    position:absolute;top:72px;right:20px;left:20px;
+    flex-direction:column;align-items:flex-start;
+    background:rgba(255,255,255,.96);backdrop-filter:blur(14px);
+    padding:20px;border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  nav[data-nav][data-open="1"] [data-nav-links]{display:flex}
+  nav[data-nav] [data-nav-burger]{display:flex !important}
 }
