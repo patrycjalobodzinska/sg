@@ -115,26 +115,25 @@ export default function Home() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // Enter/leave observer shared by every scroll animation below.
-    const observeToggle = (
-      els: Element[],
-      onEnter: (el: HTMLElement) => void,
-      onLeave: (el: HTMLElement) => void,
+    // Fire a callback once, the first time an element scrolls into view.
+    const once = (
+      el: Element,
+      cb: () => void,
       opts: IntersectionObserverInit
     ) => {
-      if (!els.length) return;
       if (typeof IntersectionObserver === "undefined") {
-        els.forEach((el) => onEnter(el as HTMLElement));
+        cb();
         return;
       }
       const o = new IntersectionObserver((entries) => {
-        entries.forEach((e) =>
-          e.isIntersecting
-            ? onEnter(e.target as HTMLElement)
-            : onLeave(e.target as HTMLElement)
-        );
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            cb();
+            o.disconnect();
+          }
+        });
       }, opts);
-      els.forEach((el) => o.observe(el));
+      o.observe(el);
       cleanups.push(() => o.disconnect());
     };
 
@@ -166,15 +165,7 @@ export default function Home() {
         };
         raf = requestAnimationFrame(step);
       };
-      observeToggle(
-        [el],
-        run,
-        () => {
-          cancelAnimationFrame(raf);
-          el.textContent = "0";
-        },
-        { threshold: 0.6 }
-      );
+      once(el, run, { threshold: 0.6 });
       cleanups.push(() => cancelAnimationFrame(raf));
     });
 
@@ -183,12 +174,9 @@ export default function Home() {
     if (stepline) {
       if (reduceMotion) stepline.style.transform = "scaleX(1)";
       else
-        observeToggle(
-          [stepline],
-          (el) => (el.style.transform = "scaleX(1)"),
-          (el) => (el.style.transform = "scaleX(0)"),
-          { threshold: 0.3 }
-        );
+        once(stepline, () => (stepline.style.transform = "scaleX(1)"), {
+          threshold: 0.3,
+        });
     }
 
     // ---- pilot-scale bars grow from the baseline (replays on re-entry) ----
@@ -201,18 +189,17 @@ export default function Home() {
         b.style.transitionDelay = `${i * 90}ms`;
         b.style.height = "0%";
       });
-      observeToggle(
-        [wrap],
-        () => bars.forEach((b, i) => (b.style.height = targets[i])),
-        () => bars.forEach((b) => (b.style.height = "0%")),
-        { threshold: 0.4 }
-      );
+      once(wrap, () => bars.forEach((b, i) => (b.style.height = targets[i])), {
+        threshold: 0.4,
+      });
     });
 
     // ---- 3D tilt on cards (skip touch + reduced-motion + cards with an existing hover) ----
     if (!reduceMotion && !window.matchMedia("(hover: none)").matches) {
       root.querySelectorAll<HTMLElement>("[data-card]").forEach((card) => {
         if (card.hasAttribute("style-hover")) return;
+        // no tilt in the "See how we solve problems" (projects) section
+        if (card.closest("#projects")) return;
         card.style.transformStyle = "preserve-3d";
         const onMove = (e: MouseEvent) => {
           const r = card.getBoundingClientRect();

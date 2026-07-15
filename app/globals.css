@@ -59,23 +59,44 @@ h1 span,h2 span{font-family:inherit}
 
 /* phone */
 @media (max-width:720px){
-  [data-benefitgrid],[data-newsgrid],[data-investgrid],[data-appgrid],
-  [data-projrow],[data-contactgrid],[data-lifegrid]{grid-template-columns:1fr !important}
+  /* sections that simply stack */
+  [data-contactgrid],[data-lifegrid]{grid-template-columns:1fr !important}
   [data-footgrid]{grid-template-columns:1fr 1fr !important}
-  [data-herostats]{grid-template-columns:1fr !important}
+
+  /* hero stats: stack + smaller numbers so they never overflow the card */
+  [data-herostats]{grid-template-columns:1fr !important;padding:18px !important}
   [data-herostats] > div{border-left:0 !important;padding-left:0 !important}
+  [data-herostats] > div > div:first-child{font-size:26px !important}
+
+  /* card-heavy sections become horizontal snap sliders */
+  [data-benefitgrid],[data-appgrid],[data-newsgrid],
+  [data-projrow],[data-investgrid],[data-bento-a]{
+    display:flex !important;
+    grid-template-columns:none !important;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scroll-padding-left:4px;
+    padding-bottom:8px;
+  }
+  [data-benefitgrid] > *,[data-appgrid] > *,[data-newsgrid] > *,
+  [data-projrow] > *,[data-investgrid] > *,[data-bento-a] > *{
+    flex:0 0 82%;
+    scroll-snap-align:center;
+  }
 }
 
 /* nav: collapse links behind burger below this width */
 @media (max-width:1120px){
   nav[data-nav] [data-nav-links]{
-    display:none;
+    display:none !important;
     position:absolute;top:72px;right:20px;left:20px;
     flex-direction:column;align-items:flex-start;
     background:rgba(255,255,255,.96);backdrop-filter:blur(14px);
     padding:20px;border-radius:20px;
     box-shadow:0 20px 50px rgba(0,0,0,.15);
   }
-  nav[data-nav][data-open="1"] [data-nav-links]{display:flex}
+  nav[data-nav][data-open="1"] [data-nav-links]{display:flex !important}
   nav[data-nav] [data-nav-burger]{display:flex !important}
 }
