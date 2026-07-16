@@ -43,6 +43,17 @@ h1 span,h2 span{font-family:inherit}
 }
 @keyframes sheen{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
+/* Trusted-by auto-scrolling marquee */
+.marquee{overflow-x:hidden;overflow-y:visible;padding:22px 0 40px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.marquee-wrap{display:flex;width:max-content;animation:marquee 32s linear infinite}
+.marquee-wrap > *{flex:none;margin-right:18px;width:128px !important;height:128px !important;font-size:13px !important}
+.marquee:hover .marquee-wrap{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .marquee-wrap{animation:none;flex-wrap:wrap;justify-content:center;width:auto}
+  .marquee{-webkit-mask-image:none;mask-image:none}
+}
+
 /* ----- Responsive grids -----
    The design shipped these breakpoints via a resize handler; here they live in
    CSS so layout is correct before hydration and without JS. */
@@ -61,30 +72,71 @@ h1 span,h2 span{font-family:inherit}
 @media (max-width:720px){
   /* sections that simply stack */
   [data-contactgrid],[data-lifegrid]{grid-template-columns:1fr !important}
+  /* projects hero card: image on top, text below */
+  [data-projhero]{grid-template-columns:1fr !important}
+  /* investor stat tiles: tidy grid, not a slider */
+  [data-investgrid]{grid-template-columns:1fr 1fr !important;gap:12px !important}
+
+  /* investors section fits comfortably on mobile */
+  #investors{padding:clamp(30px,7vw,48px) clamp(16px,5vw,26px) !important}
+  #investors h2{font-size:clamp(30px,8vw,42px) !important;line-height:1.1 !important}
+  #investors [data-investtop]{gap:22px !important;margin-bottom:26px !important}
+  #investors [aria-hidden="true"]{width:300px !important;height:300px !important}
+
+  /* smaller marquee logos on phones */
+  .marquee-wrap > *{width:96px !important;height:96px !important;font-size:11px !important;padding:12px !important;margin-right:12px}
+
+  /* "How we work" steps: clean single-column list (number beside the text) */
+  [data-stepgrid]{grid-template-columns:1fr !important;gap:18px !important}
+  [data-step]{flex-direction:row !important;align-items:flex-start;gap:16px !important}
+  [data-step] > span{width:44px !important;height:44px !important;font-size:16px !important}
   [data-footgrid]{grid-template-columns:1fr 1fr !important}
 
-  /* hero stats: stack + smaller numbers so they never overflow the card */
-  [data-herostats]{grid-template-columns:1fr !important;padding:18px !important}
-  [data-herostats] > div{border-left:0 !important;padding-left:0 !important}
-  [data-herostats] > div > div:first-child{font-size:26px !important}
+  /* swap the desktop overlay hero for a stacked, unclipped mobile hero */
+  #top > div:first-child{display:none !important}
+  [data-hero-mobile]{display:block !important}
+
+  /* drop the bottom stats notch; show the stats as a strip below the mask */
+  [data-hstats-card]{display:none !important}
+  [data-hstats-mobile]{display:grid !important}
 
   /* card-heavy sections become horizontal snap sliders */
   [data-benefitgrid],[data-appgrid],[data-newsgrid],
-  [data-projrow],[data-investgrid],[data-bento-a]{
+  [data-bento-a]{
     display:flex !important;
     grid-template-columns:none !important;
     overflow-x:auto;
     overflow-y:hidden;
     scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch;
-    scroll-padding-left:4px;
-    padding-bottom:8px;
+    scrollbar-width:none;
   }
+  [data-benefitgrid]::-webkit-scrollbar,[data-appgrid]::-webkit-scrollbar,
+  [data-newsgrid]::-webkit-scrollbar,[data-bento-a]::-webkit-scrollbar{display:none}
   [data-benefitgrid] > *,[data-appgrid] > *,[data-newsgrid] > *,
-  [data-projrow] > *,[data-investgrid] > *,[data-bento-a] > *{
+  [data-bento-a] > *{
     flex:0 0 82%;
     scroll-snap-align:center;
   }
+
+  /* projects: stack the two cards, each with image left / text right */
+  [data-projrow]{grid-template-columns:1fr !important;gap:16px !important}
+  [data-projrow] > *{display:flex !important;align-items:stretch}
+  [data-projrow] > * > div:first-child{flex:0 0 40% !important;height:auto !important;min-height:100%}
+  [data-projrow] > * > div:last-child{flex:1;min-width:0;padding:16px !important}
+  [data-projrow] > * > div:last-child > span{font-size:11px !important;padding:4px 10px !important}
+  [data-projrow] h3{font-size:16px !important;line-height:1.2 !important;margin:9px 0 6px !important}
+  [data-projrow] p{font-size:12.5px !important;line-height:1.45 !important;margin-bottom:12px !important}
+  [data-projrow] a{padding:8px 15px !important;font-size:12px !important}
+
+  /* pagination dots under each mobile slider */
+  .slider-dots{display:flex;justify-content:center;gap:7px;margin-top:16px}
+  .slider-dots > button{
+    width:7px;height:7px;padding:0;border:0;border-radius:50%;
+    background:rgba(24,30,48,.2);cursor:pointer;
+    transition:width .25s ease,background .25s ease;
+  }
+  .slider-dots > button.active{width:20px;border-radius:4px;background:#2E6BE6}
 }
 
 /* nav: collapse links behind burger below this width */
@@ -99,4 +151,32 @@ h1 span,h2 span{font-family:inherit}
   }
   nav[data-nav][data-open="1"] [data-nav-links]{display:flex !important}
   nav[data-nav] [data-nav-burger]{display:flex !important}
+}
+
+/* ===== "How we work" — vertical scroll-driven timeline (all sizes) ===== */
+[data-stepgrid]{display:flex !important;flex-direction:column !important;gap:0 !important}
+[data-stepline]{display:none !important}
+[data-stepwrap]{position:relative}
+[data-stepwrap] [data-step]{
+  flex-direction:row !important;align-items:flex-start;gap:18px !important;
+  padding-bottom:38px;position:relative;
+}
+[data-stepwrap] [data-step]:last-child{padding-bottom:0}
+[data-stepwrap] [data-step] > div{
+  opacity:.5;transform:translateX(10px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+[data-stepwrap] [data-step].active > div{opacity:1;transform:none}
+[data-stepwrap] [data-step] > span{
+  position:relative;z-index:1;flex:none;
+  transition:background .35s ease,box-shadow .35s ease,color .35s ease,border-color .35s ease;
+}
+[data-stepwrap] [data-step].active > span{
+  background:#2E6BE6 !important;border-color:transparent !important;color:#fff !important;
+  box-shadow:0 0 0 6px rgba(46,107,230,.2);
+}
+.tl-axis{position:absolute;width:2px;background:transparent;border-radius:2px;z-index:0}
+.tl-fill{position:absolute;top:0;left:0;width:100%;height:0;background:linear-gradient(180deg,#6AA6FF,#2E6BE6);border-radius:2px}
+@media (prefers-reduced-motion:reduce){
+  [data-stepwrap] [data-step] > div{opacity:1 !important;transform:none !important}
 }

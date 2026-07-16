@@ -65,6 +65,7 @@ export default function Home() {
       ];
       corners.forEach(([pos, at]) => {
         const c = document.createElement("div");
+        c.className = "hero-corner";
         c.setAttribute("aria-hidden", "true");
         c.style.cssText =
           `position:absolute;${pos};width:${R}px;height:${R}px;z-index:5;` +
@@ -198,8 +199,9 @@ export default function Home() {
     if (!reduceMotion && !window.matchMedia("(hover: none)").matches) {
       root.querySelectorAll<HTMLElement>("[data-card]").forEach((card) => {
         if (card.hasAttribute("style-hover")) return;
-        // no tilt in the "See how we solve problems" (projects) section
+        // no tilt in the projects or "Better decisions" (benefits) sections
         if (card.closest("#projects")) return;
+        if (card.closest("[data-benefitgrid]")) return;
         card.style.transformStyle = "preserve-3d";
         const onMove = (e: MouseEvent) => {
           const r = card.getBoundingClientRect();
@@ -222,6 +224,145 @@ export default function Home() {
           card.removeEventListener("mouseleave", onLeave);
         });
       });
+    }
+
+    // ---- mobile: full-bleed sliders with pagination dots ----
+    if (window.matchMedia("(max-width:720px)").matches) {
+      const sliderSel =
+        "[data-benefitgrid],[data-appgrid],[data-newsgrid],[data-bento-a]";
+      root.querySelectorAll<HTMLElement>(sliderSel).forEach((slider) => {
+        const section = slider.closest("section");
+        const pad = section
+          ? parseFloat(getComputedStyle(section).paddingLeft) || 0
+          : 0;
+        const gap = 14;
+        // Full-bleed track (cancel the section's side padding) but keep a gutter:
+        // internal padding insets the first/last card, gap spaces the cards.
+        slider.style.marginLeft = `-${pad}px`;
+        slider.style.marginRight = `-${pad}px`;
+        slider.style.paddingLeft = `${pad}px`;
+        slider.style.paddingRight = `${pad}px`;
+        slider.style.scrollPaddingLeft = `${pad}px`;
+        slider.style.gap = `${gap}px`;
+        const cards = Array.from(slider.children) as HTMLElement[];
+        cards.forEach((c) => {
+          c.style.flex = "0 0 82%";
+          c.style.scrollSnapAlign = "start";
+        });
+        if (cards.length < 2) return;
+
+        const step = () => cards[0].getBoundingClientRect().width + gap;
+
+        const dots = document.createElement("div");
+        dots.className = "slider-dots";
+        cards.forEach((_, i) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("aria-label", `Go to slide ${i + 1}`);
+          b.addEventListener("click", () =>
+            slider.scrollTo({ left: step() * i, behavior: "smooth" })
+          );
+          dots.appendChild(b);
+        });
+        slider.after(dots);
+
+        const update = () => {
+          const idx = Math.min(
+            cards.length - 1,
+            Math.max(0, Math.round(slider.scrollLeft / step()))
+          );
+          Array.from(dots.children).forEach((d, i) =>
+            (d as HTMLElement).classList.toggle("active", i === idx)
+          );
+        };
+        update();
+        slider.addEventListener("scroll", update, { passive: true });
+        cleanups.push(() => {
+          slider.removeEventListener("scroll", update);
+          dots.remove();
+        });
+      });
+    }
+
+    // ---- "How we work" scroll-driven timeline (axis + progress line) ----
+    const stepwrap = root.querySelector<HTMLElement>("[data-stepwrap]");
+    if (stepwrap) {
+      const steps = Array.from(
+        stepwrap.querySelectorAll<HTMLElement>("[data-step]")
+      );
+      const circles = steps.map((s) => s.querySelector("span") as HTMLElement);
+      if (steps.length && circles.every(Boolean)) {
+        const axis = document.createElement("div");
+        axis.className = "tl-axis";
+        axis.setAttribute("aria-hidden", "true");
+        const fill = document.createElement("div");
+        fill.className = "tl-fill";
+        axis.appendChild(fill);
+        stepwrap.insertBefore(axis, stepwrap.firstChild);
+
+        const position = () => {
+          const w = stepwrap.getBoundingClientRect();
+          const f = circles[0].getBoundingClientRect();
+          const l = circles[circles.length - 1].getBoundingClientRect();
+          axis.style.left = `${f.left - w.left + f.width / 2 - 1}px`;
+          axis.style.top = `${f.top - w.top + f.height / 2}px`;
+          axis.style.height = `${l.top - f.top}px`;
+        };
+        const activate = () => {
+          const a = axis.getBoundingClientRect();
+          const bottom = a.top + ((parseFloat(fill.style.height) || 0) / 100) * a.height;
+          circles.forEach((c, i) => {
+            const r = c.getBoundingClientRect();
+            steps[i].classList.toggle("active", r.top + r.height / 2 <= bottom + 4);
+          });
+        };
+
+        if (reduceMotion) {
+          position();
+          fill.style.height = "100%";
+          steps.forEach((s) => s.classList.add("active"));
+        } else {
+          const update = () => {
+            position();
+            const a = axis.getBoundingClientRect();
+            const trigger = window.innerHeight * 0.6;
+            let p = (trigger - a.top) / (a.height || 1);
+            p = Math.max(0, Math.min(1, p));
+            fill.style.height = `${p * 100}%`;
+            activate();
+          };
+          update();
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update, { passive: true });
+          cleanups.push(() => {
+            window.removeEventListener("scroll", update);
+            window.removeEventListener("resize", update);
+          });
+        }
+        cleanups.push(() => axis.remove());
+      }
+    }
+
+    // ---- "Trusted by" auto-scrolling marquee ----
+    const partners = root.querySelector<HTMLElement>("[data-partners]");
+    if (partners && !partners.querySelector(".marquee-wrap")) {
+      const items = Array.from(partners.children) as HTMLElement[];
+      if (items.length) {
+        const wrap = document.createElement("div");
+        wrap.className = "marquee-wrap";
+        items.forEach((it) => wrap.appendChild(it));
+        items.forEach((it) => {
+          const c = it.cloneNode(true) as HTMLElement;
+          c.setAttribute("aria-hidden", "true");
+          wrap.appendChild(c);
+        });
+        partners.style.display = "block";
+        partners.style.gap = "";
+        partners.style.justifyContent = "";
+        partners.style.flexWrap = "";
+        partners.classList.add("marquee");
+        partners.appendChild(wrap);
+      }
     }
 
     // ---- contact form ----
