@@ -66,12 +66,14 @@ h1 span,h2 span{font-family:inherit}
   [data-stepline]{display:none !important}
   [data-footgrid]{grid-template-columns:1fr 1fr !important}
   [data-whygrid],[data-introgrid],[data-investtop]{grid-template-columns:1fr !important}
+  [data-techgrid],[data-techfocus],[data-techscale]{grid-template-columns:1fr !important}
+  [data-techsteps]{grid-template-columns:repeat(2,1fr) !important}
 }
 
 /* phone */
 @media (max-width:720px){
   /* sections that simply stack */
-  [data-contactgrid],[data-lifegrid]{grid-template-columns:1fr !important}
+  [data-contactgrid],[data-lifegrid],[data-techsteps]{grid-template-columns:1fr !important}
   /* projects hero card: image on top, text below */
   [data-projhero]{grid-template-columns:1fr !important}
   /* investor stat tiles: tidy grid, not a slider */
@@ -153,30 +155,60 @@ h1 span,h2 span{font-family:inherit}
   nav[data-nav] [data-nav-burger]{display:flex !important}
 }
 
-/* ===== "How we work" — vertical scroll-driven timeline (all sizes) ===== */
-[data-stepgrid]{display:flex !important;flex-direction:column !important;gap:0 !important}
-[data-stepline]{display:none !important}
-[data-stepwrap]{position:relative}
-[data-stepwrap] [data-step]{
-  flex-direction:row !important;align-items:flex-start;gap:18px !important;
-  padding-bottom:38px;position:relative;
+/* ===== "How we work" — vertical scroll timeline: MOBILE ONLY (web = horizontal) ===== */
+@media (max-width:720px){
+  [data-stepgrid]{display:flex !important;flex-direction:column !important;gap:0 !important}
+  [data-stepline]{display:none !important}
+  [data-stepwrap]{position:relative}
+  [data-stepwrap] [data-step]{
+    flex-direction:row !important;align-items:flex-start;gap:18px !important;
+    padding-bottom:38px;position:relative;
+  }
+  [data-stepwrap] [data-step]:last-child{padding-bottom:0}
+  [data-stepwrap] [data-step] > div{
+    opacity:.5;transform:translateX(10px);
+    transition:opacity .5s ease,transform .5s ease;
+  }
+  [data-stepwrap] [data-step].active > div{opacity:1;transform:none}
+  [data-stepwrap] [data-step] > span{
+    position:relative;z-index:1;flex:none;
+    transition:background .35s ease,box-shadow .35s ease,color .35s ease,border-color .35s ease;
+  }
+  [data-stepwrap] [data-step].active > span{
+    background:#2E6BE6 !important;border-color:transparent !important;color:#fff !important;
+    box-shadow:0 0 0 6px rgba(46,107,230,.2);
+  }
+  .tl-axis{position:absolute;width:2px;background:transparent;border-radius:2px;z-index:0}
+  .tl-fill{position:absolute;top:0;left:0;width:100%;height:0;background:linear-gradient(180deg,#6AA6FF,#2E6BE6);border-radius:2px}
 }
-[data-stepwrap] [data-step]:last-child{padding-bottom:0}
-[data-stepwrap] [data-step] > div{
-  opacity:.5;transform:translateX(10px);
-  transition:opacity .5s ease,transform .5s ease;
-}
-[data-stepwrap] [data-step].active > div{opacity:1;transform:none}
-[data-stepwrap] [data-step] > span{
-  position:relative;z-index:1;flex:none;
-  transition:background .35s ease,box-shadow .35s ease,color .35s ease,border-color .35s ease;
-}
-[data-stepwrap] [data-step].active > span{
-  background:#2E6BE6 !important;border-color:transparent !important;color:#fff !important;
-  box-shadow:0 0 0 6px rgba(46,107,230,.2);
-}
-.tl-axis{position:absolute;width:2px;background:transparent;border-radius:2px;z-index:0}
-.tl-fill{position:absolute;top:0;left:0;width:100%;height:0;background:linear-gradient(180deg,#6AA6FF,#2E6BE6);border-radius:2px}
-@media (prefers-reduced-motion:reduce){
+@media (max-width:720px) and (prefers-reduced-motion:reduce){
   [data-stepwrap] [data-step] > div{opacity:1 !important;transform:none !important}
+}
+/* the JS-built vertical axis only shows on mobile */
+@media (min-width:721px){ .tl-axis{display:none !important} }
+
+/* ===== Technology page ===== */
+.tech-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(20px,5vw,64px);background:rgba(239,241,245,.9);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid rgba(24,30,48,.06)}
+.tech-logo{display:flex;align-items:center;gap:10px;color:#14161C;font-weight:600;font-size:18px;letter-spacing:-.02em}
+.tech-logo-dot{display:inline-flex;width:26px;height:26px;border-radius:8px;background:#2E6BE6;align-items:center;justify-content:center}
+.tech-logo-dot > span{width:10px;height:10px;border-radius:50%;border:2.5px solid #fff}
+.tech-links{display:flex;align-items:center;gap:clamp(14px,2vw,28px);font-size:15px}
+.tech-links a{color:#14161C}
+.tech-links a.active{color:#2E6BE6;font-weight:500}
+.tech-cta{display:inline-flex;align-items:center;gap:7px;background:#2E6BE6;color:#fff;padding:10px 18px;border-radius:999px;font-weight:500;font-size:15px}
+@media (max-width:820px){ .tech-links{display:none} }
+
+/* Technology — connected process stepper */
+.tech-flow{position:relative;margin-top:10px}
+.tech-flow-line{position:absolute;top:26px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,rgba(46,107,230,.16),#2E6BE6 90%);border-radius:2px}
+.tech-flow-grid{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:22px}
+.tech-step .tech-node{width:54px;height:54px;border-radius:999px;background:#fff;border:2px solid rgba(46,107,230,.35);color:#2E6BE6;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:18px;margin-bottom:18px}
+.tech-step:last-child .tech-node{background:#2E6BE6;color:#fff;border-color:transparent;box-shadow:0 0 0 6px rgba(46,107,230,.15)}
+.tech-step h3{margin:0 0 6px;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.tech-step p{margin:0;color:#8990A0;font-size:14.5px;line-height:1.5}
+@media (max-width:820px){
+  .tech-flow-line{display:none}
+  .tech-flow-grid{grid-template-columns:1fr;gap:20px}
+  .tech-step{display:flex;gap:16px;align-items:flex-start}
+  .tech-step .tech-node{margin-bottom:0;flex:none;width:46px;height:46px;font-size:16px}
 }

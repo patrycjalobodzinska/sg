@@ -286,7 +286,7 @@ export default function Home() {
 
     // ---- "How we work" scroll-driven timeline (axis + progress line) ----
     const stepwrap = root.querySelector<HTMLElement>("[data-stepwrap]");
-    if (stepwrap) {
+    if (stepwrap && window.matchMedia("(max-width:720px)").matches) {
       const steps = Array.from(
         stepwrap.querySelectorAll<HTMLElement>("[data-step]")
       );
@@ -347,7 +347,10 @@ export default function Home() {
     const partners = root.querySelector<HTMLElement>("[data-partners]");
     if (partners && !partners.querySelector(".marquee-wrap")) {
       const items = Array.from(partners.children) as HTMLElement[];
-      if (items.length) {
+      // autoplay carousel: always on mobile, on web only when there are >6 logos
+      const carousel =
+        window.matchMedia("(max-width:720px)").matches || items.length > 6;
+      if (items.length && carousel) {
         const wrap = document.createElement("div");
         wrap.className = "marquee-wrap";
         items.forEach((it) => wrap.appendChild(it));
