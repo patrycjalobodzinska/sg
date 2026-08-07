@@ -163,6 +163,29 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
   /* no easing while the pointer is down so the front card tracks the drag 1:1 */
   [data-explore-collage].dragging > *{transition:none !important}
   [data-explore-collage] + .slider-dots{margin-top:26px}
+
+  /* prev/next arrows on the deck — override the generic child rule above */
+  [data-explore-collage] > .deck-arrow{
+    position:absolute !important;
+    inset:auto !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    width:40px !important;height:40px !important;
+    aspect-ratio:auto !important;
+    border:0 !important;border-radius:50% !important;
+    display:flex !important;align-items:center;justify-content:center;
+    padding:0 !important;margin:0 !important;
+    background:rgba(255,255,255,.92);color:#0B1220;
+    font-size:24px;line-height:1;font-weight:600;
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+    z-index:20 !important;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .2s ease, transform .2s ease !important;
+  }
+  [data-explore-collage] > .deck-arrow.prev{left:-6px !important}
+  [data-explore-collage] > .deck-arrow.next{right:-6px !important}
+  [data-explore-collage] > .deck-arrow:active{transform:translateY(-50%) scale(.92) !important}
 }
 
 /* mobile: the dark "Explore" panel goes full-bleed (no margin/radius/max-width)

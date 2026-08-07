@@ -397,6 +397,31 @@ export default function LandingClient({ markup }: { markup: string }) {
         deck.after(dots);
         syncDots();
 
+        // prev/next arrows (shown whenever the deck is active, i.e. ≤720px)
+        const go = (dir: number) => {
+          if (dir < 0) order.unshift(order.pop()!); // previous
+          else order.push(order.shift()!); // next
+          layout();
+          syncDots();
+        };
+        const arrows: HTMLButtonElement[] = [];
+        const mkArrow = (dir: number, cls: string, label: string, glyph: string) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = `deck-arrow ${cls}`;
+          b.setAttribute("aria-label", label);
+          b.textContent = glyph;
+          // keep a tap on the arrow from starting a drag on the deck
+          const stop = (e: Event) => e.stopPropagation();
+          b.addEventListener("pointerdown", stop);
+          b.addEventListener("click", () => go(dir));
+          deck.appendChild(b);
+          arrows.push(b);
+        };
+        mkArrow(-1, "prev", "Previous image", "‹");
+        mkArrow(1, "next", "Next image", "›");
+        cleanups.push(() => arrows.forEach((a) => a.remove()));
+
         let startX = 0;
         let startY = 0;
         let dragging = false;
