@@ -128,39 +128,42 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 }
 @media (max-width:560px){ [data-qgrid]{grid-template-columns:1fr !important} }
 
-/* Explore collage → tilted, swipeable card deck at every screen size.
-   Cards stack on top of one another and fan out to the sides at playful
-   angles; a sideways drag flicks the front card to the back (wired up in
-   page.tsx). Kept out of a media query so small non-mobile screens get it too. */
-[data-explore-collage]{
-  display:block !important;
-  grid-template-columns:none !important;
-  gap:0 !important;
-  position:relative;
-  width:min(430px,100%);
-  margin:6px auto 0;
-  aspect-ratio:4/3;
-  touch-action:pan-y;
+/* Explore collage → tilted, swipeable card deck on MOBILE ONLY (≤720px, matching
+   the JS gate in LandingClient). Cards stack on top of one another and fan out
+   to the sides; a sideways drag flicks the front card to the back. On desktop
+   this CSS is absent, so the collage keeps its inline 3-image grid (one photo
+   spanning the top, two below). */
+@media (max-width:720px){
+  [data-explore-collage]{
+    display:block !important;
+    grid-template-columns:none !important;
+    gap:0 !important;
+    position:relative;
+    width:min(430px,100%);
+    margin:6px auto 0;
+    aspect-ratio:4/3;
+    touch-action:pan-y;
+  }
+  [data-explore-collage] > *{
+    position:absolute !important;
+    /* horizontal gutter (42px) is wider than the fan offset (40px, set in JS)
+       so the fanned-out side cards stay inside the container — no overflow */
+    inset:0 42px !important;
+    grid-column:auto !important;
+    width:auto !important;height:auto !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    border-radius:20px !important;
+    cursor:grab;
+    will-change:transform;
+    transition:transform .5s cubic-bezier(.22,.61,.36,1),
+               box-shadow .4s ease, opacity .4s ease;
+  }
+  [data-explore-collage] > *:active{cursor:grabbing}
+  /* no easing while the pointer is down so the front card tracks the drag 1:1 */
+  [data-explore-collage].dragging > *{transition:none !important}
+  [data-explore-collage] + .slider-dots{margin-top:26px}
 }
-[data-explore-collage] > *{
-  position:absolute !important;
-  /* horizontal gutter (42px) is wider than the fan offset (40px, set in JS)
-     so the fanned-out side cards stay inside the container — no overflow */
-  inset:0 42px !important;
-  grid-column:auto !important;
-  width:auto !important;height:auto !important;
-  aspect-ratio:auto !important;
-  margin:0 !important;
-  border-radius:20px !important;
-  cursor:grab;
-  will-change:transform;
-  transition:transform .5s cubic-bezier(.22,.61,.36,1),
-             box-shadow .4s ease, opacity .4s ease;
-}
-[data-explore-collage] > *:active{cursor:grabbing}
-/* no easing while the pointer is down so the front card tracks the drag 1:1 */
-[data-explore-collage].dragging > *{transition:none !important}
-[data-explore-collage] + .slider-dots{margin-top:26px}
 
 /* mobile: the dark "Explore" panel goes full-bleed (no margin/radius/max-width)
    and the deck grows — bigger front card, smaller side cards (see page.tsx) */
