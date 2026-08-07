@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import NewsCarousel from "../news-carousel";
 import { getNewsList, formatNewsDate, type NewsListItem } from "../../sanity/lib/news";
@@ -65,7 +66,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
               </div>
               <h2 style={{ margin: 0, fontSize: "clamp(23px,2.6vw,33px)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.12 }}>{featured.title}</h2>
               {featured.excerpt && <p style={{ margin: "16px 0 0", color: "#4A5163", fontSize: 16, lineHeight: 1.6, ...clamp(4) }}>{featured.excerpt}</p>}
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 22, color: "#2E6BE6", fontSize: 15.5, fontWeight: 600 }}>{t.readStory} <span>↗</span></span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 22, color: "#2E6BE6", fontSize: 15.5, fontWeight: 600 }}>{t.readStory} <ArrowUpRight /></span>
             </div>
           </a>
         </section>
@@ -87,7 +88,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
                   <div style={{ color: "#8990A0", fontSize: 13, marginBottom: 12 }}>{meta(t, it, lang)}</div>
                   <h3 style={{ margin: "0 0 10px", fontSize: 18.5, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.22, ...clamp(3) }}>{it.title}</h3>
                   {it.excerpt && <p style={{ margin: 0, color: "#8990A0", fontSize: 14.5, lineHeight: 1.55, ...clamp(4) }}>{it.excerpt}</p>}
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, color: "#2E6BE6", fontSize: 14, fontWeight: 600 }}>{t.readMore} <span>↗</span></span>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, color: "#2E6BE6", fontSize: 14, fontWeight: 600 }}>{t.readMore} <ArrowUpRight /></span>
                 </div>
               </a>
             ))}
@@ -102,7 +103,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
             <h2 style={{ margin: "0 0 8px", fontSize: "clamp(22px,2.6vw,32px)", fontWeight: 600, letterSpacing: "-.02em" }}>{t.ctaHeading}</h2>
             <p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 16, lineHeight: 1.55 }}>{t.ctaBody}</p>
           </div>
-          <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 14, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{t.ctaButton} <span>↗</span></a>
+          <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 14, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{t.ctaButton} <ArrowUpRight /></a>
         </div>
       </section>
 

@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import { urlFor } from "../../sanity/lib/image";
 import { localizedPath, type Locale } from "../i18n";
@@ -108,10 +109,10 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
             <p style={{ margin: "14px 0 0", color: "#4A5163", fontSize: 16.5, lineHeight: 1.65, maxWidth: 600 }}>{body2}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 26px", marginTop: 30 }}>
               <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>
-                {hero.primaryCta?.label || t.heroPrimary} <span>↗</span>
+                {hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight />
               </a>
               <a href={applicationsHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>
-                {t.heroSecondary} <span>↗</span>
+                {t.heroSecondary} <ArrowUpRight />
               </a>
             </div>
           </div>
@@ -195,7 +196,7 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
             <h2 style={{ margin: "0 0 20px", fontSize: "clamp(28px,4vw,48px)", fontWeight: 600, letterSpacing: "-.025em", lineHeight: 1.05 }}>{t.scaleHeading}</h2>
             <p style={{ margin: "0 0 14px", color: "rgba(255,255,255,.7)", fontSize: 17, lineHeight: 1.6 }}>{scale.body1 || EN.scaleBody1}</p>
             <p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 17, lineHeight: 1.6 }}>{scale.body2 || EN.scaleBody2}</p>
-            <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 30, background: "#2E6BE6", color: "#fff", padding: "14px 26px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{t.scaleCta} <span>↗</span></a>
+            <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 30, background: "#2E6BE6", color: "#fff", padding: "14px 26px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{t.scaleCta} <ArrowUpRight /></a>
           </div>
           <div style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 22, padding: "clamp(22px,3vw,30px)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", color: "rgba(255,255,255,.55)", fontSize: 12, marginBottom: 18 }}>

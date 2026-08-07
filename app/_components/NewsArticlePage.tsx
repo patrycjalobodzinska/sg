@@ -1,4 +1,5 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import ArrowUpRight from "./ArrowUpRight";
 import SiteFooter from "../site-footer";
 import SiteNav from "../site-nav";
 import { getNewsArticle, formatNewsDate } from "../../sanity/lib/news";
@@ -87,7 +88,7 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
 
         <div style={{ marginTop: 44, paddingTop: 28, borderTop: "1px solid rgba(24,30,48,.1)" }}>
           <a href={(() => { const c = localizedPath("/", lang); return c === "/" ? "/#contact" : `${c}#contact`; })()} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 600, fontSize: 15.5 }}>
-            {t.articleCta} <span>↗</span>
+            {t.articleCta} <ArrowUpRight />
           </a>
         </div>
       </article>

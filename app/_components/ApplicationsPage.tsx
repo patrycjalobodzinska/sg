@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import { localizedPath, type Locale } from "../i18n";
 import type { AppContent } from "../../sanity/lib/pages";
@@ -69,8 +70,8 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
             </h1>
             <p style={{ margin: "22px 0 0", color: "#4A5163", fontSize: "clamp(16.5px,1.7vw,20px)", lineHeight: 1.6, maxWidth: 580 }}>{hero.lead || EN.heroLead}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 26px", marginTop: 30 }}>
-              <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.heroPrimary} <span>↗</span></a>
-              <a href={techHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.heroSecondary} <span>↗</span></a>
+              <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight /></a>
+              <a href={techHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
             </div>
           </div>
           <div style={{ position: "relative", borderRadius: 26, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 24px 60px rgba(20,26,48,.12)" }}>
@@ -141,7 +142,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
             <h2 style={{ margin: "0 0 8px", fontSize: "clamp(22px,2.6vw,32px)", fontWeight: 600, letterSpacing: "-.02em" }}>{doc?.cta?.heading || EN.ctaHeading}</h2>
             <p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 16, lineHeight: 1.55 }}>{doc?.cta?.body || EN.ctaBody}</p>
           </div>
-          <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 14, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{doc?.cta?.button?.label || EN.ctaButton} <span>↗</span></a>
+          <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 14, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{doc?.cta?.button?.label || EN.ctaButton} <ArrowUpRight /></a>
         </div>
       </section>
 

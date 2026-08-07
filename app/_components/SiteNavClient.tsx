@@ -1,4 +1,5 @@
 "use client";
+import ArrowUpRight from "./ArrowUpRight";
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -61,11 +62,11 @@ export default function SiteNavClient({
           ))}
         </div>
         <a href={hrefFor(cta.href, locale)} className="tech-cta-mobile sheen" onClick={close}>
-          {cta.label} <span>↗</span>
+          {cta.label} <ArrowUpRight />
         </a>
       </div>
       <a href={hrefFor(cta.href, locale)} className="tech-cta sheen">
-        {cta.label} <span>↗</span>
+        {cta.label} <ArrowUpRight />
       </a>
       <button
         type="button"

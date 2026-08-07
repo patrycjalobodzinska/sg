@@ -405,12 +405,14 @@ export default function LandingClient({ markup }: { markup: string }) {
           syncDots();
         };
         const arrows: HTMLButtonElement[] = [];
-        const mkArrow = (dir: number, cls: string, label: string, glyph: string) => {
+        const chevron = (d: string) =>
+          `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+        const mkArrow = (dir: number, cls: string, label: string, path: string) => {
           const b = document.createElement("button");
           b.type = "button";
           b.className = `deck-arrow ${cls}`;
           b.setAttribute("aria-label", label);
-          b.textContent = glyph;
+          b.innerHTML = chevron(path);
           // keep a tap on the arrow from starting a drag on the deck
           const stop = (e: Event) => e.stopPropagation();
           b.addEventListener("pointerdown", stop);
@@ -418,8 +420,8 @@ export default function LandingClient({ markup }: { markup: string }) {
           deck.appendChild(b);
           arrows.push(b);
         };
-        mkArrow(-1, "prev", "Previous image", "‹");
-        mkArrow(1, "next", "Next image", "›");
+        mkArrow(-1, "prev", "Previous image", "M15 18 9 12 15 6");
+        mkArrow(1, "next", "Next image", "M9 6 15 12 9 18");
         cleanups.push(() => arrows.forEach((a) => a.remove()));
 
         let startX = 0;

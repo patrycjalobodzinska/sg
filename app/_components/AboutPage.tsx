@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import { localizedPath, type Locale } from "../i18n";
 
@@ -50,8 +51,8 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
             </h1>
             <p style={{ margin: "24px 0 0", color: "#4A5163", fontSize: "clamp(16.5px,1.7vw,20px)", lineHeight: 1.6, maxWidth: 580 }}>{hero.lead}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 26px", marginTop: 30 }}>
-              <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.primary} <span>↗</span></a>
-              <a href={techHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.secondary} <span>↗</span></a>
+              <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.primary} <ArrowUpRight /></a>
+              <a href={techHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.secondary} <ArrowUpRight /></a>
             </div>
           </div>
           <div style={{ position: "relative", borderRadius: 26, overflow: "hidden", aspectRatio: "5 / 4", background: "#E7EAF0", boxShadow: "0 24px 60px rgba(20,26,48,.12)" }}>
