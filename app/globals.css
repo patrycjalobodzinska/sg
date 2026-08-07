@@ -1,4 +1,4 @@
-/* SG Papertronics — global styles ported from the Claude Design source. */
+/* SG Papertronics - global styles ported from the Claude Design source. */
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden;scroll-padding-top:84px}
@@ -20,13 +20,238 @@ h1,h2{
   letter-spacing:-.02em;
 }
 h1 span,h2 span{font-family:inherit}
-.eyebrow-i{font-style:italic}
 
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes heroRise{from{opacity:0;transform:translateY(46px)}to{opacity:1;transform:translateY(0)}}
 @keyframes heroFade{from{opacity:0}to{opacity:1}}
 @keyframes heroRiseSoft{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 @keyframes qtDraw{to{stroke-dashoffset:0}}
+
+/* liquid-glass cards: refracted, blurred backdrop + inset highlights.
+   The distortion (filter:url(#glass-distortion)) renders in Chromium; other
+   browsers gracefully fall back to a plain frosted panel. */
+.lg-card{
+  position:relative;overflow:hidden;border-radius:20px;
+  background:rgba(255,255,255,.3);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 8px 24px rgba(20,26,48,.12),inset 2px 2px 1px 0 rgba(255,255,255,.6),inset -1px -1px 1px 1px rgba(255,255,255,.45);
+}
+.lg-card::before{
+  content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;
+  -webkit-backdrop-filter:blur(5px) saturate(135%);backdrop-filter:blur(5px) saturate(135%);
+  filter:url(#glass-distortion);
+}
+.lg-card > *{position:relative;z-index:1}
+/* keep text legible on the translucent glass without hiding the liquid effect */
+.lg-card h3{text-shadow:0 1px 2px rgba(255,255,255,.9)}
+.lg-card p{text-shadow:0 1px 2px rgba(255,255,255,.9)}
+
+/* Brand logo image (nav + footer) */
+.brand-logo{height:40px;width:auto;display:block;transition:filter .3s ease}
+/* white logo while the landing header is transparent over the dark hero (all widths) */
+nav[data-nav]:not([data-scrolled="1"]) .brand-logo{filter:brightness(0) invert(1)}
+
+/* darkening scrim under the hero copy (bottom of the photo) for legibility */
+#top [data-hero-desktop]::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:58%;z-index:1;pointer-events:none;
+  background:linear-gradient(0deg,rgba(8,12,24,.74),rgba(8,12,24,.34) 42%,transparent);
+}
+
+/* Landing header: transparent over hero, solid sticky bar after scroll */
+nav[data-nav]{transition:background .3s ease,box-shadow .3s ease,padding .3s ease,backdrop-filter .3s ease}
+/* cap the nav content to the 1660px site width (aligned with the hero card) while the
+   bar background stays full-bleed; on <1660 viewports the max() falls back to the gutter */
+nav[data-nav]{
+  padding-left:max(clamp(22px,3vw,44px), calc((100% - 1500px)/2 + 16px)) !important;
+  padding-right:max(clamp(22px,3vw,44px), calc((100% - 1500px)/2 + 16px)) !important;
+}
+nav[data-nav][data-scrolled="1"]{background:rgba(239,241,245,.92) !important;-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);box-shadow:0 6px 24px rgba(8,12,24,.09);border-bottom:1px solid rgba(24,30,48,.06);padding-top:13px !important;padding-bottom:13px !important}
+nav[data-nav][data-scrolled="1"] [data-nav-logo],
+nav[data-nav][data-scrolled="1"] [data-nav-links]{color:#14161C !important;text-shadow:none !important}
+nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !important}
+
+/* scroll-appear: fade + rise when the element enters view */
+[data-appear]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+[data-appear].in{opacity:1;transform:none}
+/* data-motif chart line draws in when it enters view */
+[data-introline]{stroke-dasharray:1000;stroke-dashoffset:1000;transition:stroke-dashoffset 1.8s ease .2s}
+[data-introline].in{stroke-dashoffset:0}
+@media (prefers-reduced-motion:reduce){
+  [data-appear]{opacity:1 !important;transform:none !important}
+  [data-introline]{stroke-dashoffset:0 !important}
+}
+
+/* benefits staggered columns - wrap + drop the upward offset on smaller screens */
+@media (max-width:1000px){
+  [data-benefrow]{flex-wrap:wrap !important}
+  [data-benefrow] > *{flex:1 1 46% !important;margin-top:0 !important}
+  /* drop the fixed card height once the row wraps */
+  [data-benefrow] > * > *{height:auto !important}
+  /* absolute background product would clutter the wrapped layout */
+  [data-benefprod]{display:none !important}
+}
+@media (max-width:720px){
+  /* turn the tall stacked bento into a swipeable card carousel to save height */
+  [data-benefrow]{
+    display:flex !important;flex-wrap:nowrap !important;align-items:stretch !important;
+    overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    gap:12px !important;scroll-padding-left:20px;
+    margin-left:-20px !important;margin-right:-20px !important;
+    /* generous bottom padding so the first card's blue glow isn't clipped
+       by overflow-y:hidden; the dots below pull back up over it */
+    padding:6px 20px 56px !important;
+  }
+  [data-benefrow] + .slider-dots{margin-top:-40px}
+  [data-benefrow]::-webkit-scrollbar{display:none}
+  /* dissolve the column wrappers so every individual card becomes its own slide */
+  [data-benefrow] > *{display:contents !important}
+  [data-benefrow] > * > *{
+    flex:0 0 80% !important;min-width:0;margin-top:0 !important;height:auto !important;
+    scroll-snap-align:center;
+  }
+  /* bring back the 3D slab motif behind the heading (hidden by the <=1000 rule) */
+  [data-benefprod]{
+    display:flex !important;
+    top:-12px !important;bottom:auto !important;
+    right:-12% !important;left:auto !important;
+    width:72% !important;height:260px !important;
+    opacity:.5 !important;
+    align-items:flex-start !important;justify-content:flex-end !important;
+  }
+  [data-benefprod] svg{height:260px !important;width:auto !important}
+}
+/* explore / CTA section */
+@media (max-width:900px){
+  [data-explore-grid]{grid-template-columns:1fr !important;gap:36px !important}
+  [data-qgrid]{grid-template-columns:1fr 1fr !important}
+}
+@media (max-width:560px){ [data-qgrid]{grid-template-columns:1fr !important} }
+
+/* Explore collage → tilted, swipeable card deck at every screen size.
+   Cards stack on top of one another and fan out to the sides at playful
+   angles; a sideways drag flicks the front card to the back (wired up in
+   page.tsx). Kept out of a media query so small non-mobile screens get it too. */
+[data-explore-collage]{
+  display:block !important;
+  grid-template-columns:none !important;
+  gap:0 !important;
+  position:relative;
+  width:min(430px,100%);
+  margin:6px auto 0;
+  aspect-ratio:4/3;
+  touch-action:pan-y;
+}
+[data-explore-collage] > *{
+  position:absolute !important;
+  /* horizontal gutter (42px) is wider than the fan offset (40px, set in JS)
+     so the fanned-out side cards stay inside the container — no overflow */
+  inset:0 42px !important;
+  grid-column:auto !important;
+  width:auto !important;height:auto !important;
+  aspect-ratio:auto !important;
+  margin:0 !important;
+  border-radius:20px !important;
+  cursor:grab;
+  will-change:transform;
+  transition:transform .5s cubic-bezier(.22,.61,.36,1),
+             box-shadow .4s ease, opacity .4s ease;
+}
+[data-explore-collage] > *:active{cursor:grabbing}
+/* no easing while the pointer is down so the front card tracks the drag 1:1 */
+[data-explore-collage].dragging > *{transition:none !important}
+[data-explore-collage] + .slider-dots{margin-top:26px}
+
+/* mobile: the dark "Explore" panel goes full-bleed (no margin/radius/max-width)
+   and the deck grows — bigger front card, smaller side cards (see page.tsx) */
+@media (max-width:640px){
+  [data-explore-section]{
+    max-width:100% !important;
+    margin:0 !important;
+    border-radius:0 !important;
+    padding-left:clamp(16px,4vw,22px) !important;
+    padding-right:clamp(16px,4vw,22px) !important;
+  }
+  [data-explore-collage]{width:min(500px,100%);}
+  /* smaller gutter → the main photo is larger; side cards stay small via scale */
+  [data-explore-collage] > *{inset:0 30px !important;}
+}
+
+/* pagination dots (also used by the deck, so styled globally not per-breakpoint) */
+.slider-dots{display:flex;justify-content:center;gap:7px;margin-top:16px}
+.slider-dots > button{
+  width:7px;height:7px;padding:0;border:0;border-radius:50%;
+  background:rgba(24,30,48,.2);cursor:pointer;
+  transition:width .25s ease,background .25s ease;
+}
+.slider-dots > button.active{width:20px;border-radius:4px;background:#2E6BE6}
+
+/* carousel controls: prev/next arrows flanking the pagination pills (mobile) */
+.carousel-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:20px}
+.carousel-controls .slider-dots{margin-top:0}
+.carousel-arrow{
+  width:40px;height:40px;flex:none;border-radius:50%;
+  border:1px solid rgba(24,30,48,.14);background:#fff;color:#14161C;
+  font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 4px 14px rgba(8,12,24,.08);
+  transition:opacity .2s ease,transform .15s ease,box-shadow .2s ease;
+}
+.carousel-arrow:active{transform:scale(.93)}
+.carousel-arrow:disabled{opacity:.32;cursor:default;box-shadow:none}
+
+/* data-lifecycle: 3 columns (card + photo) → stack on smaller screens */
+@media (max-width:1000px){ [data-lifecols]{grid-template-columns:1fr 1fr !important} }
+@media (max-width:640px){
+  [data-lifecols]{grid-template-columns:1fr !important;gap:16px !important}
+  /* each column becomes one big photo tile with the card text floated on top
+     as a liquid-glass panel */
+  [data-lifecols] > *{
+    position:relative;min-height:360px;gap:0 !important;
+    border-radius:22px;overflow:hidden;
+    box-shadow:0 16px 40px rgba(20,26,48,.16);
+  }
+  /* the image fills the whole tile */
+  [data-lifecols] > * > *:last-child{
+    position:absolute !important;inset:0 !important;flex:none !important;
+    min-height:0 !important;border-radius:0 !important;box-shadow:none !important;
+  }
+  /* the card text → frosted "liquid glass" panel over the bottom of the photo */
+  [data-lifecols] > * > *:first-child{
+    position:absolute !important;left:12px;right:12px;bottom:12px;z-index:2;
+    background:rgba(255,255,255,.42) !important;
+    -webkit-backdrop-filter:blur(16px) saturate(150%) url(#glass-distortion);
+    backdrop-filter:blur(16px) saturate(150%) url(#glass-distortion);
+    border:1px solid rgba(255,255,255,.55) !important;
+    border-radius:18px !important;
+    padding:14px 16px !important;
+    box-shadow:0 10px 30px rgba(8,12,24,.22),inset 0 1px 0 rgba(255,255,255,.5) !important;
+  }
+  /* smaller type in the glass panel */
+  [data-lifecols] h3{font-size:16px !important}
+  [data-lifecols] [style*="font-size:15.5px"]{font-size:12.5px !important;line-height:1.45 !important;color:#2A3140 !important}
+  /* col 3's little bar chart: keep it compact on the glass */
+  [data-lifecols] > * > *:first-child > div[style*="height:44px"]{height:30px !important;margin-bottom:10px !important}
+}
+
+/* alt-style benefits grid */
+@media (max-width:1000px){ [data-altgrid]{grid-template-columns:repeat(2,1fr) !important} }
+@media (max-width:640px){ [data-altgrid]{grid-template-columns:1fr !important} }
+
+/* gradient cards (alt section) - hover lift + arrow nudge + corner-image motion */
+.grad-card{transition:transform .35s cubic-bezier(.175,.885,.32,1.15),box-shadow .35s ease}
+.grad-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 24px 52px rgba(20,26,48,.13)}
+.grad-card .arrow{transition:transform .3s ease}
+.grad-card:hover .arrow{transform:translateX(4px)}
+.grad-card .grad-img{transition:transform .5s cubic-bezier(.175,.885,.32,1.15)}
+.grad-card:hover .grad-img{transform:scale(1.1) rotate(3deg)}
+@media (prefers-reduced-motion:reduce){
+  .grad-card,.grad-card:hover{transform:none}
+  .grad-card .grad-img,.grad-card:hover .grad-img{transform:none}
+}
+
+/* intro decorative background: drifting dot grid + pulsing constellation nodes */
+@keyframes dotDrift{from{background-position:0 0}to{background-position:26px 26px}}
+@keyframes nodePulse{0%,100%{opacity:.35}50%{opacity:1}}
 @keyframes sheenSweep{0%{transform:translateX(-130%) skewX(-18deg)}55%,100%{transform:translateX(230%) skewX(-18deg)}}
 
 /* Light sweep across primary CTAs */
@@ -52,6 +277,8 @@ h1 span,h2 span{font-family:inherit}
 @media (prefers-reduced-motion:reduce){
   .marquee-wrap{animation:none;flex-wrap:wrap;justify-content:center;width:auto}
   .marquee{-webkit-mask-image:none;mask-image:none}
+  /* no scrolling → the duplicate set would just show twice, so drop it */
+  .marquee-wrap > [data-clone]{display:none}
 }
 
 /* ----- Responsive grids -----
@@ -68,6 +295,10 @@ h1 span,h2 span{font-family:inherit}
   [data-whygrid],[data-introgrid],[data-investtop]{grid-template-columns:1fr !important}
   [data-techgrid],[data-techfocus],[data-techscale]{grid-template-columns:1fr !important}
   [data-techsteps]{grid-template-columns:repeat(2,1fr) !important}
+  [data-projrow],[data-storygrid]{grid-template-columns:repeat(2,1fr) !important}
+  [data-csgrid]{grid-template-columns:1fr !important}
+  [data-bentotop]{grid-template-columns:1fr !important}
+  [data-bentobot]{grid-template-columns:repeat(2,1fr) !important}
 }
 
 /* phone */
@@ -92,15 +323,42 @@ h1 span,h2 span{font-family:inherit}
   [data-stepgrid]{grid-template-columns:1fr !important;gap:18px !important}
   [data-step]{flex-direction:row !important;align-items:flex-start;gap:16px !important}
   [data-step] > span{width:44px !important;height:44px !important;font-size:16px !important}
-  [data-footgrid]{grid-template-columns:1fr 1fr !important}
+  /* footer: logo + tagline span the full width, the three link columns sit
+     below as a 2-up grid. min-width:0 lets the tracks shrink (a 1fr track
+     otherwise refuses to go below the logo's intrinsic width and overflows). */
+  [data-footgrid]{grid-template-columns:1fr 1fr !important;gap:32px 24px !important}
+  [data-footgrid] > *{min-width:0 !important}
+  [data-footgrid] > *:first-child{grid-column:1 / -1 !important}
+  footer .brand-logo{height:38px !important;width:auto !important;max-width:100% !important}
 
-  /* swap the desktop overlay hero for a stacked, unclipped mobile hero */
-  #top > div:first-child{display:none !important}
-  [data-hero-mobile]{display:block !important}
+  /* keep the new (desktop) hero on mobile too - just responsive, no chart card */
+  [data-hero-mobile]{display:none !important}
+  #top [data-hero-desktop]{
+    min-height:clamp(520px,88vh,760px) !important;
+    border-radius:8px !important;clip-path:inset(0 round 8px) !important;
+  }
+  /* stronger bottom scrim on phones - the copy sits full-width at the bottom */
+  #top [data-hero-desktop]::after{
+    height:70% !important;
+    background:linear-gradient(0deg,rgba(8,12,24,.86),rgba(8,12,24,.44) 46%,transparent) !important;
+  }
+  /* on phones nudge the hero photo slightly right so the device stays in frame */
+  #top [data-hero-desktop] [data-parallax]{background-position:78% center !important}
 
-  /* drop the bottom stats notch; show the stats as a strip below the mask */
-  [data-hstats-card]{display:none !important}
-  [data-hstats-mobile]{display:grid !important}
+  /* tighten the big gap between the intro ("Q-Tector is an at-line...") and the
+     "Better decisions" section on phones */
+  section[style*="8vw,112px"]{padding-bottom:24px !important}
+  section:has([data-benefprod]){padding-top:24px !important}
+  /* hero nav keeps the desktop behaviour: transparent over the image at the top,
+     solid frosted bar on scroll (driven by [data-scrolled]); just trim the padding */
+  nav[data-nav]{padding:18px clamp(16px,5vw,26px) 16px !important}
+  /* the light sections use the same grey as the desktop scrolled bar, so on phones
+     the bar blended in - make it clearly white with a firmer shadow/hairline */
+  nav[data-nav][data-scrolled="1"]{
+    background:rgba(255,255,255,.97) !important;
+    box-shadow:0 4px 18px rgba(8,12,24,.14) !important;
+    border-bottom:1px solid rgba(24,30,48,.10) !important;
+  }
 
   /* card-heavy sections become horizontal snap sliders */
   [data-benefitgrid],[data-appgrid],[data-newsgrid],
@@ -121,7 +379,18 @@ h1 span,h2 span{font-family:inherit}
     scroll-snap-align:center;
   }
 
-  /* projects: stack the two cards, each with image left / text right */
+  /* benefits bento stacks on phones; feature card image drops below */
+  [data-bentotop],[data-bentobot]{grid-template-columns:1fr !important}
+  [data-featurecard]{grid-template-columns:1fr !important}
+  [data-featurecard] > div:last-child{min-height:200px}
+
+  /* success-story quotes stack on phones */
+  [data-storygrid]{grid-template-columns:1fr !important}
+
+  /* customer-success banner: image on top, text below */
+  [data-csgrid]{grid-template-columns:1fr !important}
+
+  /* projects: stack the cards, each with image left / text right */
   [data-projrow]{grid-template-columns:1fr !important;gap:16px !important}
   [data-projrow] > *{display:flex !important;align-items:stretch}
   [data-projrow] > * > div:first-child{flex:0 0 40% !important;height:auto !important;min-height:100%}
@@ -131,14 +400,12 @@ h1 span,h2 span{font-family:inherit}
   [data-projrow] p{font-size:12.5px !important;line-height:1.45 !important;margin-bottom:12px !important}
   [data-projrow] a{padding:8px 15px !important;font-size:12px !important}
 
-  /* pagination dots under each mobile slider */
-  .slider-dots{display:flex;justify-content:center;gap:7px;margin-top:16px}
-  .slider-dots > button{
-    width:7px;height:7px;padding:0;border:0;border-radius:50%;
-    background:rgba(24,30,48,.2);cursor:pointer;
-    transition:width .25s ease,background .25s ease;
-  }
-  .slider-dots > button.active{width:20px;border-radius:4px;background:#2E6BE6}
+}
+
+/* hero nav sits on the image - lift white text off the photo for contrast */
+@media (min-width:721px){
+  nav[data-nav] [data-nav-links],
+  nav[data-nav] [data-nav-logo]{text-shadow:0 1px 2px rgba(8,12,24,.55),0 2px 20px rgba(8,12,24,.6)}
 }
 
 /* nav: collapse links behind burger below this width */
@@ -152,10 +419,12 @@ h1 span,h2 span{font-family:inherit}
     box-shadow:0 20px 50px rgba(0,0,0,.15);
   }
   nav[data-nav][data-open="1"] [data-nav-links]{display:flex !important}
+  /* open dropdown is a light panel - keep links dark regardless of scroll state */
+  nav[data-nav][data-open="1"] [data-nav-links]{color:#14161C !important}
   nav[data-nav] [data-nav-burger]{display:flex !important}
 }
 
-/* ===== "How we work" — vertical scroll timeline: MOBILE ONLY (web = horizontal) ===== */
+/* ===== "How we work" - vertical scroll timeline: MOBILE ONLY (web = horizontal) ===== */
 @media (max-width:720px){
   [data-stepgrid]{display:flex !important;flex-direction:column !important;gap:0 !important}
   [data-stepline]{display:none !important}
@@ -188,19 +457,79 @@ h1 span,h2 span{font-family:inherit}
 @media (min-width:721px){ .tl-axis{display:none !important} }
 
 /* ===== Technology page ===== */
-.tech-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(20px,5vw,64px);background:rgba(239,241,245,.9);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid rgba(24,30,48,.06)}
-.tech-logo{display:flex;align-items:center;gap:10px;color:#14161C;font-weight:600;font-size:18px;letter-spacing:-.02em}
+.tech-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;gap:clamp(16px,2vw,32px);padding:14px clamp(22px,3vw,44px);background:rgba(239,241,245,.92);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid rgba(24,30,48,.06);box-shadow:0 6px 24px rgba(8,12,24,.09)}
+.tech-logo{display:flex;align-items:center;gap:10px;color:#14161C;font-weight:700;font-size:20px;letter-spacing:-.02em;margin-right:auto}
 .tech-logo-dot{display:inline-flex;width:26px;height:26px;border-radius:8px;background:#2E6BE6;align-items:center;justify-content:center}
 .tech-logo-dot > span{width:10px;height:10px;border-radius:50%;border:2.5px solid #fff}
-.tech-links{display:flex;align-items:center;gap:clamp(14px,2vw,28px);font-size:15px}
+.tech-links{display:flex;align-items:center;gap:clamp(16px,2vw,32px);font-size:16.5px;font-weight:600}
 .tech-links a{color:#14161C}
-.tech-links a.active{color:#2E6BE6;font-weight:500}
-.tech-cta{display:inline-flex;align-items:center;gap:7px;background:#2E6BE6;color:#fff;padding:10px 18px;border-radius:999px;font-weight:500;font-size:15px}
-@media (max-width:820px){ .tech-links{display:none} }
+.tech-links a.active{color:#2E6BE6}
+.tech-cta{display:inline-flex;align-items:center;gap:7px;background:#2E6BE6;color:#fff;padding:11px 20px;border-radius:999px;font-weight:500;font-size:15px}
+/* language switcher (EN / NL / PL) */
+.lang-switch{display:inline-flex;align-items:center;gap:2px;border:1px solid rgba(24,30,48,.14);border-radius:999px;padding:3px}
+.lang-switch a{font-size:12.5px;font-weight:600;color:#8990A0;padding:4px 9px;border-radius:999px;line-height:1;transition:background .2s ease,color .2s ease}
+.lang-switch a.active{background:#2E6BE6;color:#fff}
+.lang-switch a:not(.active):hover{color:#14161C}
 
-/* Technology — connected process stepper */
+/* hamburger (subpage nav) - hidden on desktop, shown on mobile */
+.tech-burger{display:none;flex-direction:column;gap:5px;background:transparent;border:0;cursor:pointer;padding:8px;margin-left:8px}
+.tech-burger span{width:24px;height:2px;background:#14161C;display:block;border-radius:2px;transition:transform .3s ease,opacity .3s ease}
+.tech-cta-mobile{display:none}
+@media (max-width:820px){
+  /* links become a dropdown panel toggled by the burger */
+  .tech-links{
+    display:none;
+    position:absolute;top:60px;right:16px;left:16px;
+    flex-direction:column;align-items:stretch;gap:14px;
+    background:rgba(255,255,255,.98);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    padding:20px;border-radius:18px;
+    box-shadow:0 20px 50px rgba(8,12,24,.16);border:1px solid rgba(24,30,48,.06);
+  }
+  .tech-nav[data-open="1"] .tech-links{display:flex}
+  .tech-cta{display:none}            /* desktop CTA hidden; lives inside the menu on mobile */
+  .tech-cta-mobile{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#2E6BE6;color:#fff;padding:12px 20px;border-radius:999px;font-weight:500;font-size:15px}
+  .tech-burger{display:flex}
+  /* the fixed nav is ~69px tall; guarantee the page content below it clears
+     the bar on every subpage (some heroes only reserved ~72px and tucked under) */
+  .tech-nav + *{padding-top:92px !important}
+  /* burger morphs into an X when the menu is open */
+  .tech-nav[data-open="1"] .tech-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .tech-nav[data-open="1"] .tech-burger span:nth-child(2){opacity:0}
+  .tech-nav[data-open="1"] .tech-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
+
+/* Applications page grids */
+@media (max-width:900px){ [data-apphero]{grid-template-columns:1fr !important} }
+@media (max-width:1000px){
+  [data-appcats]{grid-template-columns:1fr !important}
+  [data-appcases]{grid-template-columns:repeat(2,1fr) !important}
+}
+@media (max-width:640px){ [data-appcases]{grid-template-columns:1fr !important} }
+
+/* News page grids */
+@media (max-width:1000px){
+  [data-newsfeat]{grid-template-columns:1fr !important}
+  [data-newsgrid]{grid-template-columns:repeat(2,1fr) !important}
+}
+@media (max-width:640px){ [data-newsgrid]{grid-template-columns:1fr !important} }
+
+/* Investors page grids */
+@media (max-width:1000px){
+  [data-invgrid],[data-inv2],[data-invbenefits]{grid-template-columns:1fr !important}
+  [data-invmarket]{grid-template-columns:repeat(2,1fr) !important}
+}
+@media (max-width:600px){ [data-invmarket]{grid-template-columns:1fr !important} }
+
+/* About page grids */
+@media (max-width:900px){
+  [data-aboutgrid]{grid-template-columns:1fr !important}
+  [data-aboutvals]{grid-template-columns:1fr 1fr !important}
+}
+@media (max-width:600px){ [data-aboutvals]{grid-template-columns:1fr !important} }
+
+/* Technology - connected process stepper */
 .tech-flow{position:relative;margin-top:10px}
-.tech-flow-line{position:absolute;top:26px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,rgba(46,107,230,.16),#2E6BE6 90%);border-radius:2px}
+.tech-flow-line{position:absolute;top:26px;left:27px;right:calc((100% - 88px)/5 - 27px);height:2px;background:linear-gradient(90deg,rgba(46,107,230,.16),#2E6BE6 90%);border-radius:2px}
 .tech-flow-grid{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:22px}
 .tech-step .tech-node{width:54px;height:54px;border-radius:999px;background:#fff;border:2px solid rgba(46,107,230,.35);color:#2E6BE6;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:18px;margin-bottom:18px}
 .tech-step:last-child .tech-node{background:#2E6BE6;color:#fff;border-color:transparent;box-shadow:0 0 0 6px rgba(46,107,230,.15)}
