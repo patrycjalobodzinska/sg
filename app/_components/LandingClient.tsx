@@ -347,8 +347,8 @@ export default function LandingClient({ markup }: { markup: string }) {
     // ---- tilted stacked-card deck for the "Explore what we can do" collage.
     // Cards sit one on top of another, fanned out to the sides at alternating
     // angles; a sideways drag flicks the front card to the back (dots mirror
-    // the order). Runs at every width so small non-mobile screens get it too.
-    {
+    // the order). MOBILE ONLY — on desktop the collage stays as its static grid.
+    if (window.matchMedia("(max-width:720px)").matches) {
       const deck = root.querySelector<HTMLElement>("[data-explore-collage]");
       const cards = deck ? (Array.from(deck.children) as HTMLElement[]) : [];
       if (deck && cards.length > 1) {
