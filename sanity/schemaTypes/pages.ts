@@ -29,9 +29,10 @@ export const homePage = defineType({
     ]}),
     defineField({ name: "hero", title: "Hero", type: "object", group: "content", fields: [
       str("eyebrow", "Eyebrow"), str("titleLead", "Title (lead)"), str("titleAccent", "Title (accent)"),
-      txt("subtitle", "Subtitle"), str("cta1", "Primary link label"), str("cta2", "Secondary link label"),
+      txt("subtitle", "Subtitle"), str("focus", "Current analytical focus"),
+      str("cta1", "Primary link label"), str("cta2", "Secondary link label"),
     ]}),
-    defineField({ name: "intro", title: "Intro heading", type: "object", group: "content", fields: [str("heading", "Heading"), str("headingAccent", "Heading (accent)")] }),
+    defineField({ name: "intro", title: "Intro heading", type: "object", group: "content", fields: [str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("brand", "Brand architecture paragraph")] }),
     defineField({ name: "benefits", title: "Benefits (Why it matters)", type: "object", group: "content", fields: [
       str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("subtitle", "Subtitle"),
       str("leadPre", "Lead card — before accent"), str("leadAccent", "Lead card — accent"), str("leadPost", "Lead card — after accent"),

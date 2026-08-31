@@ -9,8 +9,12 @@ export type HomeStep = { num: string; title: string; text: string };
 
 export type HomeContent = {
   nav: { technology: string; applications: string; investors: string; news: string; about: string; contact: string; talk: string };
-  hero: { eyebrow: string; titleLead: string; titleAccent: string; subtitle: string; cta1: string; cta2: string };
-  intro: { heading: string; headingAccent: string };
+  /** `focus` is the audit's "current analytical focus" line (ch. 5, P0): the one
+   *  hard product fact, kept above the fold. */
+  hero: { eyebrow: string; titleLead: string; titleAccent: string; subtitle: string; focus: string; cta1: string; cta2: string };
+  /** `brand` states the SG Papertronics -> Q-Tector -> Beer-o-Meter hierarchy
+   *  verbatim from the audit (ch. 2, P0) so the reader never has to infer it. */
+  intro: { heading: string; headingAccent: string; brand: string };
   benefits: {
     badge: string; heading: string; headingAccent: string; subtitle: string;
     leadPre: string; leadAccent: string; leadPost: string;
@@ -52,15 +56,26 @@ export type HomeContent = {
 
 export const HOME_EN: HomeContent = {
   nav: { technology: "Technology", applications: "Applications", investors: "Investors", news: "News", about: "About", contact: "Contact", talk: "Talk to us" },
+  // Hero + brand copy below is the audit copy deck (ch. 2 and ch. 5) verbatim.
+  // NOT YET PUBLISHABLE (audit ch. 14, "Warunek publikacji"): once the client
+  // confirms it per assay, append to `subtitle`:
+  //   "Results in under five minutes. No user calibration required for supported assays."
   hero: {
-    eyebrow: "Process control for living processes",
-    titleLead: "Process control for",
-    titleAccent: "biotech and fermentation companies",
-    subtitle: "Turn small samples into actionable process data - from development to production.",
-    cta1: "Talk to us",
-    cta2: "Explore Q‑Tector",
+    eyebrow: "At-line analytics for biological processes",
+    titleLead: "Know what is happening in your process",
+    titleAccent: "— while you can still act.",
+    subtitle:
+      "Q‑Tector combines ready-to-use assay pods, a compact reader and guided digital workflows to generate comparable glucose and sucrose results close to the fermenter or bioreactor. Use the data to compare runs, refine feed strategies and carry process knowledge from R&D to production.",
+    focus: "Current analytical focus: glucose and sucrose in culture media",
+    cta1: "See how Q‑Tector works",
+    cta2: "Discuss your process",
   },
-  intro: { heading: "Q‑Tector is an at-line testing platform,", headingAccent: "built for living processes" },
+  intro: {
+    heading: "Q‑Tector is an at-line testing platform,",
+    headingAccent: "built for living processes",
+    brand:
+      "SG Papertronics develops Q‑Tector, a compact at-line analytics platform for biological processes. Beer‑o‑Meter is the first commercial application built on Q‑Tector technology. We also work with industry partners to develop and validate new assay workflows for specific analytes and sample matrices.",
+  },
   benefits: {
     badge: "Why it matters",
     heading: "Better decisions start with",
