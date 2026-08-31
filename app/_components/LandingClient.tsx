@@ -2,7 +2,18 @@
 
 import { useEffect, useRef } from "react";
 
-export default function LandingClient({ markup }: { markup: string }) {
+export default function LandingClient({
+  markup,
+  footerMarkup,
+  children,
+}: {
+  /** Everything above the contact block. */
+  markup: string;
+  /** Everything from the footer down. */
+  footerMarkup: string;
+  /** Rendered between the two: the real <ContactSection/>. */
+  children?: React.ReactNode;
+}) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -353,7 +364,7 @@ export default function LandingClient({ markup }: { markup: string }) {
       const cards = deck ? (Array.from(deck.children) as HTMLElement[]) : [];
       if (deck && cards.length > 1) {
         const rot = [-4, 6, -9, 3];
-        let order = cards.map((_, i) => i); // front → back
+        const order = cards.map((_, i) => i); // front → back
 
         const layout = () => {
           // on phones the front photo is enlarged and the peeking side cards
@@ -566,25 +577,14 @@ export default function LandingClient({ markup }: { markup: string }) {
       }
     }
 
-    // ---- contact form ----
-    const form = root.querySelector<HTMLFormElement>("[data-form]");
-    const sent = root.querySelector<HTMLElement>("[data-form-sent]");
-    if (form && sent) {
-      const submit = (e: Event) => {
-        e.preventDefault();
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-        form.style.display = "none";
-        sent.style.display = "block";
-      };
-      form.addEventListener("submit", submit);
-      cleanups.push(() => form.removeEventListener("submit", submit));
-    }
-
     return () => cleanups.forEach((fn) => fn());
-  }, [markup]);
+  }, [markup, footerMarkup]);
 
-  return <div ref={rootRef} dangerouslySetInnerHTML={{ __html: markup }} />;
+  return (
+    <div ref={rootRef}>
+      <div dangerouslySetInnerHTML={{ __html: markup }} />
+      {children}
+      <div dangerouslySetInnerHTML={{ __html: footerMarkup }} />
+    </div>
+  );
 }

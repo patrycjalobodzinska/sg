@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import LandingClient from "../_components/LandingClient";
-import { landingMarkup } from "../_components/landing-markup";
+import { landingParts } from "../_components/landing-markup";
+import ContactSection from "../_components/ContactSection";
 import { getHome } from "../../sanity/lib/home";
 import { prefixedLocales, defaultLocale, isLocale, languageAlternates, type Locale } from "../i18n";
 
@@ -30,5 +31,22 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const { lang } = await params;
   if (!isLocale(lang) || lang === defaultLocale) notFound();
   const c = await getHome(lang as Locale);
-  return <LandingClient markup={landingMarkup(c, lang as Locale)} />;
+  const { before, footer } = landingParts(c, lang as Locale);
+  return (
+    <LandingClient markup={before} footerMarkup={footer}>
+      <ContactSection
+        lang={lang as Locale}
+        sourcePage={`/${lang}`}
+        side={{
+          headingLine1: c.contact.rightHeadingLine1,
+          headingLine2: c.contact.rightHeadingLine2,
+          body: c.contact.rightBody,
+          emailLabel: c.contact.emailLabel,
+          visitLabel: c.contact.visitLabel,
+          visitValue: c.contact.visitValue,
+          beerLabel: c.contact.beerLabel,
+        }}
+      />
+    </LandingClient>
+  );
 }

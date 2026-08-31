@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import LandingClient from "./_components/LandingClient";
-import { landingMarkup } from "./_components/landing-markup";
+import { landingParts } from "./_components/landing-markup";
+import ContactSection from "./_components/ContactSection";
 import { getHome } from "../sanity/lib/home";
 import { languageAlternates } from "./i18n";
 
@@ -18,5 +19,23 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   const c = await getHome("en");
-  return <LandingClient markup={landingMarkup(c, "en")} />;
+  const { before, footer } = landingParts(c, "en");
+  return (
+    <LandingClient markup={before} footerMarkup={footer}>
+      <ContactSection lang="en" sourcePage="/" side={contactSide(c)} />
+    </LandingClient>
+  );
+}
+
+/** Side-panel copy for the contact block, carried over from the home content. */
+function contactSide(c: Awaited<ReturnType<typeof getHome>>) {
+  return {
+    headingLine1: c.contact.rightHeadingLine1,
+    headingLine2: c.contact.rightHeadingLine2,
+    body: c.contact.rightBody,
+    emailLabel: c.contact.emailLabel,
+    visitLabel: c.contact.visitLabel,
+    visitValue: c.contact.visitValue,
+    beerLabel: c.contact.beerLabel,
+  };
 }

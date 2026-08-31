@@ -13,6 +13,9 @@ function hrefFor(href: string, locale: Locale): string {
   return localizedPath(href, locale);
 }
 const isExternal = (href: string) => /^https?:/.test(href);
+/** A link the client has not supplied a destination for yet. Rendering it as
+ *  plain text beats shipping an anchor that silently goes nowhere. */
+const isPlaceholder = (href: string) => !href || href === "#" || href.endsWith("#top");
 
 export default async function SiteFooter({ lang = defaultLocale }: { lang?: Locale }) {
   const s = await getSiteSettings(lang);
@@ -41,7 +44,9 @@ export default async function SiteFooter({ lang = defaultLocale }: { lang?: Loca
             <div style={colTitle}>{col.title}</div>
             <div style={colList}>
               {col.links.map((l, j) =>
-                isExternal(l.href) ? (
+                isPlaceholder(l.href) ? (
+                  <span key={j} style={{ ...link, opacity: 0.55 }}>{l.label}</span>
+                ) : isExternal(l.href) ? (
                   <a key={j} href={l.href} target="_blank" rel="noopener noreferrer" style={link}>{l.label}</a>
                 ) : (
                   <a key={j} href={hrefFor(l.href, lang)} style={link}>{l.label}</a>
@@ -54,9 +59,13 @@ export default async function SiteFooter({ lang = defaultLocale }: { lang?: Loca
       <div style={{ maxWidth: 1240, margin: "24px auto 0", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, color: "#8990A0", fontSize: 14 }}>
         <div>{s.footerCopyright}</div>
         <div style={{ display: "flex", gap: 20 }}>
-          {s.legalLinks.map((l, i) => (
-            <a key={i} href={hrefFor(l.href, lang)} style={{ color: "#8990A0" }}>{l.label}</a>
-          ))}
+          {s.legalLinks.map((l, i) =>
+            isPlaceholder(l.href) ? (
+              <span key={i} style={{ color: "#8990A0", opacity: 0.55 }}>{l.label}</span>
+            ) : (
+              <a key={i} href={hrefFor(l.href, lang)} style={{ color: "#8990A0" }}>{l.label}</a>
+            )
+          )}
         </div>
       </div>
     </footer>

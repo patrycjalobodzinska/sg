@@ -35,6 +35,9 @@ export type HomeContent = {
   footer: {
     tagline: string; exploreTitle: string; companyTitle: string; connectTitle: string;
     connectEmail: string; connectLinkedIn: string; copyright: string; privacy: string; terms: string;
+    /** Real destinations. Empty = not supplied yet by the client, in which
+     *  case the link is omitted rather than shipped pointing at "#top". */
+    linkedInHref?: string; privacyHref?: string; termsHref?: string;
   };
   seo: { title: string; description: string };
   // Resolved image URLs. EN defaults are the literal design assets; getHome

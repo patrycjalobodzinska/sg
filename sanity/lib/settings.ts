@@ -46,10 +46,10 @@ const FALLBACK: SiteSettings = {
   footerColumns: [
     { title: "Explore", links: [{ href: "/technology", label: "Technology" }, { href: "/applications", label: "Applications" }, { href: "/news", label: "News" }] },
     { title: "Company", links: [{ href: "/about", label: "About" }, { href: "/investors", label: "Investors" }, { href: "/#contact", label: "Contact" }] },
-    { title: "Connect", links: [{ href: "https://testmybeer.com", label: "testmybeer.com" }, { href: "mailto:contact@sgpapertronics.com", label: "Email" }, { href: "/#top", label: "LinkedIn" }] },
+    { title: "Connect", links: [{ href: "https://testmybeer.com", label: "testmybeer.com" }, { href: "mailto:contact@sgpapertronics.com", label: "Email" }, { href: "", label: "LinkedIn" }] },
   ],
   footerCopyright: "© 2026 SG Papertronics. Blauwborgje 31, 9747 AW Groningen, NL.",
-  legalLinks: [{ href: "/#top", label: "Privacy" }, { href: "/#top", label: "Terms" }],
+  legalLinks: [{ href: "", label: "Privacy" }, { href: "", label: "Terms" }],
 };
 
 type RawNews = Record<string, I18nVal> | null;
