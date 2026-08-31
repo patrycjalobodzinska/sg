@@ -369,10 +369,12 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
     min-height:clamp(520px,88vh,760px) !important;
     border-radius:8px !important;clip-path:inset(0 round 8px) !important;
   }
-  /* stronger bottom scrim on phones - the copy sits full-width at the bottom */
+  /* Stronger, full-height scrim on phones: the copy is full-width and, since the
+     audit's longer hero lead landed, reaches well into the bright top half of the
+     photo. A bottom-only gradient left the middle of the paragraph under-contrasted. */
   #top [data-hero-desktop]::after{
-    height:70% !important;
-    background:linear-gradient(0deg,rgba(8,12,24,.86),rgba(8,12,24,.44) 46%,transparent) !important;
+    height:100% !important;
+    background:linear-gradient(0deg,rgba(8,12,24,.9) 0%,rgba(8,12,24,.78) 34%,rgba(8,12,24,.6) 62%,rgba(8,12,24,.34) 100%) !important;
   }
   /* on phones nudge the hero photo slightly right so the device stays in frame */
   #top [data-hero-desktop] [data-parallax]{background-position:78% center !important}
