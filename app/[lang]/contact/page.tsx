@@ -28,10 +28,14 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{ intent?: string }>;
+  searchParams: Promise<{ intent?: string; source_page?: string; source_cta?: string; vertical?: string }>;
 }) {
   const { lang } = await params;
   if (!isLocale(lang) || lang === defaultLocale) notFound();
-  const { intent } = await searchParams;
-  return <ContactPage lang={lang as Locale} intent={isIntent(intent) ? intent : DEFAULT_INTENT} />;
+  const { intent, source_page, source_cta, vertical } = await searchParams;
+  return <ContactPage lang={lang as Locale} intent={isIntent(intent) ? intent : DEFAULT_INTENT}
+      sourcePage={source_page}
+      sourceCta={source_cta}
+      vertical={vertical}
+    />;
 }

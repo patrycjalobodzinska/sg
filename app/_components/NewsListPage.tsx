@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import { contactUrl } from "./contact-intent";
 import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import NewsCarousel from "../news-carousel";
@@ -32,8 +33,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
   const featured = all.find((a) => a.featured) ?? all[0];
   const items = all.filter((a) => a._id !== featured?._id);
   const href = (slug: string) => localizedPath(`/news/${slug}`, lang);
-  const contact = localizedPath("/", lang);
-  const contactHref = contact === "/" ? "/#contact" : `${contact}#contact`;
+  const contactHref = contactUrl({ lang, intent: "general", sourcePage: "news", sourceCta: "closing" });
 
   return (
     <div style={{ background: "#EFF1F5", color: "#14161C", overflowX: "hidden" }}>

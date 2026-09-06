@@ -24,11 +24,13 @@ export default function ContactSection({
   sourceCta = "contact-section",
   side,
   privacyHref,
+  vertical,
 }: {
   lang: Locale;
   intent?: Intent;
   sourcePage: string;
   sourceCta?: string;
+  vertical?: string;
   side: ContactSidePanel;
   privacyHref?: string;
 }) {
@@ -50,47 +52,12 @@ export default function ContactSection({
         }}
       >
         <div style={{ padding: "clamp(32px,4vw,56px)" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "#fff",
-              border: "1px solid rgba(24,30,48,.1)",
-              color: "#3A4152",
-              fontSize: 12.5,
-              fontWeight: 500,
-              letterSpacing: ".01em",
-              padding: "6px 13px 6px 7px",
-              borderRadius: 999,
-              marginBottom: 20,
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                display: "inline-flex",
-                width: 17,
-                height: 17,
-                borderRadius: 5,
-                background: "#2E6BE6",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                fontSize: 11,
-                lineHeight: 1,
-              }}
-            >
-              ✓
-            </span>
-            {t.eyebrow}
-          </div>
           <h2 style={{ margin: "0 0 14px", fontSize: "clamp(30px,4vw,48px)", fontWeight: 500, letterSpacing: "-.03em", lineHeight: 1.05 }}>
             {t.heading} <span style={{ color: "#AEB4C4" }}>{t.headingAccent}</span>
           </h2>
           <p style={{ margin: "0 0 28px", color: "#4A5163", fontSize: 16.5, lineHeight: 1.55, maxWidth: 520 }}>{t.lead}</p>
 
-          <ContactForm lang={lang} t={t} intent={intent} sourcePage={sourcePage} sourceCta={sourceCta} privacyHref={privacyHref} />
+          <ContactForm lang={lang} t={t} intent={intent} sourcePage={sourcePage} sourceCta={sourceCta} vertical={vertical} privacyHref={privacyHref} />
         </div>
 
         <div

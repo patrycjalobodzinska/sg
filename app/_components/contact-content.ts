@@ -76,7 +76,7 @@ const EN: ContactCopy = {
   privacy: { text: "We'll use your details only to respond to your inquiry.", linkLabel: "Read our Privacy Notice." },
   states: {
     sending: "Sending…",
-    success: "Thanks—your inquiry is on its way. We'll reply within one business day.",
+    success: "Thanks - your inquiry is on its way. We'll reply within one business day.",
     error: "We couldn't send your inquiry. Please try again or email contact@sgpapertronics.com.",
   },
   errors: {
@@ -118,7 +118,7 @@ const NL: ContactCopy = {
   privacy: { text: "Wij gebruiken uw gegevens uitsluitend om op uw aanvraag te reageren.", linkLabel: "Lees onze privacyverklaring." },
   states: {
     sending: "Versturen…",
-    success: "Bedankt—uw aanvraag is onderweg. Wij reageren binnen één werkdag.",
+    success: "Bedankt - uw aanvraag is onderweg. Wij reageren binnen één werkdag.",
     error: "Uw aanvraag kon niet worden verzonden. Probeer het opnieuw of mail naar contact@sgpapertronics.com.",
   },
   errors: {
@@ -144,7 +144,7 @@ const PL: ContactCopy = {
     intent: { label: "Czego ma dotyczyć rozmowa?" },
     message: {
       label: "Twój proces lub pytanie",
-      hint: "Podaj — jeśli je znasz — organizm, obecny etap procesu, matrycę próbki, oznaczany analit i horyzont czasowy.",
+      hint: "Podaj - jeśli je znasz - organizm, obecny etap procesu, matrycę próbki, oznaczany analit i horyzont czasowy.",
     },
   },
   intents: {
@@ -160,7 +160,7 @@ const PL: ContactCopy = {
   privacy: { text: "Twoich danych użyjemy wyłącznie po to, aby odpowiedzieć na zapytanie.", linkLabel: "Przeczytaj informację o prywatności." },
   states: {
     sending: "Wysyłanie…",
-    success: "Dziękujemy — zapytanie zostało wysłane. Odpowiemy w ciągu jednego dnia roboczego.",
+    success: "Dziękujemy - zapytanie zostało wysłane. Odpowiemy w ciągu jednego dnia roboczego.",
     error: "Nie udało się wysłać zapytania. Spróbuj ponownie lub napisz na contact@sgpapertronics.com.",
   },
   errors: {

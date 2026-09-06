@@ -1,7 +1,7 @@
 "use client";
 import ArrowUpRight from "./ArrowUpRight";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { locales, localeLabel, localizedPath, splitLocale } from "../i18n";
 import type { SiteLink } from "../../sanity/lib/settings";
@@ -28,6 +28,47 @@ export default function SiteNavClient({
 }) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
+  const langRef = useRef<HTMLDetailsElement>(null);
+  const burgerRef = useRef<HTMLButtonElement>(null);
+
+  // Escape closes the mobile panel and the page behind it stays put.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        burgerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  // <details> alone stays open on outside clicks and ignores Escape; add both.
+  useEffect(() => {
+    const dd = langRef.current;
+    if (!dd) return;
+    const onDown = (e: MouseEvent) => {
+      if (dd.open && !dd.contains(e.target as Node)) dd.open = false;
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && dd.open) {
+        dd.open = false;
+        dd.querySelector("summary")?.focus();
+      }
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
   const pathname = usePathname() || "/";
   const { locale, path: basePath } = splitLocale(pathname);
 
@@ -39,28 +80,47 @@ export default function SiteNavClient({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/assets/SGPT_logo.png" alt="SG Papertronics" className="brand-logo" />
       </a>
-      <div className="tech-links">
+      <div className="tech-links" id="tech-nav-links">
         {nav.map((l) => {
           const k = l.key ?? keyFor(l.href);
           return (
-            <a key={k} href={hrefFor(l.href, locale)} className={active === k ? "active" : undefined} onClick={close}>
+            <a
+              key={k}
+              href={hrefFor(l.href, locale)}
+              className={active === k ? "active" : undefined}
+              aria-current={active === k ? "page" : undefined}
+              onClick={close}
+            >
               {l.label}
             </a>
           );
         })}
-        <div className="lang-switch" role="group" aria-label="Language">
-          {locales.map((l) => (
-            <a
-              key={l}
-              href={localizedPath(basePath, l)}
-              className={l === locale ? "active" : undefined}
-              hrefLang={l}
-              onClick={close}
-            >
-              {localeLabel[l]}
-            </a>
-          ))}
-        </div>
+        <details className="lang-dd" ref={langRef}>
+          <summary aria-label="Language">
+            {localeLabel[locale]}
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </summary>
+          <div className="lang-dd-menu">
+            {locales.map((l) => (
+              <a
+                key={l}
+                href={localizedPath(basePath, l)}
+                hrefLang={l}
+                aria-current={l === locale ? "true" : undefined}
+                onClick={close}
+              >
+                {localeLabel[l]}
+                {l === locale && (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                )}
+              </a>
+            ))}
+          </div>
+        </details>
         <a href={hrefFor(cta.href, locale)} className="tech-cta-mobile sheen" onClick={close}>
           {cta.label} <ArrowUpRight />
         </a>
@@ -70,8 +130,10 @@ export default function SiteNavClient({
       </a>
       <button
         type="button"
+        ref={burgerRef}
         className="tech-burger"
         aria-label="Menu"
+        aria-controls="tech-nav-links"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >

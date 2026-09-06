@@ -63,7 +63,7 @@ export const HOME_EN: HomeContent = {
   hero: {
     eyebrow: "At-line analytics for biological processes",
     titleLead: "Know what is happening in your process",
-    titleAccent: "— while you can still act.",
+    titleAccent: "- while you can still act.",
     subtitle:
       "Q‑Tector combines ready-to-use assay pods, a compact reader and guided digital workflows to generate comparable glucose and sucrose results close to the fermenter or bioreactor. Use the data to compare runs, refine feed strategies and carry process knowledge from R&D to production.",
     focus: "Current analytical focus: glucose and sucrose in culture media",
@@ -163,7 +163,7 @@ export const HOME_EN: HomeContent = {
     description: "Q‑Tector is an at-line testing platform built for living processes. Turn small samples into actionable process data - from development to production.",
   },
   images: {
-    heroBg: "/assets/newHero.JPG",
+    heroBg: "/assets/hero-chrome.png",
     collage: ["/assets/SGP-team.jpg", "/assets/SG-papertronics009b.jpg", "/assets/hero.webp"],
     lifecycle: [
       "https://images.pexels.com/photos/9574338/pexels-photo-9574338.jpeg?auto=compress&cs=tinysrgb&w=900",

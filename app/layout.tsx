@@ -70,7 +70,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.variable}>
+      <head>
+        {/* Scroll-reveal starts every section at opacity:0 and JS fades it in. With
+            scripting off that left most of the page invisible, so restore it here. */}
+        <noscript>
+          <style>{`[data-appear]{opacity:1!important;transform:none!important}
+[data-introline]{stroke-dashoffset:0!important}`}</style>
+        </noscript>
+      </head>
       <body>
+        <a href="#main" className="skip-link">
+          Skip to main content
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

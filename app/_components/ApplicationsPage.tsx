@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import { contactUrl } from "./contact-intent";
 import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import { localizedPath, type Locale } from "../i18n";
@@ -44,7 +45,7 @@ const CHROME: Record<Locale, { heroCaption: string; heroPrimary: string; heroSec
   pl: { heroCaption: "Przyprocesowo, blisko procesu", heroPrimary: "Porozmawiaj z nami o swoim procesie", heroSecondary: "Zobacz technologię" },
 };
 
-const tagPill = { fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 };
+const tagPill = { display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 };
 const eyebrow = { color: "#2E6BE6", fontSize: 13, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase" as const, marginBottom: 14 };
 
 export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: AppContent }) {
@@ -53,8 +54,10 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
   const cats = doc?.categories?.length ? doc.categories : EN.categories;
   const cases = doc?.caseStudies?.length ? doc.caseStudies : EN.cases.map((c) => ({ _id: c.id, tag: c.tag, title: c.title, text: c.text }));
 
-  const contact = localizedPath("/", lang);
-  const contactHref = contact === "/" ? "/#contact" : `${contact}#contact`;
+  // Audit ch. 12. Both CTAs are genuinely "discuss an application", so they share
+  // the intent but stay distinguishable in the inbox through source_cta.
+  const ctaHeroHref = contactUrl({ lang, intent: "pilot", sourcePage: "applications", sourceCta: "hero-primary" });
+  const ctaClosingHref = contactUrl({ lang, intent: "pilot", sourcePage: "applications", sourceCta: "closing" });
   const techHref = localizedPath("/technology", lang);
 
   return (
@@ -70,7 +73,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
             </h1>
             <p style={{ margin: "22px 0 0", color: "#4A5163", fontSize: "clamp(16.5px,1.7vw,20px)", lineHeight: 1.6, maxWidth: 580 }}>{hero.lead || EN.heroLead}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 26px", marginTop: 30 }}>
-              <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight /></a>
+              <a href={ctaHeroHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight /></a>
               <a href={techHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
             </div>
           </div>
@@ -142,7 +145,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
             <h2 style={{ margin: "0 0 8px", fontSize: "clamp(22px,2.6vw,32px)", fontWeight: 600, letterSpacing: "-.02em" }}>{doc?.cta?.heading || EN.ctaHeading}</h2>
             <p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 16, lineHeight: 1.55 }}>{doc?.cta?.body || EN.ctaBody}</p>
           </div>
-          <a href={contactHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 14, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{doc?.cta?.button?.label || EN.ctaButton} <ArrowUpRight /></a>
+          <a href={ctaClosingHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 14, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{doc?.cta?.button?.label || EN.ctaButton} <ArrowUpRight /></a>
         </div>
       </section>
 

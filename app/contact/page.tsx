@@ -13,7 +13,11 @@ export const metadata: Metadata = {
   openGraph: { title: "Contact - SG Papertronics", description: DESC, url: "https://sgpapertronics.com/contact", type: "website" },
 };
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ intent?: string }> }) {
-  const { intent } = await searchParams;
-  return <ContactPage lang="en" intent={isIntent(intent) ? intent : DEFAULT_INTENT} />;
+export default async function Page({ searchParams }: { searchParams: Promise<{ intent?: string; source_page?: string; source_cta?: string; vertical?: string }> }) {
+  const { intent, source_page, source_cta, vertical } = await searchParams;
+  return <ContactPage lang="en" intent={isIntent(intent) ? intent : DEFAULT_INTENT}
+      sourcePage={source_page}
+      sourceCta={source_cta}
+      vertical={vertical}
+    />;
 }

@@ -87,6 +87,7 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
   // which CTA started the conversation, and in which language.
   const sourcePage = str(formData, "source_page") || "/";
   const sourceCta = str(formData, "source_cta") || "contact-section";
+  const vertical = str(formData, "vertical");
   const h = await headers();
 
   const body = [
@@ -99,6 +100,7 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
     "",
     "—",
     `Locale:       ${locale}`,
+    ...(vertical ? [`Vertical:     ${vertical}`] : []),
     `Source page:  ${sourcePage}`,
     `Source CTA:   ${sourceCta}`,
     `Referer:      ${h.get("referer") ?? "—"}`,

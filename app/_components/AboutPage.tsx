@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import { contactUrl } from "./contact-intent";
 import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import { localizedPath, type Locale } from "../i18n";
@@ -30,8 +31,7 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
   const partners = doc?.partners?.length ? doc.partners : PARTNERS;
   const partnersLabel = doc?.partnersLabel || t.partnersLabel;
 
-  const contact = localizedPath("/", lang);
-  const contactHref = contact === "/" ? "/#contact" : `${contact}#contact`;
+  const contactHref = contactUrl({ lang, intent: "general", sourcePage: "about", sourceCta: "hero-primary" });
   const techHref = localizedPath("/technology", lang);
 
   return (

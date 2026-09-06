@@ -36,7 +36,20 @@ const SIDE: Record<Locale, ContactSidePanel> = {
 
 /** Standalone contact page. Every intent-carrying CTA on the site lands here
  *  with the matching inquiry type preselected (audit ch. 12). */
-export default function ContactPage({ lang, intent }: { lang: Locale; intent: Intent }) {
+export default function ContactPage({
+  lang,
+  intent,
+  sourcePage,
+  sourceCta,
+  vertical,
+}: {
+  lang: Locale;
+  intent: Intent;
+  /** Attribution carried in the URL by the CTA that sent the reader here. */
+  sourcePage?: string;
+  sourceCta?: string;
+  vertical?: string;
+}) {
   const t = CONTACT_COPY[lang];
   const path = localizedPath("/contact", lang);
   return (
@@ -44,7 +57,7 @@ export default function ContactPage({ lang, intent }: { lang: Locale; intent: In
       <SiteNav lang={lang} />
       <main id="main" style={{ paddingTop: "clamp(96px,12vw,140px)" }}>
         <h1 className="sr-only">{`${t.heading} ${t.headingAccent}`}</h1>
-        <ContactSection lang={lang} intent={intent} sourcePage={path} sourceCta="contact-page" side={SIDE[lang]} />
+        <ContactSection lang={lang} intent={intent} sourcePage={sourcePage || path} sourceCta={sourceCta || "contact-page"} vertical={vertical} side={SIDE[lang]} />
       </main>
       <SiteFooter lang={lang} />
     </div>

@@ -59,31 +59,9 @@ export default function LandingClient({
     wire("style-hover", "mouseenter", "mouseleave");
     wire("style-focus", "focus", "blur");
 
-    // ---- hero corner covers ----
-    // Paint the page background over each rounded corner so no sub-pixel of the
-    // hero image can ever leak past the mask, whatever the browser does with
-    // compositing/anti-aliasing at the radius.
+    // The hero runs full-bleed with square corners now, so the old corner covers
+    // (which painted the page background over the 30px radius) are gone.
     const parallax = root.querySelector<HTMLElement>("[data-parallax]");
-    const maskEl = parallax?.parentElement;
-    if (maskEl) {
-      const R = 30;
-      const corners: Array<[string, string]> = [
-        ["top:0;left:0", "100% 100%"],
-        ["top:0;right:0", "0% 100%"],
-        ["bottom:0;left:0", "100% 0%"],
-        ["bottom:0;right:0", "0% 0%"],
-      ];
-      corners.forEach(([pos, at]) => {
-        const c = document.createElement("div");
-        c.className = "hero-corner";
-        c.setAttribute("aria-hidden", "true");
-        c.style.cssText =
-          `position:absolute;${pos};width:${R}px;height:${R}px;z-index:5;` +
-          `pointer-events:none;` +
-          `background:radial-gradient(circle ${R}px at ${at}, transparent ${R - 1}px, #EFF1F5 ${R - 0.3}px)`;
-        maskEl.appendChild(c);
-      });
-    }
 
     // ---- sticky nav: translucent over hero, solid on scroll + hero parallax ----
     const nav = root.querySelector<HTMLElement>("[data-nav]");
@@ -100,17 +78,50 @@ export default function LandingClient({
     window.addEventListener("scroll", onScroll, { passive: true });
     cleanups.push(() => window.removeEventListener("scroll", onScroll));
 
+    // ---- language dropdown: <details> handles opening; add the rest ----
+    const langDd = root.querySelector<HTMLDetailsElement>("[data-langdd]");
+    if (langDd) {
+      const onDown = (e: MouseEvent) => {
+        if (langDd.open && !langDd.contains(e.target as Node)) langDd.open = false;
+      };
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape" && langDd.open) {
+          langDd.open = false;
+          langDd.querySelector("summary")?.focus();
+        }
+      };
+      document.addEventListener("mousedown", onDown);
+      document.addEventListener("keydown", onKey);
+      cleanups.push(() => {
+        document.removeEventListener("mousedown", onDown);
+        document.removeEventListener("keydown", onKey);
+      });
+    }
+
     // ---- mobile menu toggle ----
     const burger = root.querySelector<HTMLElement>("[data-nav-burger]");
     if (nav && burger) {
-      const toggle = () =>
-        nav.setAttribute(
-          "data-open",
-          nav.getAttribute("data-open") === "1" ? "0" : "1"
-        );
+      const setOpen = (open: boolean) => {
+        nav.setAttribute("data-open", open ? "1" : "0");
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+        // Stop the page scrolling behind the open panel.
+        document.body.style.overflow = open ? "hidden" : "";
+      };
+      const toggle = () => setOpen(nav.getAttribute("data-open") !== "1");
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape" && nav.getAttribute("data-open") === "1") {
+          setOpen(false);
+          burger.focus();
+        }
+      };
+      document.addEventListener("keydown", onKey);
+      cleanups.push(() => {
+        document.removeEventListener("keydown", onKey);
+        document.body.style.overflow = "";
+      });
       burger.addEventListener("click", toggle);
       const closers = root.querySelectorAll<HTMLElement>("[data-nl]");
-      const close = () => nav.setAttribute("data-open", "0");
+      const close = () => setOpen(false);
       closers.forEach((a) => a.addEventListener("click", close));
       cleanups.push(() => {
         burger.removeEventListener("click", toggle);

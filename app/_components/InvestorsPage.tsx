@@ -1,4 +1,5 @@
 import SiteFooter from "../site-footer";
+import { contactUrl } from "./contact-intent";
 import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import { type Locale } from "../i18n";
@@ -49,6 +50,10 @@ const eyebrow = (t?: string) => (
 );
 
 export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc }) {
+  // Audit ch. 12 / ch. 9: investor CTAs went straight to a personal mailbox, so the
+  // form's investor intent was unreachable and nothing was attributable.
+  const deckHref = contactUrl({ lang, intent: "investor", sourcePage: "investors", sourceCta: "deck-request" });
+  const irHref = contactUrl({ lang, intent: "investor", sourcePage: "investors", sourceCta: "investor-relations" });
   const t = CHROME[lang];
   const hero = doc?.hero ?? {};
   const why = doc?.whyNow ?? {};
@@ -75,8 +80,8 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
             <p style={{ margin: "24px 0 0", color: "rgba(255,255,255,.75)", fontSize: "clamp(16px,1.7vw,19px)", lineHeight: 1.6, maxWidth: 620 }}>{hero.body1}</p>
             <p style={{ margin: "16px 0 0", color: "rgba(255,255,255,.6)", fontSize: 16, lineHeight: 1.6, maxWidth: 620 }}>{hero.body2}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 32 }}>
-              <a href="mailto:m.grajewski@sgpapertronics.com?subject=Investor%20deck%20request" className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 26px", borderRadius: 14, fontWeight: 600, fontSize: 16, boxShadow: "0 14px 36px rgba(46,107,230,.4)" }}>{hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight /></a>
-              <a href="mailto:m.grajewski@sgpapertronics.com" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", color: "#fff", padding: "16px 24px", borderRadius: 14, fontWeight: 500, fontSize: 16 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
+              <a href={deckHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 26px", borderRadius: 14, fontWeight: 600, fontSize: 16, boxShadow: "0 14px 36px rgba(46,107,230,.4)" }}>{hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight /></a>
+              <a href={irHref} style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", color: "#fff", padding: "16px 24px", borderRadius: 14, fontWeight: 500, fontSize: 16 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
             </div>
           </div>
           <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", aspectRatio: "4 / 3", background: "#141C2E", boxShadow: "0 30px 60px rgba(0,0,0,.4)" }}>
@@ -154,7 +159,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
         <div data-invbenefits="1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {benefits.map((b, i) => (
             <div key={b.tag || i} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 22, padding: "clamp(26px,3vw,34px)", boxShadow: "0 12px 40px rgba(20,26,48,.05)" }}>
-              <span style={{ fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 }}>{b.tag}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 }}>{b.tag}</span>
               <p style={{ margin: "18px 0 14px", color: "#4A5163", fontSize: 15.5, lineHeight: 1.6 }}>{b.text}</p>
               <div style={{ display: "flex", gap: 8, alignItems: "flex-start", color: "#14161C", fontSize: 14.5, fontWeight: 600, lineHeight: 1.45 }}>
                 <span style={{ color: "#2E6BE6", flex: "none" }}>→</span>{b.benefit}
@@ -203,7 +208,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
         <div data-invmarket="1" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18 }}>
           {seriesA.map((s, i) => (
             <div key={s.title || i} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 20, padding: 28, boxShadow: "0 12px 40px rgba(20,26,48,.04)" }}>
-              <span style={{ fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "4px 11px", borderRadius: 999, fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "4px 11px", borderRadius: 999, fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
               <h3 style={{ margin: "16px 0 8px", fontSize: 19, fontWeight: 600, letterSpacing: "-.01em" }}>{s.title}</h3>
               <p style={{ margin: 0, color: "#8990A0", fontSize: 15, lineHeight: 1.5 }}>{s.text}</p>
             </div>

@@ -14,10 +14,11 @@ type Props = {
   /** Page the conversation started on, carried through to the inbox. */
   sourcePage: string;
   sourceCta: string;
+  vertical?: string;
   privacyHref?: string;
 };
 
-export default function ContactForm({ lang, t, intent, sourcePage, sourceCta, privacyHref }: Props) {
+export default function ContactForm({ lang, t, intent, sourcePage, sourceCta, vertical, privacyHref }: Props) {
   const [state, formAction, pending] = useActionState(submitContact, CONTACT_INITIAL_STATE);
   const uid = useId();
   const id = (n: string) => `${uid}-${n}`;
@@ -54,6 +55,7 @@ export default function ContactForm({ lang, t, intent, sourcePage, sourceCta, pr
       <input type="hidden" name="locale" value={lang} />
       <input type="hidden" name="source_page" value={sourcePage} />
       <input type="hidden" name="source_cta" value={sourceCta} />
+      {vertical && <input type="hidden" name="vertical" value={vertical} />}
       {/* Honeypot — hidden from people, tempting to bots. */}
       <div className="cf-hp" aria-hidden="true">
         <label htmlFor={id("website")}>Website</label>
