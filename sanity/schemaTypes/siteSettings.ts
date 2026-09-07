@@ -114,7 +114,6 @@ export const siteSettings = defineType({
         defineField({ name: "heroLead", title: "Hero lead", type: "internationalizedArrayText" }),
         defineField({ name: "listDesc", title: "List meta description", type: "internationalizedArrayText" }),
         defineField({ name: "categoryDefault", title: "Default category label", type: "internationalizedArrayString" }),
-        defineField({ name: "byPrefix", title: "Author prefix (“By”)", type: "internationalizedArrayString" }),
         defineField({ name: "readMore", title: "Read-article link label", type: "internationalizedArrayString" }),
         defineField({ name: "ctaHeading", title: "CTA heading", type: "internationalizedArrayString" }),
         defineField({ name: "ctaBody", title: "CTA body", type: "internationalizedArrayText" }),

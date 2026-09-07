@@ -61,7 +61,7 @@ export async function getNewsChrome(lang: Locale = defaultLocale): Promise<NewsC
   let n: RawNews = null;
   try {
     n = await client.fetch(`*[_type=="siteSettings"][0].news{
-      heroTitle, heroAccent, heroLead, listDesc, categoryDefault, byPrefix,
+      heroTitle, heroAccent, heroLead, listDesc, categoryDefault,
       readMore, ctaHeading, ctaBody, ctaButton, allNews, comingSoon, articleCta
     }`);
   } catch {
@@ -69,14 +69,12 @@ export async function getNewsChrome(lang: Locale = defaultLocale): Promise<NewsC
   }
   if (!n) return fb;
   const g = (k: string, dflt: string) => pick(n?.[k], lang) || dflt;
-  const prefix = g("byPrefix", fb.by("").trim());
   return {
     heroTitle: g("heroTitle", fb.heroTitle),
     heroAccent: g("heroAccent", fb.heroAccent),
     heroLead: g("heroLead", fb.heroLead),
     listDesc: g("listDesc", fb.listDesc),
     categoryDefault: g("categoryDefault", fb.categoryDefault),
-    by: (author: string) => `${prefix} ${author}`.trim(),
     readMore: g("readMore", fb.readMore),
     ctaHeading: g("ctaHeading", fb.ctaHeading),
     ctaBody: g("ctaBody", fb.ctaBody),

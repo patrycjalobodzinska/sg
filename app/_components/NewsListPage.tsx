@@ -3,10 +3,9 @@ import { contactUrl } from "./contact-intent";
 import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import NewsCarousel from "../news-carousel";
-import { getNewsList, formatNewsDate, type NewsListItem } from "../../sanity/lib/news";
+import { getNewsList, formatNewsDate } from "../../sanity/lib/news";
 import { urlFor } from "../../sanity/lib/image";
 import { localizedPath, type Locale } from "../i18n";
-import { type NewsChrome } from "./news-i18n";
 import { getNewsChrome } from "../../sanity/lib/settings";
 
 const clamp = (lines: number) => ({
@@ -24,8 +23,6 @@ const cover = (img: unknown, w: number, h: number) => {
   }
 };
 
-const meta = (t: NewsChrome, it: NewsListItem, lang: Locale) =>
-  [it.author && t.by(it.author), formatNewsDate(it.date, lang)].filter(Boolean).join(" · ");
 
 export default async function NewsListPage({ lang }: { lang: Locale }) {
   const t = await getNewsChrome(lang);
@@ -62,7 +59,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
             <div style={{ padding: "clamp(28px,3.5vw,48px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, color: "#8990A0", fontSize: 13.5 }}>
                 <span style={{ fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 }}>{featured.category || t.categoryDefault}</span>
-                <span>{meta(t, featured, lang)}</span>
+                <span>{formatNewsDate(featured.date, lang)}</span>
               </div>
               <h2 style={{ margin: 0, fontSize: "clamp(23px,2.6vw,33px)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.12 }}>{featured.title}</h2>
               {featured.excerpt && <p style={{ margin: "16px 0 0", color: "#4A5163", fontSize: 16, lineHeight: 1.6, ...clamp(4) }}>{featured.excerpt}</p>}
@@ -85,7 +82,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
                   )}
                 </div>
                 <div style={{ padding: 24, display: "flex", flexDirection: "column", flex: 1 }}>
-                  <div style={{ color: "#8990A0", fontSize: 13, marginBottom: 12 }}>{meta(t, it, lang)}</div>
+                  <div style={{ color: "#8990A0", fontSize: 13, marginBottom: 12 }}>{formatNewsDate(it.date, lang)}</div>
                   <h3 style={{ margin: "0 0 10px", fontSize: 18.5, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.22, ...clamp(3) }}>{it.title}</h3>
                   {it.excerpt && <p style={{ margin: 0, color: "#8990A0", fontSize: 14.5, lineHeight: 1.55, ...clamp(4) }}>{it.excerpt}</p>}
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, color: "#2E6BE6", fontSize: 14, fontWeight: 600 }}>{t.readMore} <ArrowUpRight /></span>

@@ -11,7 +11,6 @@ export type NewsListItem = {
   date: string;
   excerpt?: string;
   category?: string;
-  author?: string;
   featured?: boolean;
   coverImage?: NewsImage;
 };
@@ -24,7 +23,7 @@ export type NewsArticle = NewsListItem & {
 
 const LIST_FIELDS = `
   _id, title, "slug": slug.current, date, excerpt, "category": category,
-  featured, "author": author->name, coverImage
+  featured, coverImage
 `;
 
 /** NL/PL documents carry a "-nl"/"-pl" suffix on their slug; the public URL

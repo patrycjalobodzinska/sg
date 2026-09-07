@@ -50,7 +50,7 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
   if (!a) notFound();
 
   const cover = heroImg(a.coverImage);
-  const metaLine = [a.author && t.by(a.author), formatNewsDate(a.date, lang)].filter(Boolean).join(" · ");
+  const metaLine = formatNewsDate(a.date, lang);
 
   return (
     <div style={{ background: "#EFF1F5", color: "#14161C", overflowX: "hidden" }}>

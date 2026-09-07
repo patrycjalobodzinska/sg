@@ -6,7 +6,6 @@ export type NewsChrome = {
   heroLead: string;
   listDesc: string;
   categoryDefault: string;
-  by: (author: string) => string;
   readMore: string;
   ctaHeading: string;
   ctaBody: string;
@@ -25,7 +24,6 @@ export const NEWS_CHROME: Record<Locale, NewsChrome> = {
     listDesc:
       "News and updates from SG Papertronics - Q‑Tector milestones, its Beer‑o‑Meter brewing application, events, grants, partnerships and company announcements.",
     categoryDefault: "Company",
-    by: (a) => `By ${a}`,
     readMore: "Read the full story",
     ctaHeading: "Have an application in mind?",
     ctaBody:
@@ -43,7 +41,6 @@ export const NEWS_CHROME: Record<Locale, NewsChrome> = {
     listDesc:
       "Nieuws en updates van SG Papertronics - mijlpalen rond Q‑Tector, de Beer‑o‑Meter-brouwtoepassing, evenementen, subsidies, samenwerkingen en bedrijfsaankondigingen.",
     categoryDefault: "Bedrijf",
-    by: (a) => `Door ${a}`,
     readMore: "Lees het volledige verhaal",
     ctaHeading: "Heeft u een toepassing in gedachten?",
     ctaBody:
@@ -61,7 +58,6 @@ export const NEWS_CHROME: Record<Locale, NewsChrome> = {
     listDesc:
       "Aktualności i nowości SG Papertronics - kamienie milowe Q‑Tectora, jego browarnicze zastosowanie Beer‑o‑Meter, wydarzenia, granty, partnerstwa i ogłoszenia firmowe.",
     categoryDefault: "Firma",
-    by: (a) => `Autor: ${a}`,
     readMore: "Przeczytaj całą historię",
     ctaHeading: "Masz na myśli konkretne zastosowanie?",
     ctaBody:
