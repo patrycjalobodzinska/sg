@@ -50,12 +50,14 @@ Audyt rozdz. 2 wymaga jawnego statusu przy każdej aplikacji/assayu.
 2. Wpiąć w karty na Home (proof), Applications (typy procesów) i Technology (assays).
 3. 🔴 Który badge gdzie — wynika z macierzy `analyte × matrix × status × intended use` (blocker A).
 
-### A3. Architektura marki wszędzie tam, gdzie pada nazwa 🟡
+### A3. Architektura marki wszędzie tam, gdzie pada nazwa ✅
 
-✅ Akapit brand jest już na Home (`intro.brand`).
-🟢 Powtórzyć tę samą hierarchię (bez kopiowania całego akapitu) w: stopce,
-About hero, Investors, meta description. Zasada: **Beer-o-Meter nigdy nie występuje
-bez kwalifikatora** „first commercial application built on Q-Tector technology".
+Zasada: **Beer-o-Meter nigdy nie występuje bez kwalifikatora**.
+✅ Akapit brand na Home (`intro.brand`) — renderuje się w scalonej sekcji B2.
+✅ Uzupełnione: panel kontaktowy (3 języki, home i `/contact`), tagline stopki,
+opisy News (wymieniały obie marki jak równorzędne), opis About (nie nazywał ani
+platformy, ani hierarchii). Applications i Investors miały kwalifikator już wcześniej.
+Migracja: `scripts/patch-brand-hierarchy.mjs`.
 
 ### A4. Typografia i design system (rozdz. 11) 🟢 — po akceptacji E2
 
@@ -77,7 +79,7 @@ bez kwalifikatora** „first commercial application built on Q-Tector technology
 | 5 | ✅ zrobione — `aria-controls`/`aria-expanded`, Escape zamyka menu i dropdown | `SiteNavClient.tsx:38,60,136` |
 | 6 | Treści animowane startują z `opacity: 0` bez fallbacku | `globals.css`, `LandingClient.tsx` |
 | 7 | Brak przełącznika EN/NL/PL na homepage (podstrony mają) | `landing-markup.ts` |
-| 8 | Podwójne „News" w stopce homepage | `site-footer.tsx` / dane w Sanity |
+| 8 | ✅ zrobione — „News" było w kolumnie *Explore* i *Company*, zostało jedno | `landing-markup.ts` |
 | 9 | Privacy / Terms / LinkedIn → `#top` | 🟡 kod już ukrywa atrapy (`isPlaceholder`), 🔴 brakuje treści i URL-a |
 
 ### A6. Intencyjne CTA w całym serwisie (rozdz. 12) ✅
@@ -123,12 +125,16 @@ Zlikwidować sytuację, w której „Contact" i „Talk to us" prowadzą w to sa
   scale / Investigate deviations sooner / Build comparable process histories.
 - To załatwia jednocześnie zarzut z rozdz. 11 o „pięciu ciasnych kartach w rzędzie".
 
-### B3. „Explore what we can do" 🟢 / 🔴 grafika
-- Nagłówek → `Is Q-Tector a fit for your process?`, CTA → `Request a process-fit review`.
-- 🟢 Usunąć `trust2` z niepotwierdzonym claimem (patrz A1).
-- 🔴 Zdjęcie zespołu w tym miejscu → diagram
-  `Sample → Guided assay → Quantitative result → Trend → Process decision`.
-  Diagram możemy narysować sami jako SVG — **nie wymaga klienta**, warto zrobić od razu.
+### B3. „Explore what we can do" ✅
+- ✅ Nagłówek `Is Q‑Tector a fit for your process?`, CTA `Request a process-fit review`.
+- ✅ `trust2` usunięte (patrz A1).
+- ✅ Zdjęcie zespołu → diagram `Sample → Guided assay → Quantitative result →
+  Trend → Process decision`. Zrobiony jako `<ol>` z ikonami inline, nie jako jeden
+  płaski SVG — etykiety zostają tłumaczalne, a czytnik ekranu czyta pięć kroków.
+  Nazwy kroków są z audytu; noty parafrazują jego własną definicję at-line
+  (rozdz. 6) i **nie zawierają claimu o czasie ani kalibracji**.
+- Po drodze wycofane: 139 linii JS-a karuzeli kolażu, ~70 linii jego CSS-a,
+  `images.collage` (typ, schemat, lib) i martwe `explore.badge`.
 
 ### B4. „Data & analytics" + „How we work" + „Customer success" → **jedna sekcja** 🟢
 - Trzy bloki opisują dziś tę samą ścieżkę.
@@ -198,13 +204,21 @@ Zlikwidować sytuację, w której „Contact" i „Talk to us" prowadzą w to sa
 3. 🔴 Czy „Series A" można komunikować publicznie (D1).
 4. 🔴 Osobny portret leadershipu (D5).
 
-### News
-1. 🟢 Ujednolicić `Read the full story` / `Read more` do jednego wariantu.
-2. 🟢 Naprawić podpis autora `jobgerjon` → pełne imię (dane w Sanity).
-3. 🟢 Dwa artykuły CBC dzielą ten sam obraz — podmienić jeden.
-4. 🟢 Kategorie: `Customer results · Q-Tector product · Application development · Partnerships · Company`.
-5. 🟢 CTA „we'll keep you posted" albo prowadzi do newslettera, albo znika.
-6. 🟢 Closing CTA `Discuss your application` na końcu listy.
+### News ✅ (cała sekcja)
+1. ✅ Jedna etykieta `Read the full story`; `readStory` usunięte z typu, schematu
+   i mapowania w `settings.ts`.
+2. ✅ Podpis autora: `jobgerjon` (slug autora z WordPressa, wszedł przez
+   `scripts/seed.mjs`) → **SG Papertronics**. 🟡 Prawdziwego imienia nie ma nigdzie
+   w projekcie — do podmiany, gdy będzie znane (powiązane z D3).
+3. ✅ Duplikat obrazu: **wszystkie sześć** dokumentów CBC26 dzieliło jeden cover
+   236×213 (reszta ma 1080×675). `cbc26-relationships` oddaje obraz.
+4. 🟡 Kategorie — piątka z audytu obowiązuje **nowe wpisy**; archiwum (przed 2026)
+   zachowuje swoje etykiety (`Grant`, `Award`, `Investment`, `Event`, `Recognition`).
+   Pierwsze podejście przepisało całe archiwum i zwinęło 6 z 10 wpisów do „Company",
+   co niszczyło informację — cofnięte (`patch-news-categories-archive.mjs`).
+   Reguła zapisana w opisie pola w `documents.ts`.
+5. ✅ CTA nie obiecuje już newslettera („we'll keep you posted"), bo newslettera nie ma.
+6. ✅ Closing CTA `Discuss your application`.
 
 ---
 
@@ -212,16 +226,23 @@ Zlikwidować sytuację, w której „Contact" i „Talk to us" prowadzą w to sa
 
 Kolejność z audytu (rozdz. 15), przefiltrowana przez to, co realnie odblokowane:
 
-**Sprint 1 — teraz, bez klienta**
+**Sprint 1 — zamknięty**
 1. ✅ A1 rejestr claimów (kod + Sanity)
 2. ✅ A5 poz. 1 — `<html lang>` per lokalizacja
 3. ✅ A6 intencyjne CTA na wszystkich stronach
-4. 🟢 B2 + B4 — scalenie zdublowanych sekcji Home (największa redukcja szumu)
-5. 🟢 B3 diagram `Sample → … → Process decision` (zastępuje zdjęcie zespołu)
-6. 🟢 A3 hierarchia marki poza home (stopka, About, Investors, meta)
-7. 🟢 A5 reszta passu dostępności (poz. 4, 6, 7, 8 — hamburger 44×44, fallback
-   dla `opacity:0`, przełącznik języka na home, podwójne „News")
-8. 🟢 F/News — cała lista, w całości odblokowana
+4. ✅ B2 + B4 — scalenie zdublowanych sekcji Home
+5. ✅ B3 diagram `Sample → … → Process decision`
+6. ✅ A3 hierarchia marki poza home
+7. ✅ A5 — poz. 2–8 zrobione (hamburgery 44×44 były już OK, fallback `noscript`,
+   przełącznik języka na home, podwójne „News" usunięte)
+8. ✅ F/News — cała lista
+
+**Zostało z części A, odblokowane:** A2 — sam komponent `StatusBadge` (przypisanie
+badge'y czeka na macierz), A4 typografia (czeka na akceptację E2).
+
+> Uwaga operacyjna: CDN Sanity (`useCdn:true` + `revalidate=300`) propaguje
+> **niejednolicie** — trafialiśmy na buildy, w których część stron miała nowe dane,
+> a część stare. Po migracji warto przebudować po chwili i sprawdzić wynik.
 
 **Sprint 2 — teraz, ale wymaga akceptacji kierunku (E1–E4)**
 7. A4 typografia (E2), nawigacja buyer-first (E1), CTA „Discuss your process" (E3)
