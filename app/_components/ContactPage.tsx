@@ -12,7 +12,7 @@ const SIDE: Record<Locale, ContactSidePanel> = {
     emailLabel: "Email",
     visitLabel: "Visit us",
     visitValue: "Blauwborgje 31, 9747 AW Groningen, NL",
-    beerLabel: "Beer-o-Meter",
+    beerLabel: "Beer-o-Meter - brewing application of Q‑Tector",
   },
   nl: {
     headingLine1: "Laten we het hebben",
@@ -21,7 +21,7 @@ const SIDE: Record<Locale, ContactSidePanel> = {
     emailLabel: "E-mail",
     visitLabel: "Bezoek ons",
     visitValue: "Blauwborgje 31, 9747 AW Groningen, NL",
-    beerLabel: "Beer-o-Meter",
+    beerLabel: "Beer-o-Meter - brouwtoepassing van Q‑Tector",
   },
   pl: {
     headingLine1: "Porozmawiajmy",
@@ -30,7 +30,7 @@ const SIDE: Record<Locale, ContactSidePanel> = {
     emailLabel: "E-mail",
     visitLabel: "Odwiedź nas",
     visitValue: "Blauwborgje 31, 9747 AW Groningen, NL",
-    beerLabel: "Beer-o-Meter",
+    beerLabel: "Beer-o-Meter - zastosowanie Q‑Tectora w browarnictwie",
   },
 };
 

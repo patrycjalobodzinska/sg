@@ -23,7 +23,7 @@ export const NEWS_CHROME: Record<Locale, NewsChrome> = {
     heroLead:
       "Product milestones, events, grants, partnerships and company announcements from SG Papertronics.",
     listDesc:
-      "News and updates from SG Papertronics - Beer-o-Meter and Q‑Tector milestones, events, grants, partnerships and company announcements.",
+      "News and updates from SG Papertronics - Q‑Tector milestones, its Beer‑o‑Meter brewing application, events, grants, partnerships and company announcements.",
     categoryDefault: "Company",
     by: (a) => `By ${a}`,
     readMore: "Read the full story",
@@ -41,7 +41,7 @@ export const NEWS_CHROME: Record<Locale, NewsChrome> = {
     heroLead:
       "Productmijlpalen, evenementen, subsidies, samenwerkingen en bedrijfsnieuws van SG Papertronics.",
     listDesc:
-      "Nieuws en updates van SG Papertronics - mijlpalen rond Beer-o-Meter en Q‑Tector, evenementen, subsidies, samenwerkingen en bedrijfsaankondigingen.",
+      "Nieuws en updates van SG Papertronics - mijlpalen rond Q‑Tector, de Beer‑o‑Meter-brouwtoepassing, evenementen, subsidies, samenwerkingen en bedrijfsaankondigingen.",
     categoryDefault: "Bedrijf",
     by: (a) => `Door ${a}`,
     readMore: "Lees het volledige verhaal",
@@ -59,7 +59,7 @@ export const NEWS_CHROME: Record<Locale, NewsChrome> = {
     heroLead:
       "Kamienie milowe produktów, wydarzenia, granty, partnerstwa i ogłoszenia firmowe SG Papertronics.",
     listDesc:
-      "Aktualności i nowości SG Papertronics - kamienie milowe Beer-o-Meter i Q‑Tector, wydarzenia, granty, partnerstwa i ogłoszenia firmowe.",
+      "Aktualności i nowości SG Papertronics - kamienie milowe Q‑Tectora, jego browarnicze zastosowanie Beer‑o‑Meter, wydarzenia, granty, partnerstwa i ogłoszenia firmowe.",
     categoryDefault: "Firma",
     by: (a) => `Autor: ${a}`,
     readMore: "Przeczytaj całą historię",

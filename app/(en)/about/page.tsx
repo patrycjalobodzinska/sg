@@ -7,7 +7,7 @@ import { MISSION_PROCESS_CONTROL } from "@/app/_components/claims";
 export const revalidate = 300;
 
 const DESC =
-  `SG Papertronics develops accessible analytical technology for companies working with biological and fermentation processes. Our mission: ${MISSION_PROCESS_CONTROL}.`;
+  `SG Papertronics develops Q‑Tector, an at-line analytics platform for companies working with biological and fermentation processes; Beer‑o‑Meter is its first commercial application. Our mission: ${MISSION_PROCESS_CONTROL}.`;
 export const metadata: Metadata = {
   title: "About",
   description: DESC,

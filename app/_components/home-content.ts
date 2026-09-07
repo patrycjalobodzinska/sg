@@ -141,10 +141,10 @@ export const HOME_EN: HomeContent = {
     emailLabel: "Email",
     visitLabel: "Visit us",
     visitValue: "Blauwborgje 31, 9747 AW Groningen, NL",
-    beerLabel: "Beer-o-Meter",
+    beerLabel: "Beer-o-Meter - brewing application of Q‑Tector",
   },
   footer: {
-    tagline: "Actionable process data for biotech & fermentation - powered by Q‑Tector.",
+    tagline: "Q‑Tector is our at-line analytics platform for biotech and fermentation; Beer‑o‑Meter is its first commercial application.",
     exploreTitle: "Explore",
     companyTitle: "Company",
     connectTitle: "Connect",
