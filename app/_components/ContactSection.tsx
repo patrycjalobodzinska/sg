@@ -44,6 +44,7 @@ export default function ContactSection({
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: "clamp(20px,2vw,28px)",
+          alignItems: "start",
         }}
       >
         <div style={CARD}>
@@ -64,7 +65,6 @@ export default function ContactSection({
             border: "1px solid rgba(255,255,255,.08)",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
             overflow: "hidden",
           }}
         >
