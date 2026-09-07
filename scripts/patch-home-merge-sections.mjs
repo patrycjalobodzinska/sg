@@ -149,6 +149,15 @@ const UNSET = [
 function at(doc, p) {
   return p.split(".").reduce((o, k) => (o == null ? undefined : o[k]), doc);
 }
+/** Stable stringify — Sanity returns object keys in its own order, so a plain
+ *  JSON.stringify comparison reports identical array members as changed. */
+function stable(v) {
+  if (Array.isArray(v)) return `[${v.map(stable).join(",")}]`;
+  if (v && typeof v === "object") {
+    return `{${Object.keys(v).sort().map((k) => `${k}:${stable(v[k])}`).join(",")}}`;
+  }
+  return JSON.stringify(v);
+}
 const brief = (v) =>
   Array.isArray(v)
     ? `[${v.length}] ${v.map((x) => x?.title ?? x).join(" · ")}`
@@ -167,7 +176,7 @@ for (const [id, next] of Object.entries(PATCH)) {
   console.log(`\n── ${id} (${doc.language})`);
   for (const [p, v] of Object.entries(next)) {
     const before = at(doc, p);
-    if (JSON.stringify(before) === JSON.stringify(v)) continue;
+    if (stable(before) === stable(v)) continue;
     changes++;
     console.log(`  ${p}\n    - ${brief(before)}\n    + ${brief(v)}`);
   }
