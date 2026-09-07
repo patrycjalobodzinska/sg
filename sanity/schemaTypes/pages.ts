@@ -32,24 +32,30 @@ export const homePage = defineType({
       txt("subtitle", "Subtitle"), str("focus", "Current analytical focus"),
       str("cta1", "Primary link label"), str("cta2", "Secondary link label"),
     ]}),
-    defineField({ name: "intro", title: "Intro heading", type: "object", group: "content", fields: [str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("brand", "Brand architecture paragraph")] }),
-    defineField({ name: "benefits", title: "Benefits (Why it matters)", type: "object", group: "content", fields: [
-      str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("subtitle", "Subtitle"),
+    // The intro's own headline duplicated the section below it, so only the brand
+    // paragraph is left and it renders inside "Measure during the run" (plan B2).
+    defineField({ name: "intro", title: "Brand architecture", type: "object", group: "content", fields: [txt("brand", "Brand architecture paragraph")] }),
+    defineField({ name: "benefits", title: "Measure during the run", type: "object", group: "content", fields: [
+      str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("subtitle", "Subtitle"),
       str("leadPre", "Lead card — before accent"), str("leadAccent", "Lead card — accent"), str("leadPost", "Lead card — after accent"),
-      defineField({ name: "cards", title: "Cards", type: "array", of: [titleCard] }),
+      defineField({ name: "cards", title: "Cards (4)", type: "array", of: [titleCard] }),
     ]}),
     defineField({ name: "explore", title: "Explore / CTA band", type: "object", group: "content", fields: [
       str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("body", "Body"),
       str("cta1", "Primary link label"), str("cta2", "Secondary link label"), str("trust1", "Trust chip 1"),
     ]}),
-    defineField({ name: "lifecycle", title: "Data lifecycle", type: "object", group: "content", fields: [
-      str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("subtitle", "Subtitle"),
-      defineField({ name: "cols", title: "Columns", type: "array", of: [numCol] }),
+    // "Data & analytics", "How we work" and "Customer success" told the same story
+    // three times; they are one section now (plan B4). `lifecycle` holds the three
+    // stage columns plus the closing line, `howWeWork` the collaboration flow.
+    defineField({ name: "lifecycle", title: "One measurement workflow", type: "object", group: "content", fields: [
+      str("heading", "Heading"), str("headingAccent", "Heading (accent)"),
+      defineField({ name: "cols", title: "Stage columns (3)", type: "array", of: [numCol] }),
+      txt("closing", "Closing line"),
     ]}),
-    defineField({ name: "howWeWork", title: "How we work", type: "object", group: "content", fields: [
-      str("eyebrow", "Eyebrow"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("subtitle", "Subtitle"),
-      defineField({ name: "steps", title: "Steps", type: "array", of: [numCol] }),
-      str("successEyebrow", "Customer success — eyebrow"), str("successHeading", "Customer success — heading"), txt("successBody", "Customer success — body"),
+    defineField({ name: "howWeWork", title: "Collaboration flow", type: "object", group: "content", fields: [
+      str("eyebrow", "Eyebrow"), str("heading", "Heading"),
+      defineField({ name: "steps", title: "Steps (4)", type: "array", of: [numCol] }),
+      str("cta", "CTA label"),
     ]}),
     defineField({ name: "partners", title: "Partners", type: "object", group: "content", fields: [
       str("heading", "Heading"), str("headingAccent", "Heading (accent)"),
@@ -70,7 +76,6 @@ export const homePage = defineType({
       img("heroBg", "Hero background"),
       defineField({ name: "collage", title: "Explore collage (3)", type: "array", of: [defineArrayMember({ type: "imageWithAlt" })] }),
       defineField({ name: "lifecycle", title: "Data lifecycle (3)", type: "array", of: [defineArrayMember({ type: "imageWithAlt" })] }),
-      img("banner", "How-we-work banner"),
     ]}),
     seoField,
   ],

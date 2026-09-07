@@ -18,9 +18,11 @@ export type HomeContent = {
   hero: { eyebrow: string; titleLead: string; titleAccent: string; subtitle: string; focus: string; cta1: string; cta2: string };
   /** `brand` states the SG Papertronics -> Q-Tector -> Beer-o-Meter hierarchy
    *  verbatim from the audit (ch. 2, P0) so the reader never has to infer it. */
-  intro: { heading: string; headingAccent: string; brand: string };
+  /** Only the brand paragraph survives: the intro's own headline duplicated the
+   *  section below it, so the two were merged (audit ch. 5, plan B2). */
+  intro: { brand: string };
   benefits: {
-    badge: string; heading: string; headingAccent: string; subtitle: string;
+    heading: string; headingAccent: string; subtitle: string;
     leadPre: string; leadAccent: string; leadPost: string;
     cards: HomeCard[];
   };
@@ -28,11 +30,11 @@ export type HomeContent = {
     badge: string; heading: string; headingAccent: string; body: string;
     cta1: string; cta2: string; trust1: string;
   };
-  lifecycle: { badge: string; heading: string; headingAccent: string; subtitle: string; cols: HomeLifecycleCol[] };
-  howWeWork: {
-    eyebrow: string; heading: string; headingAccent: string; subtitle: string; steps: HomeStep[];
-    successEyebrow: string; successHeading: string; successBody: string;
-  };
+  /** "Data & analytics", "How we work" and "Customer success" all described the
+   *  same path, so they are one section now: three lifecycle columns, a closing
+   *  line, then the collaboration flow (audit ch. 5, plan B4). */
+  lifecycle: { heading: string; headingAccent: string; cols: HomeLifecycleCol[]; closing: string };
+  howWeWork: { eyebrow: string; heading: string; steps: HomeStep[]; cta: string };
   partners: { heading: string; headingAccent: string; names: string[] };
   contact: {
     badge: string; heading: string; headingAccent: string; formSent: string;
@@ -54,7 +56,6 @@ export type HomeContent = {
     heroBg: string;
     collage: [string, string, string];
     lifecycle: [string, string, string];
-    banner: string;
   };
 };
 
@@ -75,25 +76,21 @@ export const HOME_EN: HomeContent = {
     cta2: "Discuss your process",
   },
   intro: {
-    heading: "Q‑Tector is an at-line testing platform,",
-    headingAccent: "built for living processes",
     brand:
       "SG Papertronics develops Q‑Tector, a compact at-line analytics platform for biological processes. Beer‑o‑Meter is the first commercial application built on Q‑Tector technology. We also work with industry partners to develop and validate new assay workflows for specific analytes and sample matrices.",
   },
   benefits: {
-    badge: "Why it matters",
-    heading: "Better decisions start with",
-    headingAccent: "better process data",
-    subtitle: "Q‑Tector brings guided at-line measurement closer to your process - so teams see what is changing during the run.",
-    leadPre: "Biological processes are dynamic - ",
-    leadAccent: "Q‑Tector helps you follow the change",
-    leadPost: " in a simple, repeatable way.",
+    heading: "Measure during the run,",
+    headingAccent: "not after the opportunity to act.",
+    subtitle: "Biological processes can change faster than laboratory feedback arrives.",
+    leadPre: "Q‑Tector brings guided testing close to the fermenter, bioreactor or production line, ",
+    leadAccent: "giving teams process-relevant results while a run is still active",
+    leadPost: ".",
     cards: [
-      { title: "Make decisions earlier", text: "See what's happening during the process, not only after the batch is finished." },
-      { title: "Reduce uncertainty", text: "Track key parameters across experiments, strains and conditions." },
-      { title: "Support scale-up", text: "Build comparable datasets from R&D, pilot and production." },
-      { title: "Analytics closer to production", text: "Guided at-line testing instead of delayed external analysis." },
-      { title: "Knowledge from day one", text: "Collect data early, structure it and learn what drives performance." },
+      { title: "Optimise media and feeds", text: "Compare substrate consumption across strains, media and feed strategies." },
+      { title: "Transfer knowledge across scale", text: "Use one repeatable measurement workflow from development to pilot and production." },
+      { title: "Investigate deviations sooner", text: "Add process data while there is still time to understand and respond." },
+      { title: "Build comparable process histories", text: "Store, trend and export results across experiments, runs and batches." },
     ],
   },
   explore: {
@@ -106,29 +103,25 @@ export const HOME_EN: HomeContent = {
     trust1: "Reply within 1 business day",
   },
   lifecycle: {
-    badge: "Data & analytics",
-    heading: "From single measurements to",
-    headingAccent: TERMS.processData,
-    subtitle: "A single measurement is useful. A structured dataset is powerful.",
+    heading: "One measurement workflow",
+    headingAccent: "from first experiment to production",
     cols: [
-      { num: "01", title: "Analyze goals", text: "Understand the process and the goals you're chasing - then we propose a customised at-line measurement setup to test." },
-      { num: "02", title: "Pilot & test", text: "Piloting, testing and in-process analytics to validate the workflow on real runs." },
-      { num: "03", title: "Roll out", text: "Roll the tested process out - with deeper, proactive analytics insights." },
+      { num: "01", title: "R&D - Learn", text: "Compare strains, media and conditions with frequent measurements." },
+      { num: "02", title: "Pilot - Validate", text: "Test the workflow on representative runs and define how results support process decisions." },
+      { num: "03", title: "Production - Standardise", text: "Use the validated routine to monitor trends, compare batches and support troubleshooting." },
     ],
+    closing: `Each result becomes part of ${TERMS.processData} that can be reviewed, compared and exported.`,
   },
   howWeWork: {
     eyebrow: "How we work",
-    heading: "A partner in",
-    headingAccent: TERMS.monitoring,
-    subtitle: "From your first question to a routine your team runs on its own - a few focused steps, one partner.",
+    heading: "Start with your process question",
     steps: [
-      { num: "01", title: "Understand your process", text: "Organism, medium, process stage, goal and current workflow." },
-      { num: "02", title: "Build the workflow", text: "Define the parameters that matter and turn them into a practical at-line workflow." },
-      { num: "03", title: "Generate & act on data", text: "Structured data for trend analysis, comparison and reporting - ready to scale." },
+      { num: "01", title: "Define the question", text: "Define the organism, matrix, analyte and decision." },
+      { num: "02", title: "Assess the fit", text: "Assess assay and workflow fit." },
+      { num: "03", title: "Validate the method", text: "Validate the method on real samples and runs." },
+      { num: "04", title: "Move into routine use", text: "Move the workflow into routine use." },
     ],
-    successEyebrow: "Customer success",
-    successHeading: "Then it's yours to run",
-    successBody: "Once the workflow is in place, your team keeps it running independently - with our support whenever the process evolves.",
+    cta: "Discuss a pilot",
   },
   partners: {
     heading: "Selected customers",
@@ -173,6 +166,5 @@ export const HOME_EN: HomeContent = {
       "https://images.pexels.com/photos/8770737/pexels-photo-8770737.jpeg?auto=compress&cs=tinysrgb&w=900",
       "https://images.pexels.com/photos/5532674/pexels-photo-5532674.jpeg?auto=compress&cs=tinysrgb&w=900",
     ],
-    banner: "https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=1400",
   },
 };

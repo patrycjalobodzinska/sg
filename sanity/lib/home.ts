@@ -18,7 +18,6 @@ type RawImages = {
   heroBg?: unknown;
   collage?: unknown[];
   lifecycle?: unknown[];
-  banner?: unknown;
 };
 
 // resolve Sanity image refs → URLs, falling back to the EN literal defaults
@@ -39,7 +38,6 @@ function resolveImages(raw: RawImages | undefined): HomeContent["images"] {
       imgUrl(life[1], 900) ?? d.lifecycle[1],
       imgUrl(life[2], 900) ?? d.lifecycle[2],
     ],
-    banner: imgUrl(raw.banner, 1400) ?? d.banner,
   };
 }
 
@@ -50,9 +48,13 @@ function merge<T>(fallback: T, src: unknown): T {
   if (src === undefined || src === null) return fallback;
   if (Array.isArray(fallback)) {
     if (!Array.isArray(src) || src.length === 0) return fallback;
-    return src.map((item, i) =>
-      i < (fallback as unknown[]).length ? merge((fallback as unknown[])[i], item) : item
-    ) as unknown as T;
+    const fb = fallback as unknown[];
+    const merged = src.map((item, i) => (i < fb.length ? merge(fb[i], item) : item));
+    // A dataset that still holds fewer items than the code expects must not
+    // shorten the array — the template indexes fixed positions.
+    return (merged.length < fb.length
+      ? [...merged, ...fb.slice(merged.length)]
+      : merged) as unknown as T;
   }
   if (typeof fallback === "object" && fallback !== null) {
     if (typeof src !== "object" || Array.isArray(src)) return fallback;
