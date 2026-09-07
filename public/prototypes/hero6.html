@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SG Papertronics — hero, round 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   PROTOTYPE SURFACE — round 6. Not production. Delete with folder.
+
+   One question only: where does a liquid-chrome element belong?
+   The chrome is real, not a gradient fake — a turbulence-displaced
+   gradient run through a specular lighting pass, so the banding warps
+   like a reflected horizon and the form reads as a solid object.
+   Three placements: alone on dark, floating over the process photo,
+   and as a sculptural object on paper.
+
+   Tokens mirrored from app/globals.css + landing-markup.ts.
+   ============================================================ */
+:root{
+  --navy:#0E1526; --ink:#1B2233;
+  --blue:#2E6BE6; --blue-lt:#6AA6FF; --blue-pale:#E9F0FC;
+  --body:#4A5165; --muted:#8990A0;
+  --paper:#F3F5F9; --line:#E7EAF0;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --img-hall:url('/prototypes/life2.jpg');
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{overflow-x:hidden;font-family:Montserrat,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;background:#fff;color:var(--ink)}
+a{text-decoration:none;color:inherit}
+#stage{min-height:100vh}
+.v{min-height:100vh;display:flex;flex-direction:column}
+.frame{min-height:100vh;flex:1;position:relative;overflow:hidden}
+
+/* ---------- shared nav ---------- */
+.nav{position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:space-between;padding:26px clamp(20px,4vw,56px);gap:24px}
+.nav img{height:26px;width:auto}
+.nav > a{display:flex;align-items:center;min-height:44px}
+.nav-links{display:flex;align-items:center;gap:clamp(14px,2vw,30px);font-size:15.5px;font-weight:600}
+.nav-cta{padding:11px 20px;border-radius:999px;font-size:14.5px;font-weight:500;min-height:44px;display:inline-flex;align-items:center}
+.on-dark img{filter:brightness(0) invert(1)}
+.on-dark .nav-links{color:rgba(255,255,255,.94)}
+.on-dark .nav-cta{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.on-light .nav-links{color:var(--ink)}
+.on-light .nav-cta{background:var(--navy);color:#fff}
+.nav-burger{display:none;flex-direction:column;gap:5px;background:transparent;border:0;padding:11px;cursor:pointer;min-width:44px;min-height:44px;align-items:center;justify-content:center}
+.nav-burger span{width:22px;height:2px;border-radius:2px;display:block}
+.on-light .nav-burger span{background:var(--navy)}
+.on-dark .nav-burger span{background:#fff}
+@media(max-width:900px){.nav-links{display:none}.nav-burger{display:flex}}
+
+/* ---------- shared atoms ---------- */
+.eyebrow{display:inline-flex;max-width:100%;align-items:center;gap:9px;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--blue-lt);flex:none;box-shadow:0 0 0 4px rgba(106,166,255,.22)}
+.focus{display:inline-flex;max-width:100%;align-items:center;gap:10px;font-size:14.5px;font-weight:500;line-height:1.35;padding:11px 17px;border-radius:999px}
+.focus-glass{border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.09);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff}
+.focus-light{border:1px solid var(--line);background:#fff;color:var(--ink)}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+.cta-solid{display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:15px 26px;border-radius:999px;background:var(--blue);color:#fff;font-size:16px;font-weight:500;box-shadow:0 10px 30px rgba(46,107,230,.34);transition:transform .18s ease-out,box-shadow .18s ease-out}
+.cta-solid:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(46,107,230,.46)}
+.cta-quiet{display:inline-flex;align-items:center;gap:8px;min-height:48px;font-size:16px;font-weight:500;transition:gap .18s ease-out}
+.cta-quiet > span{padding-bottom:4px;border-bottom:1px solid currentColor}
+.cta-quiet:hover{gap:13px}
+.arr{flex:none}
+
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes settle{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.r{animation:rise .66s var(--ease) both}
+.r1{animation-delay:.30s}.r2{animation-delay:.40s}.r3{animation-delay:.50s}
+.r4{animation-delay:.58s}.r5{animation-delay:.66s}
+
+/* ============================================================
+   THE CHROME ELEMENT
+   Ambient background object, so its motion is deliberately slow and
+   non-UI: a 46s drift and a 34s counter-drift on a second lobe. The
+   sub-300ms rule governs interface feedback, not scenery.
+   ============================================================ */
+.chrome{position:absolute;z-index:1;pointer-events:none;will-change:transform}
+.chrome svg{display:block;width:100%;height:100%;overflow:visible}
+@keyframes drift{
+  0%{transform:rotate(0deg) scale(1)}
+  50%{transform:rotate(9deg) scale(1.045)}
+  100%{transform:rotate(0deg) scale(1)}
+}
+@keyframes counter{
+  0%{transform:rotate(0deg) translate3d(0,0,0)}
+  50%{transform:rotate(-7deg) translate3d(-1.5%,2%,0)}
+  100%{transform:rotate(0deg) translate3d(0,0,0)}
+}
+.chrome .lobe-a{transform-origin:52% 48%;animation:drift 46s ease-in-out infinite}
+.chrome .lobe-b{transform-origin:46% 54%;animation:counter 34s ease-in-out infinite}
+.chrome{animation:fade 1.5s ease-out .1s both}
+/* a cool bloom behind the metal so it sits in the scene rather than on it */
+.bloom{position:absolute;z-index:0;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:.5}
+
+/* seam */
+.seam{padding:46px clamp(20px,4vw,56px) 92px;background:#fff;border-top:1px solid var(--line)}
+.seam p{margin:0 auto;max-width:700px;text-align:center;color:var(--body);font-size:17px;line-height:1.6}
+.seam b{color:var(--ink);font-weight:600}
+
+/* ============================================================
+   1 — FORGE : chrome alone on dark. No photograph at all.
+   ============================================================ */
+.v1{background:#080B14;color:#fff}
+.v1 .frame{display:flex;align-items:center;padding:104px clamp(20px,4vw,56px) clamp(44px,5vw,80px)}
+.v1 .bg{position:absolute;inset:0;z-index:0;background:radial-gradient(120% 100% at 78% 34%,#16203A 0%,#0C1220 46%,#080B14 78%)}
+.v1 .grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:3px 3px}
+.v1 .chrome{top:8%;right:-2%;width:min(64vh,46%);aspect-ratio:1}
+.v1 .bloom{top:6%;right:2%;width:38vw;height:38vw;background:radial-gradient(circle,#2E6BE6 0%,transparent 68%)}
+.v1 .copy{position:relative;z-index:3;max-width:min(660px,58%)}
+.v1 .eyebrow{color:var(--blue-lt)}
+.v1 h1{margin:20px 0 0;font-size:clamp(34px,4.7vw,64px);line-height:1.01;letter-spacing:-.032em;font-weight:600}
+.v1 h1 em{font-style:normal;color:rgba(255,255,255,.62);font-weight:400}
+.v1 p.sub{margin:22px 0 0;max-width:47ch;color:rgba(255,255,255,.8);font-size:17px;line-height:1.6}
+.v1 .focus{margin:24px 0 0}
+.v1 .cta-row{margin-top:30px}
+.v1 .cta-quiet{color:#fff}
+.v1 .cta-quiet > span{border-color:rgba(255,255,255,.5)}
+@media(max-width:900px){
+  .v1 .frame{align-items:flex-end;padding-bottom:clamp(40px,8vw,72px)}
+  .v1 .copy{max-width:none}
+  .v1 .chrome{top:2%;right:-28%;width:96%}
+  .v1 .bloom{width:70vw;height:70vw}
+}
+
+/* ============================================================
+   2 — IMMERSED : chrome floating in the process, picking up its light
+   ============================================================ */
+.v2{background:#07090F;color:#fff}
+.v2 .frame{display:flex;flex-direction:column;justify-content:flex-end}
+.v2 .shot{position:absolute;inset:0;z-index:0;background-image:var(--img-hall);background-size:cover;background-position:58% center;filter:saturate(.72) contrast(1.05) brightness(.86);animation:settle 1.5s var(--ease) both}
+.v2 .scrim{position:absolute;inset:0;z-index:2;pointer-events:none}
+.v2 .grade{background:linear-gradient(180deg,rgba(8,12,24,.66) 0%,rgba(8,12,24,.2) 32%,rgba(6,9,18,.94) 100%)}
+.v2 .well{background:radial-gradient(120% 110% at 2% 100%,rgba(4,7,14,.96) 0%,rgba(4,7,14,.8) 28%,rgba(4,7,14,.42) 50%,transparent 76%)}
+/* the metal sits between photo and scrim, so the scrim grades it too */
+.v2 .chrome{z-index:1;top:4%;right:-4%;width:min(58vh,42%);aspect-ratio:1;mix-blend-mode:screen;opacity:.92}
+.v2 .bloom{z-index:1;top:2%;right:6%;width:32vw;height:32vw;background:radial-gradient(circle,#6AA6FF 0%,transparent 66%);opacity:.35}
+.v2 .copy{position:relative;z-index:3;padding:clamp(28px,5vw,72px);max-width:860px}
+.v2 .eyebrow{color:rgba(255,255,255,.88)}
+.v2 h1{margin:20px 0 0;font-size:clamp(38px,5.4vw,72px);line-height:1;letter-spacing:-.03em;font-weight:600;max-width:min(15ch,100%);text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.v2 h1 em{font-style:normal;color:rgba(255,255,255,.74);font-weight:400}
+.v2 p.sub{margin:22px 0 0;max-width:min(52ch,100%);color:rgba(255,255,255,.86);font-size:clamp(16.5px,1.35vw,18.5px);line-height:1.6}
+.v2 .focus{margin:24px 0 0}
+.v2 .cta-row{margin-top:32px}
+.v2 .cta-quiet{color:#fff}
+.v2 .cta-quiet > span{border-color:rgba(255,255,255,.5)}
+@media(max-width:900px){.v2 .chrome{top:-4%;right:-30%;width:98%}}
+
+/* ============================================================
+   3 — SPECIMEN : chrome as a sculptural object on paper
+   ============================================================ */
+.v3{background:#FBFCFE}
+.v3 .frame{display:grid;grid-template-columns:1.04fr .96fr;grid-template-rows:1fr;align-items:center;gap:clamp(20px,3vw,48px);padding:104px clamp(24px,4vw,64px) clamp(44px,5vw,76px);max-width:1560px;margin:0 auto;width:100%}
+.v3 .bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 80% at 82% 44%,#EDF1F8 0%,#FBFCFE 62%)}
+.v3 .copy{position:relative;z-index:3}
+.v3 .eyebrow{color:var(--blue)}
+.v3 h1{margin:18px 0 0;font-size:clamp(32px,4vw,56px);line-height:1.02;letter-spacing:-.032em;font-weight:600;color:var(--navy);max-width:min(15ch,100%)}
+.v3 h1 em{font-style:normal;color:var(--body);font-weight:400}
+.v3 p.sub{margin:22px 0 0;max-width:min(48ch,100%);color:var(--body);font-size:17px;line-height:1.62}
+.v3 .focus{margin:24px 0 0}
+.v3 .cta-row{margin-top:30px}
+.v3 .cta-quiet{color:var(--navy)}
+.v3 .objwrap{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;min-height:min(62vh,560px)}
+.v3 .chrome{position:relative;width:min(100%,560px);aspect-ratio:1}
+.v3 .bloom{top:18%;left:14%;width:62%;height:62%;background:radial-gradient(circle,#9FC0F5 0%,transparent 68%);opacity:.55}
+/* contact shadow so the object sits on the page instead of hovering in a void */
+.v3 .shadow{position:absolute;z-index:0;left:16%;right:16%;bottom:8%;height:52px;border-radius:50%;background:radial-gradient(ellipse,rgba(20,30,52,.3) 0%,transparent 70%);filter:blur(14px)}
+@media(max-width:900px){
+  .v3 .frame{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:center}
+  .v3 .objwrap{order:-1;min-height:min(38vh,300px)}
+  .v3 .chrome{width:min(74%,320px)}
+}
+
+/* ---------- reduced motion ---------- */
+@media(prefers-reduced-motion:reduce){
+  .r,.chrome,.v2 .shot,.chrome .lobe-a,.chrome .lobe-b{
+    animation:none!important;opacity:1!important;transform:none!important
+  }
+  .v2 .chrome{opacity:.92!important}
+}
+
+/* ============================================================
+   PICKER — harness chrome. Verbatim from the skill spec.
+   ============================================================ */
+.proto-picker{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2147483647;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(12px) saturate(1.4);backdrop-filter:blur(12px) saturate(1.4);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 24px rgba(0,0,0,.24),0 2px 6px rgba(0,0,0,.12);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;line-height:1;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none}
+.proto-picker-highlight{position:absolute;top:4px;left:0;height:28px;border-radius:999px;background:rgba(255,255,255,.12);will-change:transform}
+.proto-picker[data-ready] .proto-picker-highlight{transition:transform 250ms cubic-bezier(.23,1,.32,1),width 250ms cubic-bezier(.23,1,.32,1)}
+@media (prefers-reduced-motion:reduce){.proto-picker[data-ready] .proto-picker-highlight{transition:none}}
+.proto-picker-item{position:relative;display:flex;align-items:center;height:28px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.55);font:inherit;cursor:pointer;transition:color 150ms ease-out}
+.proto-picker-item:hover{color:rgba(255,255,255,.85)}
+.proto-picker-item:active{transform:scale(.97)}
+.proto-picker-item:focus-visible{outline:2px solid rgba(255,255,255,.4);outline-offset:2px}
+.proto-picker-item[data-active]{color:#fff}
+.proto-picker-divider{width:1px;height:16px;margin:0 4px;background:rgba(255,255,255,.12)}
+.proto-picker-replay{padding:0 10px;font-size:14px}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+
+<nav class="proto-picker" aria-label="Prototype variants">
+  <span class="proto-picker-highlight" aria-hidden="true"></span>
+  <button class="proto-picker-item" data-active aria-current="true">Forge</button>
+  <button class="proto-picker-item">Immersed</button>
+  <button class="proto-picker-item">Specimen</button>
+  <span class="proto-picker-divider" aria-hidden="true"></span>
+  <button class="proto-picker-item proto-picker-replay" aria-label="Replay animation (R)">&#8635;</button>
+</nav>
+
+<script>
+const COPY = {
+  eyebrow: "At-line analytics for biological processes",
+  h1a: "Know what is happening in your process",
+  h1b: "— while you can still act.",
+  sub: "Q‑Tector combines ready-to-use assay pods, a compact reader and guided digital workflows to generate comparable glucose and sucrose results close to the fermenter or bioreactor.",
+  focus: "Current analytical focus: glucose and sucrose in culture media",
+  cta1: "See how Q‑Tector works",
+  cta2: "Discuss your process"
+};
+const HREF1 = "/technology";
+const HREF2 = "/contact?intent=pilot&source_page=home&source_cta=hero&locale=en";
+const ARROW = '<svg class="arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>';
+
+function nav(tone){
+  return '<div class="nav ' + tone + '">' +
+    '<a href="#"><img src="/assets/SGPT_logo.png" alt="SG Papertronics"/></a>' +
+    '<div class="nav-links">' +
+      '<a href="#">Technology</a><a href="#">Applications</a>' +
+      '<a href="#">Investors</a><a href="#">News</a><a href="#">Contact</a>' +
+      '<a href="#" class="nav-cta">Discuss your process</a>' +
+    '</div>' +
+    '<button class="nav-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>' +
+    '</div>';
+}
+function seam(){
+  return '<div class="seam"><p><b>Measure during the run, not after the opportunity to act.</b> Biological processes can change faster than laboratory feedback arrives.</p></div>';
+}
+function ctas(cls){
+  return '<div class="cta-row r ' + cls + '">' +
+    '<a class="cta-solid" href="' + HREF2 + '">' + COPY.cta2 + ARROW + '</a>' +
+    '<a class="cta-quiet" href="' + HREF1 + '"><span>' + COPY.cta1 + '</span>' + ARROW + '</a>' +
+  '</div>';
+}
+
+/* ============================================================
+   chrome(id, tone)
+   The metal is built, not painted:
+     1. a gradient whose stops are a reflected horizon — bright sky,
+        a hard dark band at the horizon line, bounced ground light
+     2. feTurbulence + feDisplacementMap warps those bands, which is
+        what makes it read as liquid rather than as a gradient
+     3. feGaussianBlur on the alpha feeds feSpecularLighting, giving
+        the form a rounded edge and a moving highlight
+   `tone` shifts the palette: cool steel on dark, warmer on paper.
+   Filter regions are kept tight — turbulence is the expensive part.
+   ============================================================ */
+function chrome(id, tone){
+  const dark = tone !== 'light';
+  /* A chrome ramp is a reflected horizon, and what sells it is the HARD
+     edges: paired stops a hundredth apart give a crisp band boundary that
+     a smooth multi-stop gradient never produces. Bright sky, a near-black
+     horizon, a snapped highlight, then bounced ground light. */
+  const ramp = dark
+    ? [[0,'#E8F1FF'],[.07,'#AFC0D8'],[.077,'#4E5D77'],[.14,'#1A2334'],[.19,'#0B1220'],
+       [.20,'#86A0C4'],[.26,'#E8F2FF'],[.31,'#FFFFFF'],[.36,'#9FB0C8'],[.368,'#2B364A'],
+       [.44,'#101827'],[.49,'#58698A'],[.54,'#DDE9F9'],[.60,'#FFFFFF'],[.65,'#8E9FB8'],
+       [.658,'#38445C'],[.73,'#131B2A'],[.78,'#6E80A0'],[.84,'#D6E3F5'],[.90,'#7C8DA8'],
+       [.948,'#2A3446'],[1,'#C8D6EC']]
+    : [[0,'#FFFFFF'],[.07,'#D8E1EE'],[.077,'#7A8AA2'],[.14,'#3B475C'],[.19,'#232C3C'],
+       [.20,'#9DB0C9'],[.26,'#F4F8FD'],[.31,'#FFFFFF'],[.36,'#BAC7D9'],[.368,'#4E5B72'],
+       [.44,'#2A3446'],[.49,'#8090A8'],[.54,'#EEF4FB'],[.60,'#FFFFFF'],[.65,'#AEBCD0'],
+       [.658,'#5C6980'],[.73,'#333D4F'],[.78,'#8A9AB2'],[.84,'#E6EDF7'],[.90,'#A0AEC4'],
+       [.948,'#4A5568'],[1,'#EAF0F8']];
+  const g = ramp.map(function(s){ return '<stop offset="' + s[0] + '" stop-color="' + s[1] + '"/>'; }).join('');
+
+  return '' +
+  '<svg viewBox="0 0 600 600" aria-hidden="true" focusable="false">' +
+    '<defs>' +
+      '<linearGradient id="cg' + id + '" gradientUnits="userSpaceOnUse" x1="150" y1="36" x2="330" y2="566">' + g + '</linearGradient>' +
+      '<linearGradient id="rim' + id + '" x1="0.1" y1="0" x2="0.7" y2="1">' +
+        '<stop offset="0" stop-color="#ffffff" stop-opacity=".9"/>' +
+        '<stop offset="0.38" stop-color="#ffffff" stop-opacity="0"/>' +
+        '<stop offset="0.62" stop-color="#9CC1FF" stop-opacity=".55"/>' +
+        '<stop offset="1" stop-color="#ffffff" stop-opacity=".35"/>' +
+      '</linearGradient>' +
+      '<linearGradient id="cr' + id + '" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="540" y2="540">' +
+        '<stop offset="0" stop-color="#6AA6FF" stop-opacity="' + (dark ? '.5' : '.3') + '"/>' +
+        '<stop offset="0.5" stop-color="#6AA6FF" stop-opacity="0"/>' +
+        '<stop offset="1" stop-color="#2E6BE6" stop-opacity="' + (dark ? '.42' : '.26') + '"/>' +
+      '</linearGradient>' +
+      /* liquefy: ripple the bands so the surface reads as poured metal.
+         Higher frequency + lower amplitude than a blob warp — it must
+         disturb the banding, not dissolve the silhouette. */
+      '<filter id="liq' + id + '" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">' +
+        '<feTurbulence type="fractalNoise" baseFrequency="0.0115 0.019" numOctaves="3" seed="' + (11 + id) + '" result="t"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="t" scale="21" xChannelSelector="R" yChannelSelector="G"/>' +
+      '</filter>' +
+      /* metal: a rounded edge plus one specular hit. Kept restrained —
+         too much and the whole form turns into a white cloud. */
+      '<filter id="met' + id + '" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">' +
+        '<feGaussianBlur in="SourceAlpha" stdDeviation="20" result="b"/>' +
+        '<feSpecularLighting in="b" surfaceScale="3.4" specularConstant="0.62" specularExponent="40" lighting-color="#ffffff" result="s">' +
+          '<fePointLight x="160" y="70" z="260"/>' +
+        '</feSpecularLighting>' +
+        '<feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/>' +
+        '<feComposite in="SourceGraphic" in2="sc" operator="arithmetic" k1="0" k2="1" k3="0.38" k4="0" result="lit"/>' +
+        '<feComponentTransfer in="lit">' +
+          '<feFuncR type="linear" slope="1.16" intercept="-0.07"/>' +
+          '<feFuncG type="linear" slope="1.16" intercept="-0.07"/>' +
+          '<feFuncB type="linear" slope="1.16" intercept="-0.06"/>' +
+        '</feComponentTransfer>' +
+      '</filter>' +
+    '</defs>' +
+    /* The liquid fill is CLIPPED to a clean path: displacing the shape
+       itself chewed the silhouette into a ragged edge. Clipped, the
+       turbulence only disturbs the banding, and the drift animation
+       moves the reflections across a solid form. */
+    '<clipPath id="cp' + id + '">' +
+      '<path d="M352 52c78 14 126 84 160 152 34 68 43 150-4 207-47 57-154 90-238 79-84-11-149-68-185-142-36-74-43-167 6-226 49-59 183-84 261-70z"/>' +
+    '</clipPath>' +
+    '<g filter="url(#met' + id + ')">' +
+      '<g clip-path="url(#cp' + id + ')">' +
+        '<g class="lobe-a" filter="url(#liq' + id + ')">' +
+          '<rect x="-280" y="-280" width="1160" height="1160" fill="url(#cg' + id + ')"/>' +
+        '</g>' +
+        '<g class="lobe-b" filter="url(#liq' + id + ')" opacity="0.8">' +
+          '<rect x="-280" y="-280" width="1160" height="1160" fill="url(#cr' + id + ')"/>' +
+        '</g>' +
+      '</g>' +
+    '</g>' +
+    /* rim light: a hairline along the edge so the form reads as a solid
+       object catching light, not a filled silhouette */
+    '<path d="M352 52c78 14 126 84 160 152 34 68 43 150-4 207-47 57-154 90-238 79-84-11-149-68-185-142-36-74-43-167 6-226 49-59 183-84 261-70z" fill="none" stroke="url(#rim' + id + ')" stroke-width="1.6" opacity="' + (dark ? '.85' : '.5') + '"/>' +
+  '</svg>';
+}
+
+/* ---------- 1 — FORGE : chrome alone on dark ---------- */
+function forge(){
+  return '<div class="v v1">' + `
+  <div class="frame">
+    <div class="bg"></div>
+    <div class="bloom"></div>
+    <div class="chrome">${chrome(1,'dark')}</div>
+    <div class="grain"></div>
+    ` + nav("on-dark") + `
+    <div class="copy">
+      <div class="eyebrow r r1"><span class="dot"></span>${COPY.eyebrow}</div>
+      <h1 class="r r2">${COPY.h1a} <em>${COPY.h1b}</em></h1>
+      <p class="sub r r3">${COPY.sub}</p>
+      <p class="focus focus-glass r r4"><span class="dot" aria-hidden="true"></span>${COPY.focus}</p>
+      ${ctas('r5')}
+    </div>
+  </div>` + seam() + '</div>';
+}
+
+/* ---------- 2 — IMMERSED : chrome inside the photograph ---------- */
+function immersed(){
+  return '<div class="v v2">' + `
+  <div class="frame">
+    <div class="shot"></div>
+    <div class="bloom"></div>
+    <div class="chrome">${chrome(2,'dark')}</div>
+    <div class="scrim grade"></div>
+    <div class="scrim well"></div>
+    ` + nav("on-dark") + `
+    <div class="copy">
+      <div class="eyebrow r r1"><span class="dot"></span>${COPY.eyebrow}</div>
+      <h1 class="r r2">${COPY.h1a} <em>${COPY.h1b}</em></h1>
+      <p class="sub r r3">${COPY.sub}</p>
+      <p class="focus focus-glass r r4"><span class="dot" aria-hidden="true"></span>${COPY.focus}</p>
+      ${ctas('r5')}
+    </div>
+  </div>` + seam() + '</div>';
+}
+
+/* ---------- 3 — SPECIMEN : chrome as an object on paper ---------- */
+function specimen(){
+  return '<div class="v v3">' + `
+  <div class="frame">
+    <div class="bg"></div>
+    ` + nav("on-light") + `
+    <div class="copy">
+      <div class="eyebrow r r1"><span class="dot"></span>${COPY.eyebrow}</div>
+      <h1 class="r r2">${COPY.h1a} <em>${COPY.h1b}</em></h1>
+      <p class="sub r r3">${COPY.sub}</p>
+      <p class="focus focus-light r r4"><span class="dot" aria-hidden="true"></span>${COPY.focus}</p>
+      ${ctas('r5')}
+    </div>
+    <div class="objwrap">
+      <div class="bloom"></div>
+      <div class="shadow"></div>
+      <div class="chrome">${chrome(3,'light')}</div>
+    </div>
+  </div>` + seam() + '</div>';
+}
+
+/* ============ PICKER WIRING — behaviour contract from the spec ============ */
+const variants = [forge, immersed, specimen];
+const stage = document.getElementById('stage');
+const picker = document.querySelector('.proto-picker');
+const highlight = picker.querySelector('.proto-picker-highlight');
+const items = [].slice.call(picker.querySelectorAll('.proto-picker-item:not(.proto-picker-replay)'));
+const replay = picker.querySelector('.proto-picker-replay');
+let current = 0;
+
+function moveHighlight(){
+  const el = items[current];
+  highlight.style.width = el.offsetWidth + 'px';
+  highlight.style.transform = 'translateX(' + el.offsetLeft + 'px)';
+}
+function mount(i){
+  stage.innerHTML = '';
+  requestAnimationFrame(function(){ stage.innerHTML = variants[i](); });
+}
+function setActive(i){
+  if (i < 0 || i >= variants.length) return;
+  current = i;
+  items.forEach(function(el,j){
+    el.toggleAttribute('data-active', j === i);
+    if (j === i) el.setAttribute('aria-current','true'); else el.removeAttribute('aria-current');
+  });
+  moveHighlight();
+  const url = new URL(location);
+  url.searchParams.set('v', i + 1);
+  history.replaceState(null, '', url);
+  mount(i);
+}
+items.forEach(function(el,i){ el.addEventListener('click', function(){ setActive(i); }); });
+if (replay) replay.addEventListener('click', function(){ mount(current); });
+window.addEventListener('resize', moveHighlight);
+document.addEventListener('keydown', function(e){
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const num = parseInt(e.key, 10);
+  if (num >= 1 && num <= variants.length) setActive(num - 1);
+  else if (e.key === 'ArrowRight') setActive((current + 1) % variants.length);
+  else if (e.key === 'ArrowLeft') setActive((current - 1 + variants.length) % variants.length);
+  else if (e.key === 'r' || e.key === 'R') mount(current);
+});
+setActive((parseInt(new URLSearchParams(location.search).get('v'), 10) || 1) - 1);
+requestAnimationFrame(function(){ requestAnimationFrame(function(){ picker.setAttribute('data-ready',''); }); });
+</script>
+</body>
+</html>

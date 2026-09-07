@@ -4,7 +4,8 @@
 export default function ArrowUpRight({ size = 15 }: { size?: number }) {
   return (
     <svg
-      width={size}
+
+    width={size}
       height={size}
       viewBox="0 0 24 24"
       fill="none"
