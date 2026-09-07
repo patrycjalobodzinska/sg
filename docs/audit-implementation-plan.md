@@ -16,22 +16,26 @@ Legenda statusu:
 Te robimy **przed** pracą sekcja-po-sekcji, bo inaczej poprawiamy te same claimy
 w pięciu miejscach.
 
-### A1. Rejestr claimów (audyt rozdz. 14) — jedno źródło prawdy 🟢/🔴
+### A1. Rejestr claimów (audyt rozdz. 14) — jedno źródło prawdy ✅
 
-Dziś te same ryzykowne sformułowania żyją w kilku plikach. Plan:
+✅ `app/_components/claims.ts` istnieje: `TERMS` (zaakceptowane sformułowania),
+`MISSION_PROCESS_CONTROL` i `BLOCKED` (claimy czekające na klienta).
+✅ Podmiana wykonana w kodzie **i w Sanity** — `scripts/patch-claim-register.mjs`
+naniósł 24 pola na `home-en/nl/pl`. Skrypt jest idempotentny.
 
-1. Utworzyć `app/_components/claims.ts` — jedna stała na claim, z komentarzem
-   „warunek publikacji" z audytu. Każda strona importuje stąd, nie przepisuje.
-2. Podmienić w całym serwisie:
+> ⚠️ Sanity jest tym, co renderuje live. Poprawka tylko w `home-content.ts`
+> zmienia jedynie fallback — każdą zmianę claimu trzeba nanieść też na dataset.
+
+Stan podmian:
 
 | Obecnie | Docelowo | Gdzie dziś siedzi |
 |---|---|---|
-| `Result in <5 min · zero calibration` | `Results in under five minutes · No user calibration required for supported assays` — **🔴 dopiero po potwierdzeniu B1/B2** | `home-content.ts` → `explore.trust2` |
-| `see the change as it happens` | `see what is changing during the run` | `home-content.ts` → `benefits.subtitle` |
-| `scalable process intelligence` | `structured process data` | `home-content.ts` → `lifecycle.headingAccent` |
-| `Trusted by` | `Selected customers and research collaborators` — **🔴 najpierw B5: kto jest kim** | `home-content.ts` → `partners.heading`, `LandingClient.tsx` |
-| `process control` (jako obietnica produktu) | `at-line measurement / process monitoring / decision support` | `home-content.ts` (`howWeWork.headingAccent`, `seo.title`), `layout.tsx`, `about/page.tsx`, `InvestorsPage.tsx` |
-| `Additional assays available for development` | `Additional analytes and matrices can be evaluated for co-development` | Applications |
+| `Result in <5 min · zero calibration` | ✅ **pole `trust2` usunięte** z typu, literałów, schematu Sanity i datasetu. Docelowe brzmienie czeka w `claims.ts` → `BLOCKED` (🔴 B1/B2) | `home-content.ts` → `explore.trust2` |
+| `see the change as it happens` | ✅ `see what is changing during the run` | `home-content.ts` → `benefits.subtitle` |
+| `scalable process intelligence` | ✅ `structured process data` (`TERMS.processData`) | `home-content.ts` → `lifecycle.headingAccent` |
+| `Trusted by` | ✅ `Selected customers` + `and research collaborators`. 🔴 Typ relacji per nazwa i zgoda na logo nadal czekają na B5 | `home-content.ts` → `partners.heading`, `LandingClient.tsx` |
+| `process control` (jako obietnica produktu) | ✅ `process monitoring` / `at-line measurement`. Zostało tylko w misji na `/about` (przez `MISSION_PROCESS_CONTROL`). Po drodze naprawione dwie zepsute pisownie NL | `home-content.ts`, `site-metadata.ts`, `about/page.tsx`, `investors/page.tsx`, `InvestorsPage.tsx` |
+| `Additional assays available for development` | ✅ nie występuje w kodzie; brzmienie zapisane w `TERMS.coDevelopment` na przyszłość | Applications |
 | `release decisions` | `support process decisions` | ✅ nie występuje w kodzie — pilnować przy nowych treściach |
 
 > „process control" zostaje **tylko** w misji („Make process control accessible…"),
@@ -66,20 +70,28 @@ bez kwalifikatora** „first commercial application built on Q-Tector technology
 
 | # | Problem | Plik |
 |---|---|---|
-| 1 | `<html lang="en">` zahardkodowane — NL i PL deklarują się jako angielskie | `app/layout.tsx:72` |
-| 2 | Brak `<main>` i skip linka | `layout.tsx` + `landing-markup.ts` (dziś `<header id="top">` bez `<main>`) |
-| 3 | Brak `aria-current="page"` i `aria-current` na aktywnym języku | `SiteNavClient.tsx:46,55` |
+| 1 | ✅ **zrobione** — rozbite na root layouty per drzewo: grupa `app/(en)/` i `app/[lang]/`, oba renderują wspólny `RootDocument` z lokalizacją. Wszystkie trasy nadal statyczne | `app/(en)/layout.tsx`, `app/[lang]/layout.tsx`, `_components/RootDocument.tsx` |
+| 2 | ✅ skip link jest (i przetłumaczony na NL/PL), `id="main"` obecne | `RootDocument.tsx`, `globals.css:52` |
+| 3 | ✅ zrobione | `SiteNavClient.tsx:91,111` |
 | 4 | Hamburger ~40×32 px → min. 44×44 px | `SiteNavClient.tsx:74` |
-| 5 | Brak `aria-controls`; Escape nie zamyka menu; tło się przewija pod menu | `SiteNavClient.tsx` |
+| 5 | ✅ zrobione — `aria-controls`/`aria-expanded`, Escape zamyka menu i dropdown | `SiteNavClient.tsx:38,60,136` |
 | 6 | Treści animowane startują z `opacity: 0` bez fallbacku | `globals.css`, `LandingClient.tsx` |
 | 7 | Brak przełącznika EN/NL/PL na homepage (podstrony mają) | `landing-markup.ts` |
 | 8 | Podwójne „News" w stopce homepage | `site-footer.tsx` / dane w Sanity |
 | 9 | Privacy / Terms / LinkedIn → `#top` | 🟡 kod już ukrywa atrapy (`isPlaceholder`), 🔴 brakuje treści i URL-a |
 
-### A6. Intencyjne CTA w całym serwisie (rozdz. 12) 🟡
+### A6. Intencyjne CTA w całym serwisie (rozdz. 12) ✅
 
-✅ Formularz obsługuje 7 typów zapytania.
-🟢 Zostało: przejrzeć **każdy** przycisk na stronie i podpiąć właściwy `intent`:
+✅ Formularz obsługuje 7 typów zapytania, `contact-intent.ts` → `contactUrl()`
+buduje URL-e, a `/contact` czyta `intent`, `source_page`, `source_cta`, `vertical`.
+✅ Wszystkie CTA podpięte: Technology, Applications, Investors, About, News oraz
+home (nav pill i hero secondary → `product`, sekcja „explore" → `pilot`). Dwa
+`#contact` na home zostały świadomie — prowadzą do formularza in-page, który
+preselektuje `general`, więc neutralne wejście jest odrębne od intencyjnych.
+🔴 `assay`, `sales`, `partnership` nieużywane — należą do sekcji, które jeszcze
+nie istnieją (C5 custom development, karty partnerów B5).
+
+Mapowanie z audytu:
 
 | CTA | URL |
 |---|---|
@@ -100,9 +112,9 @@ Zlikwidować sytuację, w której „Contact" i „Talk to us" prowadzą w to sa
 
 ### B1. Hero ✅ / 🔴 zdjęcie
 - ✅ eyebrow, headline, subtitle, `focus`, oba CTA — copy deck wdrożony (`home-content.ts:63`).
-- 🔴 **Zdjęcie nadal pokazuje urządzenie z napisem Beer-o-Meter** (`/assets/newHero.JPG`).
-  To najcięższy pojedynczy punkt P0 z audytu i wymaga sesji zdjęciowej (blocker D5).
-  Do czasu sesji: kadr, który nie eksponuje brandingu, albo diagram reader + pod + app + data.
+- 🟡 `newHero.JPG` **nie jest już nigdzie referencowany** — hero używa
+  `hero-chrome.png`. Do wizualnego potwierdzenia, czy nowy kadr nie eksponuje
+  brandingu Beer-o-Meter; docelowa sesja zdjęciowa nadal 🔴 (blocker D5).
 
 ### B2. „Q-Tector statement" + „Why it matters" → **jedna sekcja** 🟢
 - Dziś to dwa bloki (`intro` + `benefits`) mówiące to samo, plus 5 kart o zbliżonej treści.
@@ -201,12 +213,15 @@ Zlikwidować sytuację, w której „Contact" i „Talk to us" prowadzą w to sa
 Kolejność z audytu (rozdz. 15), przefiltrowana przez to, co realnie odblokowane:
 
 **Sprint 1 — teraz, bez klienta**
-1. A1 rejestr claimów + A3 hierarchia marki (dotyka wszystkich stron — najpierw)
-2. B2 + B4 — scalenie zdublowanych sekcji Home (największa redukcja szumu)
-3. B3 diagram `Sample → … → Process decision` (zastępuje zdjęcie zespołu)
-4. A6 intencyjne CTA na wszystkich stronach
-5. A5 pełny pass dostępności
-6. F/News — cała lista, w całości odblokowana
+1. ✅ A1 rejestr claimów (kod + Sanity)
+2. ✅ A5 poz. 1 — `<html lang>` per lokalizacja
+3. ✅ A6 intencyjne CTA na wszystkich stronach
+4. 🟢 B2 + B4 — scalenie zdublowanych sekcji Home (największa redukcja szumu)
+5. 🟢 B3 diagram `Sample → … → Process decision` (zastępuje zdjęcie zespołu)
+6. 🟢 A3 hierarchia marki poza home (stopka, About, Investors, meta)
+7. 🟢 A5 reszta passu dostępności (poz. 4, 6, 7, 8 — hamburger 44×44, fallback
+   dla `opacity:0`, przełącznik języka na home, podwójne „News")
+8. 🟢 F/News — cała lista, w całości odblokowana
 
 **Sprint 2 — teraz, ale wymaga akceptacji kierunku (E1–E4)**
 7. A4 typografia (E2), nawigacja buyer-first (E1), CTA „Discuss your process" (E3)
