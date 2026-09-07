@@ -94,7 +94,7 @@ async function main() {
   }
 
   /* ---------- authors ---------- */
-  const authors = { marcin: "Marcin Bator", grzegorz: "Grzegorz Babiarz", hubert: "Hubert Hurban", job: "jobgerjon" };
+  const authors = { marcin: "Marcin Bator", grzegorz: "Grzegorz Babiarz", hubert: "Hubert Hurban", job: "SG Papertronics" };
   {
     const tx = client.transaction();
     for (const [k, name] of Object.entries(authors)) tx.createOrReplace({ _id: `author-${k}`, _type: "author", name });
