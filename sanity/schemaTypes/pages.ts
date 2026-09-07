@@ -15,6 +15,7 @@ const pageGroups = [
 // Landing images are hardcoded in the design template; only text + link labels
 // are managed here. Structure mirrors app/_components/home-content.ts (HomeContent).
 const titleCard = defineArrayMember({ type: "object", name: "card", fields: [str("title", "Title"), txt("text", "Text")], preview: { select: { title: "title" } } });
+const flowStep = defineArrayMember({ type: "object", name: "step", fields: [str("num", "Number"), str("label", "Label"), txt("note", "Note", 2)], preview: { select: { title: "label", subtitle: "num" } } });
 const numCol = defineArrayMember({ type: "object", name: "col", fields: [str("num", "Number"), str("title", "Title"), txt("text", "Text")], preview: { select: { title: "title", subtitle: "num" } } });
 
 export const homePage = defineType({
@@ -40,9 +41,11 @@ export const homePage = defineType({
       str("leadPre", "Lead card — before accent"), str("leadAccent", "Lead card — accent"), str("leadPost", "Lead card — after accent"),
       defineField({ name: "cards", title: "Cards (4)", type: "array", of: [titleCard] }),
     ]}),
-    defineField({ name: "explore", title: "Explore / CTA band", type: "object", group: "content", fields: [
-      str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("body", "Body"),
+    defineField({ name: "explore", title: "Process-fit band", type: "object", group: "content", fields: [
+      str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("body", "Body"),
       str("cta1", "Primary link label"), str("cta2", "Secondary link label"), str("trust1", "Trust chip 1"),
+      defineField({ name: "flow", title: "Process flow (5 steps)", type: "array", of: [flowStep],
+        description: "Sample → Guided assay → Quantitative result → Trend → Process decision." }),
     ]}),
     // "Data & analytics", "How we work" and "Customer success" told the same story
     // three times; they are one section now (plan B4). `lifecycle` holds the three
@@ -74,7 +77,6 @@ export const homePage = defineType({
     ]}),
     defineField({ name: "images", title: "Landing images", type: "object", group: "content", fields: [
       img("heroBg", "Hero background"),
-      defineField({ name: "collage", title: "Explore collage (3)", type: "array", of: [defineArrayMember({ type: "imageWithAlt" })] }),
       defineField({ name: "lifecycle", title: "Data lifecycle (3)", type: "array", of: [defineArrayMember({ type: "imageWithAlt" })] }),
     ]}),
     seoField,

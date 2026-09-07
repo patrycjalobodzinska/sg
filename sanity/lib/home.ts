@@ -16,7 +16,6 @@ function imgUrl(src: unknown, w: number): string | null {
 
 type RawImages = {
   heroBg?: unknown;
-  collage?: unknown[];
   lifecycle?: unknown[];
 };
 
@@ -24,15 +23,9 @@ type RawImages = {
 function resolveImages(raw: RawImages | undefined): HomeContent["images"] {
   const d = HOME_EN.images;
   if (!raw) return d;
-  const col = raw.collage ?? [];
   const life = raw.lifecycle ?? [];
   return {
     heroBg: imgUrl(raw.heroBg, 2400) ?? d.heroBg,
-    collage: [
-      imgUrl(col[0], 1200) ?? d.collage[0],
-      imgUrl(col[1], 1000) ?? d.collage[1],
-      imgUrl(col[2], 1000) ?? d.collage[2],
-    ],
     lifecycle: [
       imgUrl(life[0], 900) ?? d.lifecycle[0],
       imgUrl(life[1], 900) ?? d.lifecycle[1],

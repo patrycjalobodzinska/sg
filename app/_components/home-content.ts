@@ -10,6 +10,7 @@ import { TERMS } from "./claims";
 export type HomeCard = { title: string; text: string };
 export type HomeLifecycleCol = { num: string; title: string; text: string };
 export type HomeStep = { num: string; title: string; text: string };
+export type HomeFlowStep = { num: string; label: string; note: string };
 
 export type HomeContent = {
   nav: { technology: string; applications: string; investors: string; news: string; about: string; contact: string; talk: string };
@@ -27,8 +28,12 @@ export type HomeContent = {
     cards: HomeCard[];
   };
   explore: {
-    badge: string; heading: string; headingAccent: string; body: string;
+    heading: string; headingAccent: string; body: string;
     cta1: string; cta2: string; trust1: string;
+    /** Sample → Guided assay → Quantitative result → Trend → Process decision.
+     *  Replaces the team photo, which said nothing about the product (audit
+     *  ch. 5, plan B3). */
+    flow: HomeFlowStep[];
   };
   /** "Data & analytics", "How we work" and "Customer success" all described the
    *  same path, so they are one section now: three lifecycle columns, a closing
@@ -54,7 +59,6 @@ export type HomeContent = {
   // overrides any that have a Sanity asset. Alts stay in the template.
   images: {
     heroBg: string;
-    collage: [string, string, string];
     lifecycle: [string, string, string];
   };
 };
@@ -94,13 +98,21 @@ export const HOME_EN: HomeContent = {
     ],
   },
   explore: {
-    badge: "Let's explore together",
-    heading: "Explore what",
-    headingAccent: "we can do",
-    body: "Tell us your organism, process stage and goal - we'll show where Q‑Tector fits and how fast you can start. From the first sample to a running at-line routine.",
-    cta1: "Talk to us",
+    heading: "Is Q‑Tector a fit",
+    headingAccent: "for your process?",
+    body: "Tell us what you are producing, what you need to measure and which decision the result should support. We will determine whether an existing Q‑Tector workflow fits - or whether an application-development path makes sense.",
+    cta1: "Request a process-fit review",
     cta2: "See the technology",
     trust1: "Reply within 1 business day",
+    // The step names are the audit's; the notes paraphrase its own at-line
+    // definition (ch. 6) and deliberately carry no speed or calibration claim.
+    flow: [
+      { num: "01", label: "Sample", note: "An operator draws a small sample from the running process." },
+      { num: "02", label: "Guided assay", note: "A ready-to-use assay pod, run through QR-guided steps." },
+      { num: "03", label: "Quantitative result", note: "A comparable glucose or sucrose value for that sample." },
+      { num: "04", label: "Trend", note: "The value joins the run's process history, next to earlier samples." },
+      { num: "05", label: "Process decision", note: "Feed, timing or escalation - decided while the run is still active." },
+    ],
   },
   lifecycle: {
     heading: "One measurement workflow",
@@ -160,7 +172,6 @@ export const HOME_EN: HomeContent = {
   },
   images: {
     heroBg: "/assets/hero-chrome.png",
-    collage: ["/assets/SGP-team.jpg", "/assets/SG-papertronics009b.jpg", "/assets/hero.webp"],
     lifecycle: [
       "https://images.pexels.com/photos/9574338/pexels-photo-9574338.jpeg?auto=compress&cs=tinysrgb&w=900",
       "https://images.pexels.com/photos/8770737/pexels-photo-8770737.jpeg?auto=compress&cs=tinysrgb&w=900",
