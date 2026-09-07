@@ -62,7 +62,7 @@ export async function getNewsChrome(lang: Locale = defaultLocale): Promise<NewsC
   try {
     n = await client.fetch(`*[_type=="siteSettings"][0].news{
       heroTitle, heroAccent, heroLead, listDesc, categoryDefault, byPrefix,
-      readStory, readMore, ctaHeading, ctaBody, ctaButton, allNews, comingSoon, articleCta
+      readMore, ctaHeading, ctaBody, ctaButton, allNews, comingSoon, articleCta
     }`);
   } catch {
     n = null;
@@ -77,7 +77,6 @@ export async function getNewsChrome(lang: Locale = defaultLocale): Promise<NewsC
     listDesc: g("listDesc", fb.listDesc),
     categoryDefault: g("categoryDefault", fb.categoryDefault),
     by: (author: string) => `${prefix} ${author}`.trim(),
-    readStory: g("readStory", fb.readStory),
     readMore: g("readMore", fb.readMore),
     ctaHeading: g("ctaHeading", fb.ctaHeading),
     ctaBody: g("ctaBody", fb.ctaBody),

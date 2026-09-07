@@ -66,7 +66,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
               </div>
               <h2 style={{ margin: 0, fontSize: "clamp(23px,2.6vw,33px)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.12 }}>{featured.title}</h2>
               {featured.excerpt && <p style={{ margin: "16px 0 0", color: "#4A5163", fontSize: 16, lineHeight: 1.6, ...clamp(4) }}>{featured.excerpt}</p>}
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 22, color: "#2E6BE6", fontSize: 15.5, fontWeight: 600 }}>{t.readStory} <ArrowUpRight /></span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 22, color: "#2E6BE6", fontSize: 15.5, fontWeight: 600 }}>{t.readMore} <ArrowUpRight /></span>
             </div>
           </a>
         </section>

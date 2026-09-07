@@ -53,7 +53,7 @@ export const newsArticle = defineType({
     defineField({ name: "slug", title: "Slug", type: "slug", group: "content", options: { source: "title", maxLength: 96 }, validation: (r) => r.required() }),
     defineField({ name: "date", title: "Date", type: "date", group: "content", validation: (r) => r.required() }),
     defineField({ name: "author", title: "Author", type: "reference", to: [{ type: "author" }], group: "content" }),
-    defineField({ name: "category", title: "Category", type: "string", group: "content", description: "e.g. News, Product, Grant, Event, Investment." }),
+    defineField({ name: "category", title: "Category", type: "string", group: "content", description: "One of the five from the audit (ch. 9), in this document's language: Customer results · Q-Tector product · Application development · Partnerships · Company." }),
     defineField({ name: "coverImage", title: "Cover image", type: "imageWithAlt", group: "content" }),
     defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, group: "content", description: "Short summary shown on the news grid." }),
     defineField({
