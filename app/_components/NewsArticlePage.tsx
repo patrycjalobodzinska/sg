@@ -5,6 +5,7 @@ import SiteNav from "../site-nav";
 import { getNewsArticle, formatNewsDate } from "../../sanity/lib/news";
 import { urlFor } from "../../sanity/lib/image";
 import { localizedPath, type Locale } from "../i18n";
+import { contactUrl } from "./contact-intent";
 import { getNewsChrome } from "../../sanity/lib/settings";
 import { notFound } from "next/navigation";
 
@@ -87,7 +88,7 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
         </div>
 
         <div style={{ marginTop: 44, paddingTop: 28, borderTop: "1px solid rgba(24,30,48,.1)" }}>
-          <a href={(() => { const c = localizedPath("/", lang); return c === "/" ? "/#contact" : `${c}#contact`; })()} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 600, fontSize: 15.5 }}>
+          <a href={contactUrl({ lang, intent: "product", sourcePage: "news-article", sourceCta: "closing" })} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 600, fontSize: 15.5 }}>
             {t.articleCta} <ArrowUpRight />
           </a>
         </div>
