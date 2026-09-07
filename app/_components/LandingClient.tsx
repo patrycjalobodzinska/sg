@@ -565,26 +565,71 @@ export default function LandingClient({
     }
 
     // ---- partners auto-scrolling marquee ----
+    // One duplicate set and a -50% shift is only seamless when a single set is
+    // wider than the track. Five logos are 730px against a 1232px track, so the
+    // seam landed on screen with a 502px hole and the loop visibly stalled.
+    // Clone whole sets until the track is covered even at the seam, and shift by
+    // exactly one set width so the loop point is indistinguishable.
     const partners = root.querySelector<HTMLElement>("[data-partners]");
     if (partners && !partners.querySelector(".marquee-wrap")) {
       const items = Array.from(partners.children) as HTMLElement[];
-      // autoplay carousel on every width (seamless marquee)
       if (items.length > 1) {
         const wrap = document.createElement("div");
         wrap.className = "marquee-wrap";
         items.forEach((it) => wrap.appendChild(it));
-        items.forEach((it) => {
-          const c = it.cloneNode(true) as HTMLElement;
-          c.setAttribute("aria-hidden", "true");
-          c.setAttribute("data-clone", "1");
-          wrap.appendChild(c);
-        });
         partners.style.display = "block";
         partners.style.gap = "";
         partners.style.justifyContent = "";
         partners.style.flexWrap = "";
         partners.classList.add("marquee");
         partners.appendChild(wrap);
+
+        // px per second, matched to the previous 730px / 32s feel
+        const SPEED = 23;
+
+        const setWidth = () =>
+          items.reduce(
+            (a, el) =>
+              a +
+              el.getBoundingClientRect().width +
+              parseFloat(getComputedStyle(el).marginRight || "0"),
+            0
+          );
+
+        const layout = () => {
+          wrap
+            .querySelectorAll<HTMLElement>("[data-clone]")
+            .forEach((n) => n.remove());
+          const set = setWidth();
+          if (!set) return;
+          // + 1 so a full set is always queued past the right edge
+          const copies = Math.ceil(partners.clientWidth / set) + 1;
+          const frag = document.createDocumentFragment();
+          for (let i = 0; i < copies; i++) {
+            items.forEach((it) => {
+              const c = it.cloneNode(true) as HTMLElement;
+              c.setAttribute("aria-hidden", "true");
+              c.setAttribute("data-clone", "1");
+              frag.appendChild(c);
+            });
+          }
+          wrap.appendChild(frag);
+          wrap.style.setProperty("--marquee-shift", `${set}px`);
+          wrap.style.setProperty("--marquee-duration", `${set / SPEED}s`);
+        };
+
+        layout();
+        // item widths change at the phone breakpoint, so re-measure on resize
+        let t: number | undefined;
+        const onResize = () => {
+          window.clearTimeout(t);
+          t = window.setTimeout(layout, 150);
+        };
+        window.addEventListener("resize", onResize);
+        cleanups.push(() => {
+          window.clearTimeout(t);
+          window.removeEventListener("resize", onResize);
+        });
       }
     }
 

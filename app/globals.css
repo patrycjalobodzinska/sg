@@ -312,10 +312,12 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 
 /* Trusted-by auto-scrolling marquee */
 .marquee{overflow-x:hidden;overflow-y:visible;padding:22px 0 40px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
-.marquee-wrap{display:flex;width:max-content;animation:marquee 32s linear infinite}
+.marquee-wrap{display:flex;width:max-content;animation:marquee var(--marquee-duration,32s) linear infinite}
 .marquee-wrap > *{flex:none;margin-right:18px;width:128px !important;height:128px !important;font-size:13px !important}
 .marquee:hover .marquee-wrap{animation-play-state:paused}
-@keyframes marquee{to{transform:translateX(-50%)}}
+/* Shift by one set, not half the track: the number of cloned sets varies with
+   the track width, so -50% is not the loop point. */
+@keyframes marquee{to{transform:translateX(calc(-1 * var(--marquee-shift,50%)))}}
 @media (prefers-reduced-motion:reduce){
   .marquee-wrap{animation:none;flex-wrap:wrap;justify-content:center;width:auto}
   .marquee{-webkit-mask-image:none;mask-image:none}
