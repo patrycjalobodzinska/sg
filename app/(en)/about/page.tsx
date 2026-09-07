@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import AboutPage, { type AboutDoc } from "@/app/_components/AboutPage";
 import { getAbout } from "@/sanity/lib/pages";
 import { languageAlternates } from "@/app/i18n";
+import { MISSION_PROCESS_CONTROL } from "@/app/_components/claims";
 
 export const revalidate = 300;
 
 const DESC =
-  "SG Papertronics develops accessible analytical technology for companies working with biological and fermentation processes. Our mission: make process control accessible, actionable and scalable.";
+  `SG Papertronics develops accessible analytical technology for companies working with biological and fermentation processes. Our mission: ${MISSION_PROCESS_CONTROL}.`;
 export const metadata: Metadata = {
   title: "About",
   description: DESC,

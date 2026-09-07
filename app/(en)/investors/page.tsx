@@ -6,7 +6,7 @@ import { languageAlternates } from "@/app/i18n";
 export const revalidate = 300;
 
 const DESC =
-  "SG Papertronics is preparing for its Series A round - building accessible, at-line process-control technology (Q‑Tector) for biotech, fermentation, CDMO and food-tech companies.";
+  "SG Papertronics is preparing for its Series A round - building accessible at-line measurement technology (Q‑Tector) for biotech, fermentation, CDMO and food-tech companies.";
 export const metadata: Metadata = {
   title: "Investor relations",
   description: DESC,

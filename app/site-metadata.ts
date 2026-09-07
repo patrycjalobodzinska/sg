@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-export const SITE_TITLE = "SG Papertronics - Process control for biotech and fermentation";
+export const SITE_TITLE =
+  "SG Papertronics - At-line process monitoring for biotech and fermentation";
 export const SITE_DESC =
   "Q‑Tector is an at-line testing platform built for living processes. Turn small samples into actionable process data - from development to production.";
 

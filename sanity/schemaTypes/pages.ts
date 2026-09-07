@@ -40,7 +40,7 @@ export const homePage = defineType({
     ]}),
     defineField({ name: "explore", title: "Explore / CTA band", type: "object", group: "content", fields: [
       str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("body", "Body"),
-      str("cta1", "Primary link label"), str("cta2", "Secondary link label"), str("trust1", "Trust chip 1"), str("trust2", "Trust chip 2"),
+      str("cta1", "Primary link label"), str("cta2", "Secondary link label"), str("trust1", "Trust chip 1"),
     ]}),
     defineField({ name: "lifecycle", title: "Data lifecycle", type: "object", group: "content", fields: [
       str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("subtitle", "Subtitle"),

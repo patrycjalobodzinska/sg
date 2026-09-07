@@ -564,7 +564,7 @@ export default function LandingClient({
       }
     }
 
-    // ---- "Trusted by" auto-scrolling marquee ----
+    // ---- partners auto-scrolling marquee ----
     const partners = root.querySelector<HTMLElement>("[data-partners]");
     if (partners && !partners.querySelector(".marquee-wrap")) {
       const items = Array.from(partners.children) as HTMLElement[];

@@ -25,22 +25,22 @@ const CHROME: Record<Locale, {
   en: {
     heroPrimary: "Request investor deck", heroSecondary: "Contact investor relations",
     benefitsEyebrow: "Customer benefits", benefitsHeading: "Better data. Faster decisions. Stronger scale-up.",
-    cfEyebrow: "Commercial foundation", cfHeading: "From brewing process control to broader biotech",
-    cfBody1: "SG Papertronics built strong market validation through Beer-o-Meter - our application of Q‑Tector technology for brewing process control. It proved that producers value simple, fast, actionable testing close to the process, and created a real-world validation environment and customer feedback loop.",
+    cfEyebrow: "Commercial foundation", cfHeading: "From brewing process monitoring to broader biotech",
+    cfBody1: "SG Papertronics built strong market validation through Beer-o-Meter - our application of Q‑Tector technology for brewing process monitoring. It proved that producers value simple, fast, actionable testing close to the process, and created a real-world validation environment and customer feedback loop.",
     cfBody2: "We are now expanding the same platform logic into broader fermentation, biotech, CDMO and precision-fermentation markets - central to our Series A growth strategy.",
   },
   nl: {
     heroPrimary: "Vraag investor deck aan", heroSecondary: "Contact investor relations",
     benefitsEyebrow: "Klantvoordelen", benefitsHeading: "Betere data. Snellere beslissingen. Sterkere opschaling.",
-    cfEyebrow: "Commerciële basis", cfHeading: "Van brouwprocontrol naar bredere biotech",
-    cfBody1: "SG Papertronics bouwde sterke marktvalidatie op met Beer-o-Meter - onze toepassing van Q‑Tector-technologie voor brouwproscontrole. Het bewees dat producenten waarde hechten aan eenvoudige, snelle en bruikbare metingen dicht bij het proces, en creëerde een validatieomgeving en klantfeedback-loop in de praktijk.",
+    cfEyebrow: "Commerciële basis", cfHeading: "Van brouwprocesmonitoring naar bredere biotech",
+    cfBody1: "SG Papertronics bouwde sterke marktvalidatie op met Beer-o-Meter - onze toepassing van Q‑Tector-technologie voor brouwprocesmonitoring. Het bewees dat producenten waarde hechten aan eenvoudige, snelle en bruikbare metingen dicht bij het proces, en creëerde een validatieomgeving en klantfeedback-loop in de praktijk.",
     cfBody2: "We breiden dezelfde platformlogica nu uit naar bredere fermentatie-, biotech-, CDMO- en precisiefermentatiemarkten - centraal in onze Series A-groeistrategie.",
   },
   pl: {
     heroPrimary: "Poproś o deck inwestorski", heroSecondary: "Kontakt dla inwestorów",
     benefitsEyebrow: "Korzyści dla klientów", benefitsHeading: "Lepsze dane. Szybsze decyzje. Mocniejsze skalowanie.",
-    cfEyebrow: "Fundament komercyjny", cfHeading: "Od kontroli procesu w browarnictwie do szerszego biotechu",
-    cfBody1: "SG Papertronics zbudował silną walidację rynkową dzięki Beer-o-Meter - naszemu zastosowaniu technologii Q‑Tector do kontroli procesu w browarnictwie. Pokazało to, że producenci cenią proste, szybkie i użyteczne pomiary blisko procesu, i stworzyło rzeczywiste środowisko walidacji oraz pętlę informacji zwrotnej od klientów.",
+    cfEyebrow: "Fundament komercyjny", cfHeading: "Od monitorowania procesu w browarnictwie do szerszego biotechu",
+    cfBody1: "SG Papertronics zbudował silną walidację rynkową dzięki Beer-o-Meter - naszemu zastosowaniu technologii Q‑Tector do monitorowania procesu w browarnictwie. Pokazało to, że producenci cenią proste, szybkie i użyteczne pomiary blisko procesu, i stworzyło rzeczywiste środowisko walidacji oraz pętlę informacji zwrotnej od klientów.",
     cfBody2: "Rozszerzamy teraz tę samą logikę platformy na szersze rynki fermentacji, biotechu, CDMO i fermentacji precyzyjnej - co jest centralnym elementem naszej strategii wzrostu w rundzie Series A.",
   },
 };

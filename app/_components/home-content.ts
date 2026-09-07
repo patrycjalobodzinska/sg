@@ -2,6 +2,10 @@
 // markup. EN here is the source of truth *and* the safe fallback: the template
 // renders from Sanity when present, falling back to these literals field-by-field
 // so the homepage can never render empty. NL/PL come from Sanity.
+//
+// Wording the audit flagged comes from ./claims.ts — do not restate it here.
+
+import { TERMS } from "./claims";
 
 export type HomeCard = { title: string; text: string };
 export type HomeLifecycleCol = { num: string; title: string; text: string };
@@ -22,7 +26,7 @@ export type HomeContent = {
   };
   explore: {
     badge: string; heading: string; headingAccent: string; body: string;
-    cta1: string; cta2: string; trust1: string; trust2: string;
+    cta1: string; cta2: string; trust1: string;
   };
   lifecycle: { badge: string; heading: string; headingAccent: string; subtitle: string; cols: HomeLifecycleCol[] };
   howWeWork: {
@@ -80,7 +84,7 @@ export const HOME_EN: HomeContent = {
     badge: "Why it matters",
     heading: "Better decisions start with",
     headingAccent: "better process data",
-    subtitle: "Q‑Tector brings guided at-line measurement closer to your process - so teams see the change as it happens.",
+    subtitle: "Q‑Tector brings guided at-line measurement closer to your process - so teams see what is changing during the run.",
     leadPre: "Biological processes are dynamic - ",
     leadAccent: "Q‑Tector helps you follow the change",
     leadPost: " in a simple, repeatable way.",
@@ -100,15 +104,14 @@ export const HOME_EN: HomeContent = {
     cta1: "Talk to us",
     cta2: "See the technology",
     trust1: "Reply within 1 business day",
-    trust2: "Result in <5 min · zero calibration",
   },
   lifecycle: {
     badge: "Data & analytics",
     heading: "From single measurements to",
-    headingAccent: "scalable process intelligence",
+    headingAccent: TERMS.processData,
     subtitle: "A single measurement is useful. A structured dataset is powerful.",
     cols: [
-      { num: "01", title: "Analyze goals", text: "Understand the process and the goals you're chasing - then we propose a customised process-control setup to test." },
+      { num: "01", title: "Analyze goals", text: "Understand the process and the goals you're chasing - then we propose a customised at-line measurement setup to test." },
       { num: "02", title: "Pilot & test", text: "Piloting, testing and in-process analytics to validate the workflow on real runs." },
       { num: "03", title: "Roll out", text: "Roll the tested process out - with deeper, proactive analytics insights." },
     ],
@@ -116,7 +119,7 @@ export const HOME_EN: HomeContent = {
   howWeWork: {
     eyebrow: "How we work",
     heading: "A partner in",
-    headingAccent: "process control",
+    headingAccent: TERMS.monitoring,
     subtitle: "From your first question to a routine your team runs on its own - a few focused steps, one partner.",
     steps: [
       { num: "01", title: "Understand your process", text: "Organism, medium, process stage, goal and current workflow." },
@@ -128,8 +131,8 @@ export const HOME_EN: HomeContent = {
     successBody: "Once the workflow is in place, your team keeps it running independently - with our support whenever the process evolves.",
   },
   partners: {
-    heading: "Trusted by",
-    headingAccent: "industry & research",
+    heading: "Selected customers",
+    headingAccent: "and research collaborators",
     names: ["Bioclear Earth", "Fascinating", "University of Groningen", "Hanze UAS", "ISPT"],
   },
   contact: {
@@ -159,7 +162,7 @@ export const HOME_EN: HomeContent = {
     terms: "Terms",
   },
   seo: {
-    title: "SG Papertronics - Process control for biotech and fermentation",
+    title: "SG Papertronics - At-line process monitoring for biotech and fermentation",
     description: "Q‑Tector is an at-line testing platform built for living processes. Turn small samples into actionable process data - from development to production.",
   },
   images: {
