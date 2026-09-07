@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import LandingClient from "./_components/LandingClient";
-import { landingParts } from "./_components/landing-markup";
-import ContactSection from "./_components/ContactSection";
-import { getHome } from "../sanity/lib/home";
-import { languageAlternates } from "./i18n";
+import LandingClient from "@/app/_components/LandingClient";
+import { landingParts } from "@/app/_components/landing-markup";
+import ContactSection from "@/app/_components/ContactSection";
+import { getHome } from "@/sanity/lib/home";
+import { languageAlternates } from "@/app/i18n";
 
 export const revalidate = 300;
 

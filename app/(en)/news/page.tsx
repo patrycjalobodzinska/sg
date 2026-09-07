@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import NewsListPage from "../_components/NewsListPage";
-import { NEWS_CHROME } from "../_components/news-i18n";
-import { languageAlternates } from "../i18n";
+import NewsListPage from "@/app/_components/NewsListPage";
+import { NEWS_CHROME } from "@/app/_components/news-i18n";
+import { languageAlternates } from "@/app/i18n";
 
 export const revalidate = 300;
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import InvestorsPage, { type InvDoc } from "../_components/InvestorsPage";
-import { getPage } from "../../sanity/lib/pages";
-import { languageAlternates } from "../i18n";
+import InvestorsPage, { type InvDoc } from "@/app/_components/InvestorsPage";
+import { getPage } from "@/sanity/lib/pages";
+import { languageAlternates } from "@/app/i18n";
 
 export const revalidate = 300;
 

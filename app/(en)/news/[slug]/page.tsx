@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import NewsArticlePage from "../../_components/NewsArticlePage";
-import { getNewsArticle, getNewsSlugs } from "../../../sanity/lib/news";
-import { urlFor } from "../../../sanity/lib/image";
-import { languageAlternates } from "../../i18n";
+import NewsArticlePage from "@/app/_components/NewsArticlePage";
+import { getNewsArticle, getNewsSlugs } from "@/sanity/lib/news";
+import { urlFor } from "@/sanity/lib/image";
+import { languageAlternates } from "@/app/i18n";
 
 export const revalidate = 300;
 

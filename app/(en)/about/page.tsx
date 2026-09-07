@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import AboutPage, { type AboutDoc } from "../_components/AboutPage";
-import { getAbout } from "../../sanity/lib/pages";
-import { languageAlternates } from "../i18n";
+import AboutPage, { type AboutDoc } from "@/app/_components/AboutPage";
+import { getAbout } from "@/sanity/lib/pages";
+import { languageAlternates } from "@/app/i18n";
 
 export const revalidate = 300;
 

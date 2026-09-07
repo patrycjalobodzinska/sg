@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import ApplicationsPage from "../_components/ApplicationsPage";
-import { getApplications } from "../../sanity/lib/pages";
-import { languageAlternates } from "../i18n";
+import ApplicationsPage from "@/app/_components/ApplicationsPage";
+import { getApplications } from "@/sanity/lib/pages";
+import { languageAlternates } from "@/app/i18n";
 
 export const revalidate = 300;
 

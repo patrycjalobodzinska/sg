@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import ContactPage from "../_components/ContactPage";
-import { DEFAULT_INTENT, isIntent } from "../_components/contact-content";
-import { languageAlternates } from "../i18n";
+import ContactPage from "@/app/_components/ContactPage";
+import { DEFAULT_INTENT, isIntent } from "@/app/_components/contact-content";
+import { languageAlternates } from "@/app/i18n";
 
 const DESC =
   "Tell us your organism, process stage, target analyte and the decision you need to make. We reply with a practical next step within one business day.";
