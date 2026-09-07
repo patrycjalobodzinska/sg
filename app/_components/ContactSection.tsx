@@ -43,15 +43,10 @@ export default function ContactSection({
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: 24,
-          background: "#fff",
-          borderRadius: 32,
-          overflow: "hidden",
-          border: "1px solid rgba(24,30,48,.05)",
-          boxShadow: "0 20px 60px rgba(20,26,48,.08)",
+          gap: "clamp(20px,2vw,28px)",
         }}
       >
-        <div style={{ padding: "clamp(32px,4vw,56px)" }}>
+        <div style={CARD}>
           <h2 style={{ margin: "0 0 14px", fontSize: "clamp(30px,4vw,48px)", fontWeight: 500, letterSpacing: "-.03em", lineHeight: 1.05 }}>
             {t.heading} <span style={{ color: "#AEB4C4" }}>{t.headingAccent}</span>
           </h2>
@@ -62,15 +57,15 @@ export default function ContactSection({
 
         <div
           style={{
+            ...CARD,
             position: "relative",
             background: "#0E1526",
             color: "#fff",
-            padding: "clamp(32px,4vw,56px)",
+            border: "1px solid rgba(255,255,255,.08)",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: "center",
             overflow: "hidden",
-            minHeight: "100%",
           }}
         >
           <div
@@ -134,6 +129,15 @@ export default function ContactSection({
     </section>
   );
 }
+
+/** Shared card shell: the form and the contact details each sit in one. */
+const CARD: React.CSSProperties = {
+  padding: "clamp(32px,4vw,56px)",
+  borderRadius: 32,
+  background: "#fff",
+  border: "1px solid rgba(24,30,48,.05)",
+  boxShadow: "0 20px 60px rgba(20,26,48,.08)",
+};
 
 const ICON_BOX: React.CSSProperties = {
   flex: "none",
