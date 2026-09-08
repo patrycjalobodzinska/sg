@@ -15,7 +15,7 @@ const pageGroups = [
 // Landing images are hardcoded in the design template; only text + link labels
 // are managed here. Structure mirrors app/_components/home-content.ts (HomeContent).
 const titleCard = defineArrayMember({ type: "object", name: "card", fields: [str("title", "Title"), txt("text", "Text")], preview: { select: { title: "title" } } });
-const flowStep = defineArrayMember({ type: "object", name: "step", fields: [str("num", "Number"), str("label", "Label"), txt("note", "Note", 2)], preview: { select: { title: "label", subtitle: "num" } } });
+const flowStep = defineArrayMember({ type: "object", name: "step", fields: [str("label", "Label")], preview: { select: { title: "label" } } });
 const numCol = defineArrayMember({ type: "object", name: "col", fields: [str("num", "Number"), str("title", "Title"), txt("text", "Text")], preview: { select: { title: "title", subtitle: "num" } } });
 
 export const homePage = defineType({
@@ -43,7 +43,7 @@ export const homePage = defineType({
     ]}),
     defineField({ name: "explore", title: "Process-fit band", type: "object", group: "content", fields: [
       str("heading", "Heading"), str("headingAccent", "Heading (accent)"), txt("body", "Body"),
-      str("cta1", "Primary link label"), str("cta2", "Secondary link label"), str("trust1", "Trust chip 1"),
+      str("cta1", "Primary link label"),
       defineField({ name: "flow", title: "Process flow (5 steps)", type: "array", of: [flowStep],
         description: "Sample → Guided assay → Quantitative result → Trend → Process decision." }),
     ]}),
@@ -60,9 +60,12 @@ export const homePage = defineType({
       defineField({ name: "steps", title: "Steps (4)", type: "array", of: [numCol] }),
       str("cta", "CTA label"),
     ]}),
-    defineField({ name: "partners", title: "Partners", type: "object", group: "content", fields: [
+    // Proof band. The white name circles read as placeholders (audit ch. 5), so
+    // the section shows case-study cards instead. The same card type also holds a
+    // plain partner - every field except the title is optional.
+    defineField({ name: "partners", title: "Proof - case studies & partners", type: "object", group: "content", fields: [
       str("heading", "Heading"), str("headingAccent", "Heading (accent)"),
-      defineField({ name: "names", title: "Names", type: "array", of: [{ type: "string" }] }),
+      defineField({ name: "items", title: "Cards", type: "array", of: [defineArrayMember({ type: "reference", to: [{ type: "caseStudy" }] })] }),
     ]}),
     defineField({ name: "contact", title: "Contact section", type: "object", group: "content", fields: [
       str("badge", "Badge"), str("heading", "Heading"), str("headingAccent", "Heading (accent)"), str("formSent", "Form success message"),
@@ -73,7 +76,8 @@ export const homePage = defineType({
     defineField({ name: "footer", title: "Footer", type: "object", group: "content", fields: [
       txt("tagline", "Tagline"), str("exploreTitle", "Explore column title"), str("companyTitle", "Company column title"),
       str("connectTitle", "Connect column title"), str("connectEmail", "Email link label"), str("connectLinkedIn", "LinkedIn link label"),
-      str("copyright", "Copyright"), str("privacy", "Privacy label"), str("terms", "Terms label"),
+      str("copyright", "Copyright"), str("privacy", "Privacy label"),
+      str("linkedInHref", "LinkedIn URL"),
     ]}),
     defineField({ name: "images", title: "Landing images", type: "object", group: "content", fields: [
       img("heroBg", "Hero background"),
@@ -160,10 +164,29 @@ export const aboutPage = defineType({
     defineField({ name: "valuesEyebrow", title: "Values — eyebrow", type: "string", group: "content" }),
     defineField({ name: "valuesHeading", title: "Values — heading", type: "string", group: "content" }),
     defineField({ name: "values", title: "Values", type: "array", group: "content", of: [defineArrayMember({ type: "object", name: "v", fields: [str("title", "Title"), txt("text", "Text")], preview: { select: { title: "title" } } })] }),
-    defineField({ name: "mission", title: "Mission band", type: "object", group: "content", fields: [str("eyebrow", "Eyebrow"), txt("lead", "Lead"), str("heading", "Heading"), str("headingAccent", "Heading (accent)")] }),
+    defineField({ name: "mission", title: "Mission & vision band", type: "object", group: "content", fields: [str("eyebrow", "Eyebrow"), txt("lead", "Lead"), str("heading", "Mission heading"), str("headingAccent", "Mission heading (accent)"), str("visionEyebrow", "Vision eyebrow"), txt("vision", "Vision")] }),
+    defineField({ name: "teamEyebrow", title: "Team — eyebrow", type: "string", group: "content" }),
+    defineField({ name: "teamHeading", title: "Team — heading", type: "string", group: "content" }),
+    defineField({ name: "team", title: "Team members", type: "array", group: "content", of: [defineArrayMember({ type: "reference", to: [{ type: "teamMember" }] })] }),
     defineField({ name: "partnersLabel", title: "Partners — label", type: "string", group: "content" }),
     defineField({ name: "partners", title: "Partners", type: "array", group: "content", of: [defineArrayMember({ type: "reference", to: [{ type: "partner" }] })] }),
     seoField,
   ],
   preview: { prepare: () => ({ title: "About page" }) },
+});
+
+/** The privacy notice. Plain rich text so legal wording can be edited without a
+ *  deploy; `app/_components/privacy-content.ts` is the fallback until it exists. */
+export const privacyPage = defineType({
+  name: "privacyPage",
+  title: "Privacy notice",
+  type: "document",
+  groups: pageGroups,
+  fields: [
+    defineField({ name: "title", title: "Title", type: "string", group: "content" }),
+    defineField({ name: "updated", title: "Last updated", type: "date", group: "content" }),
+    defineField({ name: "body", title: "Body", type: "array", group: "content", of: [defineArrayMember({ type: "block" })] }),
+    seoField,
+  ],
+  preview: { prepare: () => ({ title: "Privacy notice" }) },
 });

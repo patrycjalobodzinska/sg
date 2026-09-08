@@ -1,8 +1,8 @@
 import type { SchemaTypeDefinition } from "sanity";
 import { seo, ctaButton, imageWithAlt } from "./objects";
-import { author, partner, caseStudy, newsArticle } from "./documents";
+import { author, partner, caseStudy, newsArticle, teamMember } from "./documents";
 import { siteSettings } from "./siteSettings";
-import { homePage, technologyPage, applicationsPage, investorsPage, aboutPage } from "./pages";
+import { homePage, technologyPage, applicationsPage, investorsPage, aboutPage, privacyPage } from "./pages";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // shared objects
@@ -17,9 +17,11 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   applicationsPage,
   investorsPage,
   aboutPage,
+  privacyPage,
   // collections
   newsArticle,
   caseStudy,
   partner,
+  teamMember,
   author,
 ];

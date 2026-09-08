@@ -11,8 +11,8 @@ export function generateStaticParams() {
 }
 
 const META: Record<string, { title: string; description: string }> = {
-  nl: { title: "Investor relations", description: "SG Papertronics bereidt zijn Series A-ronde voor - toegankelijke, at-line procescontroletechnologie (Q‑Tector) voor biotech, fermentatie, CDMO en food-tech." },
-  pl: { title: "Relacje inwestorskie", description: "SG Papertronics przygotowuje rundę Series A - dostępna, przyprocesowa technologia kontroli procesu (Q‑Tector) dla biotech, fermentacji, CDMO i food-tech." },
+  nl: { title: "Investor relations", description: "SG Papertronics bereidt zijn Series A-ronde voor - toegankelijke at-line meet- en monitoringtechnologie (Q‑Tector) voor biotech, fermentatie, CDMO en food-tech." },
+  pl: { title: "Relacje inwestorskie", description: "SG Papertronics przygotowuje rundę Series A - dostępna technologia pomiaru i monitoringu przyprocesowego (Q‑Tector) dla biotech, fermentacji, CDMO i food-tech." },
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {

@@ -27,6 +27,8 @@ export async function getAbout(lang: string) {
   return client.fetch(
     `*[_type=="aboutPage" && language==$lang][0]{
       hero, whyWeExist, valuesEyebrow, valuesHeading, values, mission,
+      teamEyebrow, teamHeading,
+      "team": team[]->{_id, name, role, bio, linkedin, photo, order},
       partnersLabel, "partners": partners[]->name
     }`,
     { lang }

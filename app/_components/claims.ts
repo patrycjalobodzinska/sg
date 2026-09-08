@@ -44,13 +44,14 @@ export const TERMS = {
 } as const;
 
 /**
- * "Process control" is still allowed in exactly one context: the company
- * mission ("make process control accessible, actionable and scalable"). There
- * it names an ambition, not a device capability. Anywhere it describes what
- * Q‑Tector does, use `TERMS.measurement` / `.monitoring` / `.decisionSupport`.
+ * The company mission, as rewritten in the audit's copy deck (ch. 3). It replaced
+ * "make process control accessible, actionable and scalable", which was the last
+ * sanctioned use of "process control" on the site — the phrase is now absent from
+ * live copy entirely. Anywhere the device is described, use `TERMS.measurement` /
+ * `.monitoring` / `.decisionSupport`.
  */
-export const MISSION_PROCESS_CONTROL =
-  "make process control accessible, actionable and scalable";
+export const MISSION =
+  "make frequent, actionable process measurement practical for every team developing and manufacturing with biology";
 
 /**
  * Claims held back pending client confirmation. Keep the target wording here so

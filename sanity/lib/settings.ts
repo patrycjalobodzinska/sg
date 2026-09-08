@@ -37,19 +37,21 @@ const FALLBACK: SiteSettings = {
   nav: [
     { href: "/technology", label: "Technology" },
     { href: "/applications", label: "Applications" },
+    { href: "/about", label: "About" },
     { href: "/investors", label: "Investors" },
     { href: "/news", label: "News" },
     { href: "/#contact", label: "Contact" },
   ],
   navCta: { href: "/#contact", label: "Talk to us" },
-  footerTagline: "Actionable process data for biotech & fermentation - powered by Q‑Tector.",
+  footerTagline: "Practical process analytics for living systems.",
   footerColumns: [
     { title: "Explore", links: [{ href: "/technology", label: "Technology" }, { href: "/applications", label: "Applications" }, { href: "/news", label: "News" }] },
     { title: "Company", links: [{ href: "/about", label: "About" }, { href: "/investors", label: "Investors" }, { href: "/#contact", label: "Contact" }] },
-    { title: "Connect", links: [{ href: "https://testmybeer.com", label: "testmybeer.com" }, { href: "mailto:contact@sgpapertronics.com", label: "Email" }, { href: "", label: "LinkedIn" }] },
+    { title: "Connect", links: [{ href: "https://testmybeer.com", label: "testmybeer.com" }, { href: "mailto:contact@sgpapertronics.com", label: "Email" }, { href: "https://pl.linkedin.com/company/sg-papertronics-b-v", label: "LinkedIn" }] },
   ],
   footerCopyright: "© 2026 SG Papertronics. Blauwborgje 31, 9747 AW Groningen, NL.",
-  legalLinks: [{ href: "", label: "Privacy" }, { href: "", label: "Terms" }],
+  // Terms is gone until there is a document to link to (audit ch. 13: no dummy links).
+  legalLinks: [{ href: "/privacy", label: "Privacy" }],
 };
 
 type RawNews = Record<string, I18nVal> | null;

@@ -10,7 +10,22 @@ import { TERMS } from "./claims";
 export type HomeCard = { title: string; text: string };
 export type HomeLifecycleCol = { num: string; title: string; text: string };
 export type HomeStep = { num: string; title: string; text: string };
-export type HomeFlowStep = { num: string; label: string; note: string };
+export type HomeFlowStep = { label: string };
+/** A card in the proof band. Only `title` is required: the same shape carries a
+ *  full case study and a bare partner, so the section can hold both (audit ch. 5).
+ *  Empty strings mean "not supplied" and simply drop out of the render. */
+export type HomeShowcaseCard = {
+  title: string;
+  tag: string;
+  relationship: string;
+  status: string;
+  text: string;
+  result: string;
+  quote: string;
+  quoteAuthor: string;
+  link: string;
+  image: string;
+};
 
 export type HomeContent = {
   nav: { technology: string; applications: string; investors: string; news: string; about: string; contact: string; talk: string };
@@ -29,7 +44,7 @@ export type HomeContent = {
   };
   explore: {
     heading: string; headingAccent: string; body: string;
-    cta1: string; cta2: string; trust1: string;
+    cta1: string;
     /** Sample → Guided assay → Quantitative result → Trend → Process decision.
      *  Replaces the team photo, which said nothing about the product (audit
      *  ch. 5, plan B3). */
@@ -40,7 +55,7 @@ export type HomeContent = {
    *  line, then the collaboration flow (audit ch. 5, plan B4). */
   lifecycle: { heading: string; headingAccent: string; cols: HomeLifecycleCol[]; closing: string };
   howWeWork: { eyebrow: string; heading: string; steps: HomeStep[]; cta: string };
-  partners: { heading: string; headingAccent: string; names: string[] };
+  partners: { heading: string; headingAccent: string; items: HomeShowcaseCard[] };
   contact: {
     badge: string; heading: string; headingAccent: string; formSent: string;
     ph: { name: string; email: string; message: string }; submit: string;
@@ -49,10 +64,10 @@ export type HomeContent = {
   };
   footer: {
     tagline: string; exploreTitle: string; companyTitle: string; connectTitle: string;
-    connectEmail: string; connectLinkedIn: string; copyright: string; privacy: string; terms: string;
-    /** Real destinations. Empty = not supplied yet by the client, in which
-     *  case the link is omitted rather than shipped pointing at "#top". */
-    linkedInHref?: string; privacyHref?: string; termsHref?: string;
+    connectEmail: string; connectLinkedIn: string; copyright: string; privacy: string;
+    /** The company page. Privacy points at the site's own /privacy route, so it
+     *  needs no field; Terms is gone until there is a document to link to. */
+    linkedInHref?: string;
   };
   seo: { title: string; description: string };
   // Resolved image URLs. EN defaults are the literal design assets; getHome
@@ -102,16 +117,15 @@ export const HOME_EN: HomeContent = {
     headingAccent: "for your process?",
     body: "Tell us what you are producing, what you need to measure and which decision the result should support. We will determine whether an existing Q‑Tector workflow fits - or whether an application-development path makes sense.",
     cta1: "Request a process-fit review",
-    cta2: "See the technology",
-    trust1: "Reply within 1 business day",
-    // The step names are the audit's; the notes paraphrase its own at-line
-    // definition (ch. 6) and deliberately carry no speed or calibration claim.
+    // The five step names are the audit's copy deck (ch. 5) and nothing else:
+    // the notes we had written under them were our own paraphrase, and this
+    // section carries only copy the deck approves.
     flow: [
-      { num: "01", label: "Sample", note: "An operator draws a small sample from the running process." },
-      { num: "02", label: "Guided assay", note: "A ready-to-use assay pod, run through QR-guided steps." },
-      { num: "03", label: "Quantitative result", note: "A comparable glucose or sucrose value for that sample." },
-      { num: "04", label: "Trend", note: "The value joins the run's process history, next to earlier samples." },
-      { num: "05", label: "Process decision", note: "Feed, timing or escalation - decided while the run is still active." },
+      { label: "Sample" },
+      { label: "Guided assay" },
+      { label: "Quantitative result" },
+      { label: "Trend" },
+      { label: "Process decision" },
     ],
   },
   lifecycle: {
@@ -138,7 +152,13 @@ export const HOME_EN: HomeContent = {
   partners: {
     heading: "Selected customers",
     headingAccent: "and research collaborators",
-    names: ["Bioclear Earth", "Fascinating", "University of Groningen", "Hanze UAS", "ISPT"],
+    // Fallback only: the live cards are picked in Sanity. Status, result and
+    // quote stay empty until the client supplies them (audit ch. 5 blockers).
+    items: [
+      { title: "Beer-o-Meter: brewing quality control", tag: "Brewing", relationship: "Commercial application", status: "", text: "The first commercial application of Q‑Tector - at-line testing close to the tank, built for breweries.", result: "", quote: "", quoteAuthor: "", link: "/applications", image: "/assets/beerometer-1080x675.jpeg" },
+      { title: "Media & feed monitoring across runs", tag: "Precision fermentation", relationship: "", status: "", text: "Tracking glucose and sucrose in culture media so teams can compare feed strategies and act during the run.", result: "", quote: "", quoteAuthor: "", link: "/applications", image: "" },
+      { title: "PotatoSense - Fascinating / ISPT", tag: "Agri-food", relationship: "Application-development collaboration", status: "", text: "Applying Q‑Tector measurement workflows to agri-food process questions through a regional innovation collaboration.", result: "", quote: "", quoteAuthor: "", link: "/applications", image: "" },
+    ],
   },
   contact: {
     badge: "Contact",
@@ -156,7 +176,8 @@ export const HOME_EN: HomeContent = {
     beerLabel: "Beer-o-Meter - brewing application of Q‑Tector",
   },
   footer: {
-    tagline: "Q‑Tector is our at-line analytics platform for biotech and fermentation; Beer‑o‑Meter is its first commercial application.",
+    // Short brand line from the audit's copy deck (ch. 3).
+    tagline: "Practical process analytics for living systems.",
     exploreTitle: "Explore",
     companyTitle: "Company",
     connectTitle: "Connect",
@@ -164,7 +185,7 @@ export const HOME_EN: HomeContent = {
     connectLinkedIn: "LinkedIn",
     copyright: "© 2026 SG Papertronics. Blauwborgje 31, 9747 AW Groningen, NL.",
     privacy: "Privacy",
-    terms: "Terms",
+    linkedInHref: "https://pl.linkedin.com/company/sg-papertronics-b-v",
   },
   seo: {
     title: "SG Papertronics - At-line process monitoring for biotech and fermentation",

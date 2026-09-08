@@ -12,7 +12,7 @@ import { notFound } from "next/navigation";
 const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p style={{ margin: "0 0 20px", color: "#3A4152", fontSize: 17.5, lineHeight: 1.7 }}>{children}</p>
+      <p style={{ margin: "0 0 20px", color: "#4A5163", fontSize: 17.5, lineHeight: 1.7 }}>{children}</p>
     ),
     h2: ({ children }) => (
       <h2 style={{ margin: "38px 0 14px", fontSize: "clamp(22px,2.4vw,28px)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.2, color: "#14161C" }}>{children}</h2>
@@ -20,7 +20,7 @@ const components: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul style={{ margin: "0 0 20px", padding: "0 0 0 22px", color: "#3A4152", fontSize: 17.5, lineHeight: 1.7, display: "flex", flexDirection: "column", gap: 8 }}>{children}</ul>
+      <ul style={{ margin: "0 0 20px", padding: "0 0 0 22px", color: "#4A5163", fontSize: 17.5, lineHeight: 1.7, display: "flex", flexDirection: "column", gap: 8 }}>{children}</ul>
     ),
   },
   listItem: {
@@ -56,13 +56,14 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
     <div style={{ background: "#EFF1F5", color: "#14161C", overflowX: "hidden" }}>
       <SiteNav active="news" lang={lang} />
 
-      <article style={{ maxWidth: 820, margin: "0 auto", padding: "clamp(72px,7vw,92px) clamp(20px,5vw,40px) clamp(32px,5vw,64px)" }}>
-        <a href={localizedPath("/news", lang)} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#8990A0", fontSize: 14.5, fontWeight: 500, marginBottom: 22 }}>
+      <article style={{ maxWidth: 1440, margin: "0 auto", padding: "clamp(104px,9vw,128px) clamp(20px,5vw,64px) clamp(32px,5vw,64px)" }}>
+        <div style={{ maxWidth: 860 }}>
+        <a href={localizedPath("/news", lang)} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#5A6275", fontSize: 14.5, fontWeight: 500, marginBottom: 22 }}>
           <span>←</span> {t.allNews}
         </a>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, color: "#8990A0", fontSize: 14 }}>
-          <span style={{ fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 }}>{a.category || t.categoryDefault}</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, color: "#5A6275", fontSize: 14 }}>
+          <span style={{ fontSize: 12, color: "#1F52B8", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 }}>{a.category || t.categoryDefault}</span>
           <span>{metaLine}</span>
         </div>
 
@@ -73,7 +74,7 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
         )}
 
         {cover && (
-          <div style={{ position: "relative", aspectRatio: "16 / 9", borderRadius: 20, overflow: "hidden", margin: "28px 0 36px", background: "#E7EAF0", boxShadow: "0 18px 52px rgba(20,26,48,.08)" }}>
+          <div style={{ position: "relative", aspectRatio: "16 / 9", borderRadius: 18, overflow: "hidden", margin: "28px 0 36px", background: "#E7EAF0", boxShadow: "0 18px 52px rgba(20,26,48,.08)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={cover} alt={a.coverImage?.alt || a.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
@@ -83,14 +84,15 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
           {a.body && a.body.length > 0 ? (
             <PortableText value={a.body} components={components} />
           ) : (
-            <p style={{ color: "#8990A0", fontSize: 17, lineHeight: 1.7 }}>{t.comingSoon}</p>
+            <p style={{ color: "#5A6275", fontSize: 17, lineHeight: 1.7 }}>{t.comingSoon}</p>
           )}
         </div>
 
         <div style={{ marginTop: 44, paddingTop: 28, borderTop: "1px solid rgba(24,30,48,.1)" }}>
-          <a href={contactUrl({ lang, intent: "product", sourcePage: "news-article", sourceCta: "closing" })} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 600, fontSize: 15.5 }}>
+          <a href={contactUrl({ lang, intent: "product", sourcePage: "news-article", sourceCta: "closing" })} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 600, fontSize: 15.5 }}>
             {t.articleCta} <ArrowUpRight />
           </a>
+        </div>
         </div>
       </article>
 

@@ -14,12 +14,12 @@ const META: Record<string, { title: string; description: string }> = {
   nl: {
     title: "Q‑Tector-technologie",
     description:
-      "Een compact at-line testplatform voor procesrelevante metingen: uitleesapparaat, kant-en-klare assay-pods, QR-gestuurde workflows en cloud-gekoppelde data.",
+      "Begeleide at-line assays en verbonden data voor biologische productie: een compacte reader, kant-en-klare assay-pods, QR-gestuurde workflows en cloud-gekoppelde resultaten.",
   },
   pl: {
     title: "Technologia Q‑Tector",
     description:
-      "Kompaktowa przyprocesowa platforma testowa do pomiarów istotnych dla procesu: czytnik, gotowe pody assay, workflow z kodem QR i dane w chmurze.",
+      "Prowadzone assaye at-line i połączone dane dla produkcji biologicznej: kompaktowy czytnik, gotowe pody assay, workflow z kodem QR i wyniki w chmurze.",
   },
 };
 

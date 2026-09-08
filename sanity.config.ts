@@ -18,6 +18,7 @@ const i18nDocumentTypes = [
   "applicationsPage",
   "investorsPage",
   "aboutPage",
+  "privacyPage",
   "newsArticle",
   "caseStudy",
 ];

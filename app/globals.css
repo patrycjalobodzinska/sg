@@ -33,7 +33,7 @@ h1 span,h2 span{font-family:inherit}
    The distortion (filter:url(#glass-distortion)) renders in Chromium; other
    browsers gracefully fall back to a plain frosted panel. */
 .lg-card{
-  position:relative;overflow:hidden;border-radius:20px;
+  position:relative;overflow:hidden;border-radius:18px;
   background:rgba(255,255,255,.3);
   border:1px solid rgba(255,255,255,.6);
   box-shadow:0 8px 24px rgba(20,26,48,.12),inset 2px 2px 1px 0 rgba(255,255,255,.6),inset -1px -1px 1px 1px rgba(255,255,255,.45);
@@ -134,9 +134,63 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 /* explore / CTA section */
 @media (max-width:900px){
   [data-explore-grid]{grid-template-columns:1fr !important;gap:36px !important}
+  /* the extra indent is a desktop-only nicety */
+  [data-flowcol]{padding-left:0 !important}
+  /* the chip row scrolls, so it must not widen the column it sits in */
+  [data-explore-grid] > div{min-width:0}
   [data-qgrid]{grid-template-columns:1fr 1fr !important}
+  /* The five steps stop being a tall column and become a swipeable chip chain,
+     the same pattern the benefit cards use one section up. Arrows appear here
+     because the vertical connector line is gone. */
+  [data-explore-flow]{
+    flex-direction:row !important;align-items:center;gap:26px !important;
+    overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    margin-left:-20px !important;margin-right:-20px !important;
+    padding:2px 20px 6px !important;scroll-padding-left:20px;
+  }
+  [data-explore-flow]::-webkit-scrollbar{display:none}
+  [data-explore-flow] [data-flowline]{display:none !important}
+  [data-explore-flow] li{
+    flex:0 0 auto;scroll-snap-align:start;gap:11px !important;
+    padding:7px 16px 7px 7px;border-radius:999px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
+  }
+  [data-explore-flow] [data-flowicon]{
+    width:38px !important;height:38px !important;border-radius:12px !important;box-shadow:none !important;
+  }
+  [data-explore-flow] [data-chev]{
+    display:block !important;position:absolute;right:-19px;top:50%;transform:translateY(-50%);
+  }
 }
 @media (max-width:560px){ [data-qgrid]{grid-template-columns:1fr !important} }
+
+/* About hero mosaic: the team is the hero image (audit ch. 8) */
+.hero-tile { animation: heroTileIn 320ms cubic-bezier(.16,1,.3,1) var(--d,0ms) both }
+@keyframes heroTileIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.hero-tile img{transition:transform .26s cubic-bezier(.16,1,.3,1)}
+.hero-tile:hover img{transform:scale(1.04)}
+.hero-tile-name{
+  position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;
+  background:linear-gradient(0deg,rgba(10,16,30,.92) 0%,rgba(10,16,30,.78) 58%,transparent 100%);
+  color:#fff;opacity:0;transition:opacity .18s ease-out;
+}
+.hero-tile:hover .hero-tile-name,.hero-tile:focus-within .hero-tile-name{opacity:1}
+.hero-tile-name b{display:block;font-size:13.5px;font-weight:600}
+.hero-tile-name span{display:block;margin-top:2px;font-size:12px;color:rgba(255,255,255,.86)}
+@media (prefers-reduced-motion:reduce){
+  .hero-tile{animation:none}
+  .hero-tile img,.hero-tile-name{transition:none}
+}
+@media (max-width:560px){ [data-heromosaic]{grid-template-columns:repeat(2,1fr) !important} }
+
+/* team grid on About */
+@media (max-width:1000px){ [data-teamgrid]{grid-template-columns:repeat(3,1fr) !important} }
+@media (max-width:760px){ [data-teamgrid]{grid-template-columns:repeat(2,1fr) !important} }
+
+/* proof band: case-study / partner cards (audit ch. 5) */
+@media (max-width:1000px){ [data-showcase]{grid-template-columns:repeat(2,1fr) !important} }
+@media (max-width:640px){ [data-showcase]{grid-template-columns:1fr !important} }
 
 /* mobile: the dark "Explore" panel goes full-bleed (no margin/radius/max-width) */
 @media (max-width:640px){
@@ -179,7 +233,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
      as a liquid-glass panel */
   [data-lifecols] > *{
     position:relative;min-height:360px;gap:0 !important;
-    border-radius:22px;overflow:hidden;
+    border-radius:18px;overflow:hidden;
     box-shadow:0 16px 40px rgba(20,26,48,.16);
   }
   /* the image fills the whole tile */
@@ -397,7 +451,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
     position:absolute;top:72px;right:20px;left:20px;
     flex-direction:column;align-items:flex-start;
     background:rgba(255,255,255,.96);backdrop-filter:blur(14px);
-    padding:20px;border-radius:20px;
+    padding:20px;border-radius:18px;
     box-shadow:0 20px 50px rgba(0,0,0,.15);
   }
   nav[data-nav][data-open="1"] [data-nav-links]{display:flex !important}
@@ -445,7 +499,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .tech-logo-dot > span{width:10px;height:10px;border-radius:50%;border:2.5px solid #fff}
 .tech-links{display:flex;align-items:center;gap:clamp(16px,2vw,32px);font-size:16.5px;font-weight:600}
 .tech-links a{color:#14161C}
-.tech-links a.active{color:#2E6BE6}
+.tech-links a.active{color:#1F52B8}
 .tech-cta{display:inline-flex;align-items:center;gap:7px;background:#2E6BE6;color:#fff;padding:11px 20px;border-radius:999px;font-weight:500;font-size:15px}
 /* language switcher (EN / NL / PL) */
 /* Language switcher: a <details> dropdown, so it works with no JS at all. The
@@ -474,7 +528,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 @keyframes langDdIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .lang-dd-menu a{
   display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:9px 11px;border-radius:8px;font-size:13.5px;font-weight:500;color:#14161C;
+  padding:9px 11px;border-radius:12px;font-size:13.5px;font-weight:500;color:#14161C;
   line-height:1;transition:background .15s ease-out;
 }
 .lang-dd-menu a:hover{background:#F1F4F9}
@@ -548,7 +602,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .tech-step .tech-node{width:54px;height:54px;border-radius:999px;background:#fff;border:2px solid rgba(46,107,230,.35);color:#2E6BE6;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:18px;margin-bottom:18px}
 .tech-step:last-child .tech-node{background:#2E6BE6;color:#fff;border-color:transparent;box-shadow:0 0 0 6px rgba(46,107,230,.15)}
 .tech-step h3{margin:0 0 6px;font-size:17px;font-weight:600;letter-spacing:-.01em}
-.tech-step p{margin:0;color:#8990A0;font-size:14.5px;line-height:1.5}
+.tech-step p{margin:0;color:#5A6275;font-size:14.5px;line-height:1.5}
 @media (max-width:820px){
   .tech-flow-line{display:none}
   .tech-flow-grid{grid-template-columns:1fr;gap:20px}
@@ -564,11 +618,11 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .cf{display:flex;flex-direction:column;gap:18px}
 .cf-field{display:flex;flex-direction:column;gap:6px}
 .cf-field label{font-size:14.5px;font-weight:500;color:#14161C;letter-spacing:-.005em}
-.cf-req{color:#6B7285;font-weight:400}
+.cf-req{color:#5A6275;font-weight:400}
 .cf-field input,
 .cf-field select,
 .cf-field textarea{
-  width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(24,30,48,.18);
+  width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(24,30,48,.18);
   background:#F3F5F9;font:inherit;font-size:16px;color:#14161C;outline:none;
   transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
 }
@@ -576,17 +630,50 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .cf-field select{appearance:none;cursor:pointer;padding-right:44px;
   background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%233A4152' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 14px center}
+/* Custom listbox for the inquiry type. The native select renders as an OS
+   widget that ignores the form's radius, type and focus ring; this one matches
+   the inputs beside it. Behaviour and ARIA live in SelectField.tsx. */
+.cf-select{position:relative}
+.cf-select-button{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(24,30,48,.18);
+  background:#F3F5F9;font:inherit;font-size:16px;color:#14161C;text-align:left;cursor:pointer;
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.cf-select-button svg{flex:none;color:#5A6275;transition:transform .18s ease}
+.cf-select[data-open] .cf-select-button{border-color:#2E6BE6;background:#fff}
+.cf-select[data-open] .cf-select-button svg{transform:rotate(180deg)}
+.cf-select-button:focus-visible{border-color:#2E6BE6;background:#fff;box-shadow:0 0 0 3px rgba(46,107,230,.22);outline:none}
+.cf-select-button[aria-invalid="true"]{border-color:#B3261E;background:#FFF6F5}
+.cf-select-list{
+  position:absolute;z-index:30;top:calc(100% + 6px);left:0;right:0;
+  margin:0;padding:6px;list-style:none;max-height:288px;overflow-y:auto;
+  background:#fff;border:1px solid rgba(24,30,48,.12);border-radius:12px;
+  box-shadow:0 18px 44px rgba(20,26,48,.16);
+  animation:cfSelectIn .16s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes cfSelectIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.cf-select-list li{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:11px 12px;border-radius:10px;font-size:15.5px;color:#14161C;cursor:pointer;
+}
+.cf-select-list li[data-active="true"]{background:#EDF2FB}
+.cf-select-list li[aria-selected="true"]{font-weight:600;color:#1F52B8}
+@media (prefers-reduced-motion:reduce){
+  .cf-select-list{animation:none}
+  .cf-select-button svg{transition:none}
+}
 .cf-field input:focus-visible,
 .cf-field select:focus-visible,
 .cf-field textarea:focus-visible{border-color:#2E6BE6;background:#fff;box-shadow:0 0 0 3px rgba(46,107,230,.22)}
 .cf-field [aria-invalid="true"]{border-color:#B3261E;background:#FFF6F5}
 .cf-field [aria-invalid="true"]:focus-visible{box-shadow:0 0 0 3px rgba(179,38,30,.2)}
-/* #6B7285 on #fff clears 4.5:1; the old #8990A0 hint grey did not. */
-.cf-hint{margin:0;font-size:13.5px;line-height:1.45;color:#6B7285}
+/* #5A6275 on #fff clears 4.5:1; the old #5A6275 hint grey did not. */
+.cf-hint{margin:0;font-size:13.5px;line-height:1.45;color:#5A6275}
 .cf-err{margin:0;font-size:13.5px;line-height:1.45;color:#B3261E;font-weight:500}
 .cf-status{margin:0;font-size:14.5px;line-height:1.45;color:#B3261E;min-height:1px}
 .cf-status:empty{display:none}
-.cf-privacy{margin:0;font-size:13.5px;line-height:1.5;color:#6B7285}
+.cf-privacy{margin:0;font-size:13.5px;line-height:1.5;color:#5A6275}
 .cf-privacy a{color:#1F52B8;text-decoration:underline}
 .cf-submit{
   align-self:flex-start;background:#2E6BE6;color:#fff;border:0;

@@ -36,6 +36,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/investors", priority: 0.8, changeFrequency: "monthly" },
     { path: "/about", priority: 0.7, changeFrequency: "monthly" },
     { path: "/news", priority: 0.8, changeFrequency: "weekly" },
+    { path: "/case-studies", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
   ];
 
   let slugs: string[] = [];

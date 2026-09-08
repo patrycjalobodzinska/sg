@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useEffect, useId, useRef } from "react";
+import { useActionState, useEffect, useId, useRef, useState } from "react";
+import SelectField from "./SelectField";
 import { submitContact } from "../actions/contact";
 import { CONTACT_INITIAL_STATE } from "./contact-state";
 import { INTENTS, type ContactCopy, type Intent } from "./contact-content";
@@ -25,6 +26,7 @@ export default function ContactForm({ lang, t, intent, sourcePage, sourceCta, ve
   const errId = (n: string) => `${uid}-${n}-err`;
   const hintId = (n: string) => `${uid}-${n}-hint`;
   const firstErrorRef = useRef<string | null>(null);
+  const [intentValue, setIntentValue] = useState<Intent>(intent);
 
   const fe = state.fieldErrors ?? {};
 
@@ -116,20 +118,27 @@ export default function ContactForm({ lang, t, intent, sourcePage, sourceCta, ve
         <label htmlFor={id("intent")}>
           {t.fields.intent.label} <span className="cf-req">({t.required})</span>
         </label>
-        <select
+        <SelectField
           id={id("intent")}
           name="intent"
-          defaultValue={intent}
-          required
-          aria-invalid={fe.intent ? true : undefined}
-          aria-describedby={describedBy("intent", false)}
-        >
-          {INTENTS.map((v) => (
-            <option key={v} value={v}>
-              {t.intents[v]}
-            </option>
-          ))}
-        </select>
+          value={intentValue}
+          onChange={(v) => setIntentValue(v as Intent)}
+          options={INTENTS.map((v) => ({ value: v, label: t.intents[v] }))}
+          invalid={Boolean(fe.intent)}
+          describedBy={describedBy("intent", false)}
+        />
+        {/* Scripting off: the custom listbox never mounts, so ship the real
+            control for those visitors instead of a dead button. */}
+        <noscript>
+          <style>{`.cf-select{display:none}`}</style>
+          <select name="intent" defaultValue={intent} required aria-label={t.fields.intent.label}>
+            {INTENTS.map((v) => (
+              <option key={v} value={v}>
+                {t.intents[v]}
+              </option>
+            ))}
+          </select>
+        </noscript>
         {fe.intent && <p id={errId("intent")} className="cf-err">{fe.intent}</p>}
       </div>
 

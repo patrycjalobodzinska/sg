@@ -3,7 +3,15 @@ import { urlFor } from "./image";
 import { HOME_EN, type HomeContent } from "../../app/_components/home-content";
 import { defaultLocale, type Locale } from "../../app/i18n";
 
-const FIELDS = `nav, hero, intro, benefits, explore, lifecycle, howWeWork, partners, contact, footer, seo, images`;
+const FIELDS = `
+  nav, hero, intro, benefits, explore, lifecycle, howWeWork, contact, footer, seo, images,
+  partners{
+    heading, headingAccent,
+    "items": items[]->{
+      title, tag, relationship, status, "text": description, result, quote, quoteAuthor, link, image
+    }
+  }
+`;
 
 // build a CDN URL from a Sanity image object, or null if there's no asset
 function imgUrl(src: unknown, w: number): string | null {
@@ -62,6 +70,16 @@ function merge<T>(fallback: T, src: unknown): T {
   return src as T;
 }
 
+type RawCard = Record<string, unknown> & { image?: unknown };
+type RawPartners = { heading?: string; headingAccent?: string; items?: RawCard[] };
+
+/** Cards come back with a Sanity image ref; the template only wants a URL, and an
+ *  absent image simply means the card renders without one. */
+function resolveCards(items: RawCard[] | undefined) {
+  if (!items?.length) return undefined;
+  return items.map((item) => ({ ...item, image: imgUrl(item.image, 900) ?? "" }));
+}
+
 export async function getHome(lang: Locale = defaultLocale): Promise<HomeContent> {
   let doc: Partial<HomeContent> | null = null;
   try {
@@ -75,7 +93,12 @@ export async function getHome(lang: Locale = defaultLocale): Promise<HomeContent
   // Merge text fields over EN; resolve images separately (they're asset refs,
   // not URL strings, so they must not go through the string merge).
   const rawImages = (doc as { images?: RawImages } | null)?.images;
-  const merged = merge(HOME_EN, doc ? { ...doc, images: undefined } : null);
+  // Proof cards carry an image ref, not a URL — resolve before the string merge.
+  const partners = (doc as { partners?: RawPartners } | null)?.partners;
+  const src = doc
+    ? { ...doc, images: undefined, partners: partners ? { ...partners, items: resolveCards(partners.items) } : undefined }
+    : null;
+  const merged = merge(HOME_EN, src);
   merged.images = resolveImages(rawImages);
   return merged;
 }

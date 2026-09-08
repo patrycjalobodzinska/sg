@@ -1,8 +1,8 @@
 import { getSiteSettings } from "../sanity/lib/settings";
 import { localizedPath, defaultLocale, type Locale } from "./i18n";
 
-const colTitle = { color: "#8990A0", fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase" as const, marginBottom: 16 };
-const link = { color: "#3A4152" };
+const colTitle = { color: "#5A6275", fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase" as const, marginBottom: 16 };
+const link = { color: "#4A5163" };
 const colList = { display: "flex", flexDirection: "column" as const, gap: 11 };
 
 // locale-aware href for stored footer links
@@ -25,7 +25,7 @@ export default async function SiteFooter({ lang = defaultLocale }: { lang?: Loca
         background: "#EFF1F5",
         color: "#14161C",
         padding: "clamp(56px,7vw,90px) clamp(20px,5vw,64px) 40px",
-        borderRadius: "clamp(28px,4vw,48px) clamp(28px,4vw,48px) 0 0",
+        borderRadius: "clamp(24px,3vw,36px) clamp(24px,3vw,36px) 0 0",
         marginTop: "clamp(20px,4vw,40px)",
         borderTop: "1px solid rgba(24,30,48,.08)",
       }}
@@ -56,14 +56,14 @@ export default async function SiteFooter({ lang = defaultLocale }: { lang?: Loca
           </div>
         ))}
       </div>
-      <div style={{ maxWidth: 1240, margin: "24px auto 0", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, color: "#8990A0", fontSize: 14 }}>
+      <div style={{ maxWidth: 1240, margin: "24px auto 0", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, color: "#5A6275", fontSize: 14 }}>
         <div>{s.footerCopyright}</div>
         <div style={{ display: "flex", gap: 20 }}>
           {s.legalLinks.map((l, i) =>
             isPlaceholder(l.href) ? (
-              <span key={i} style={{ color: "#8990A0", opacity: 0.55 }}>{l.label}</span>
+              <span key={i} style={{ color: "#5A6275", opacity: 0.55 }}>{l.label}</span>
             ) : (
-              <a key={i} href={hrefFor(l.href, lang)} style={{ color: "#8990A0" }}>{l.label}</a>
+              <a key={i} href={hrefFor(l.href, lang)} style={{ color: "#5A6275" }}>{l.label}</a>
             )
           )}
         </div>

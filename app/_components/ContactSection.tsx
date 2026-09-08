@@ -1,3 +1,4 @@
+import { localizedPath } from "../i18n";
 import ContactForm from "./ContactForm";
 import { CONTACT_COPY, DEFAULT_INTENT, type Intent } from "./contact-content";
 import type { Locale } from "../i18n";
@@ -49,11 +50,11 @@ export default function ContactSection({
       >
         <div style={CARD}>
           <h2 style={{ margin: "0 0 14px", fontSize: "clamp(30px,4vw,48px)", fontWeight: 500, letterSpacing: "-.03em", lineHeight: 1.05 }}>
-            {t.heading} <span style={{ color: "#AEB4C4" }}>{t.headingAccent}</span>
+            {t.heading} <span style={{ color: "#1F52B8" }}>{t.headingAccent}</span>
           </h2>
           <p style={{ margin: "0 0 28px", color: "#4A5163", fontSize: 16.5, lineHeight: 1.55, maxWidth: 520 }}>{t.lead}</p>
 
-          <ContactForm lang={lang} t={t} intent={intent} sourcePage={sourcePage} sourceCta={sourceCta} vertical={vertical} privacyHref={privacyHref} />
+          <ContactForm lang={lang} t={t} intent={intent} sourcePage={sourcePage} sourceCta={sourceCta} vertical={vertical} privacyHref={privacyHref ?? localizedPath("/privacy", lang)} />
         </div>
 
         <div
@@ -133,7 +134,7 @@ export default function ContactSection({
 /** Shared card shell: the form and the contact details each sit in one. */
 const CARD: React.CSSProperties = {
   padding: "clamp(32px,4vw,56px)",
-  borderRadius: 32,
+  borderRadius: "clamp(24px,3vw,36px)",
   background: "#fff",
   border: "1px solid rgba(24,30,48,.05)",
   boxShadow: "0 20px 60px rgba(20,26,48,.08)",

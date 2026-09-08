@@ -6,7 +6,7 @@ import { languageAlternates } from "@/app/i18n";
 export const revalidate = 300;
 
 const DESC =
-  "A compact at-line testing platform for process-relevant measurements: readout device, ready-to-use assay pods, QR-guided workflows and cloud-connected data.";
+  "Guided at-line assays and connected data for biological production: a compact reader, ready-to-use assay pods, QR-guided workflows and cloud-connected results.";
 export const metadata: Metadata = {
   title: "Q‑Tector technology",
   description: DESC,

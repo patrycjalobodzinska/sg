@@ -45,8 +45,8 @@ const CHROME: Record<Locale, { heroCaption: string; heroPrimary: string; heroSec
   pl: { heroCaption: "Przyprocesowo, blisko procesu", heroPrimary: "Porozmawiaj z nami o swoim procesie", heroSecondary: "Zobacz technologię" },
 };
 
-const tagPill = { display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#2E6BE6", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 };
-const eyebrow = { color: "#2E6BE6", fontSize: 13, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase" as const, marginBottom: 14 };
+const tagPill = { display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#1F52B8", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 };
+const eyebrow = { color: "#1F52B8", fontSize: 13, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase" as const, marginBottom: 14 };
 
 export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: AppContent }) {
   const t = CHROME[lang];
@@ -69,7 +69,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
         <div data-apphero="1" style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "clamp(28px,5vw,72px)", alignItems: "center" }}>
           <div>
             <h1 style={{ margin: 0, fontSize: "clamp(38px,6vw,72px)", lineHeight: 1.02, letterSpacing: "-.025em" }}>
-              {hero.title || EN.heroTitle} <span style={{ color: "#AEB4C4", fontWeight: 500 }}>{hero.titleAccent || EN.heroAccent}</span>
+              {hero.title || EN.heroTitle} <span style={{ color: "#2E6BE6", fontWeight: 500 }}>{hero.titleAccent || EN.heroAccent}</span>
             </h1>
             <p style={{ margin: "22px 0 0", color: "#4A5163", fontSize: "clamp(16.5px,1.7vw,20px)", lineHeight: 1.6, maxWidth: 580 }}>{hero.lead || EN.heroLead}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 26px", marginTop: 30 }}>
@@ -77,7 +77,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
               <a href={techHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
             </div>
           </div>
-          <div style={{ position: "relative", borderRadius: 26, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 24px 60px rgba(20,26,48,.12)" }}>
+          <div style={{ position: "relative", borderRadius: 18, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 24px 60px rgba(20,26,48,.12)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={HERO_IMG} alt="Fermentation process monitoring" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
             <div style={{ position: "absolute", left: 16, bottom: 16, background: "rgba(255,255,255,.9)", backdropFilter: "blur(8px)", padding: "7px 13px", borderRadius: 999, fontSize: 13, fontWeight: 500 }}>{t.heroCaption}</div>
@@ -93,7 +93,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
         </div>
         <div data-appcats="1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
           {cats.map((c, i) => (
-            <div key={c.tag || i} style={{ background: "#fff", borderRadius: 24, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 14px 44px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+            <div key={c.tag || i} style={{ background: "#fff", borderRadius: 18, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 14px 44px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <div style={{ position: "relative", aspectRatio: "16 / 8", background: "#E7EAF0" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CAT_IMG[i] || CAT_IMG[0]} alt={c.title || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
@@ -101,11 +101,11 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
               <div style={{ padding: "clamp(24px,3vw,34px)" }}>
                 <span style={tagPill}>{c.tag}</span>
                 <h3 style={{ margin: "16px 0 10px", fontSize: 22, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.15 }}>{c.title}</h3>
-                <p style={{ margin: "0 0 18px", color: "#8990A0", fontSize: 15.5, lineHeight: 1.5 }}>{c.text}</p>
+                <p style={{ margin: "0 0 18px", color: "#5A6275", fontSize: 15.5, lineHeight: 1.5 }}>{c.text}</p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
                   {(c.points || []).map((p) => (
-                    <div key={p} style={{ display: "flex", gap: 10, color: "#3A4152", fontSize: 15, lineHeight: 1.4 }}>
-                      <span style={{ color: "#2E6BE6", flex: "none" }}>›</span>{p}
+                    <div key={p} style={{ display: "flex", gap: 10, color: "#4A5163", fontSize: 15, lineHeight: 1.4 }}>
+                      <span style={{ color: "#1F52B8", flex: "none" }}>›</span>{p}
                     </div>
                   ))}
                 </div>
@@ -123,7 +123,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
         </div>
         <div data-appcases="1" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
           {cases.map((c, i) => (
-            <article key={c._id || i} style={{ background: "#fff", borderRadius: 22, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+            <article key={c._id || i} style={{ background: "#fff", borderRadius: 18, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <div style={{ position: "relative", aspectRatio: "16 / 10", background: "#E7EAF0" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={caseImg(c._id)} alt={c.title || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
@@ -131,7 +131,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
               <div style={{ padding: 26, display: "flex", flexDirection: "column", flex: 1 }}>
                 <span style={tagPill}>{c.tag}</span>
                 <h3 style={{ margin: "14px 0 10px", fontSize: 19, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.2 }}>{c.title}</h3>
-                <p style={{ margin: 0, color: "#8990A0", fontSize: 15, lineHeight: 1.55 }}>{c.text}</p>
+                <p style={{ margin: 0, color: "#5A6275", fontSize: 15, lineHeight: 1.55 }}>{c.text}</p>
               </div>
             </article>
           ))}
@@ -145,7 +145,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
             <h2 style={{ margin: "0 0 8px", fontSize: "clamp(22px,2.6vw,32px)", fontWeight: 600, letterSpacing: "-.02em" }}>{doc?.cta?.heading || EN.ctaHeading}</h2>
             <p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 16, lineHeight: 1.55 }}>{doc?.cta?.body || EN.ctaBody}</p>
           </div>
-          <a href={ctaClosingHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 14, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{doc?.cta?.button?.label || EN.ctaButton} <ArrowUpRight /></a>
+          <a href={ctaClosingHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 28px", borderRadius: 999, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>{doc?.cta?.button?.label || EN.ctaButton} <ArrowUpRight /></a>
         </div>
       </section>
 

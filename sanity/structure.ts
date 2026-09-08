@@ -33,6 +33,7 @@ export const structure: StructureResolver = (S) =>
               pageItem(S, "Applications", "applicationsPage", "applications-en"),
               pageItem(S, "Investors", "investorsPage", "investors-en"),
               pageItem(S, "About", "aboutPage", "about-en"),
+              pageItem(S, "Privacy", "privacyPage", "privacy-en"),
             ])
         ),
       S.divider(),
@@ -40,5 +41,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("caseStudy").title("Case studies"),
       S.divider(),
       S.documentTypeListItem("partner").title("Partners"),
+      S.documentTypeListItem("teamMember").title("Team"),
       S.documentTypeListItem("author").title("Authors"),
     ]);
