@@ -204,7 +204,10 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 }
 
 /* pagination dots (also used by the deck, so styled globally not per-breakpoint) */
-.slider-dots{display:flex;justify-content:center;gap:0;margin-top:16px}
+.slider-dots{display:none;justify-content:center;gap:0;margin-top:16px}
+/* The sliders only exist on phones. The dots are created on mount, so a window
+   resized past the breakpoint used to leave them behind, visible and inert. */
+@media (max-width:720px){ .slider-dots{display:flex} }
 /* The dot stays 7px, but the button carries 9px of padding so the tap target
    is 25x25 — WCAG 2.5.8 asks for 24 (audit ch. 13). */
 .slider-dots > button{
@@ -502,7 +505,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .tech-links{display:flex;align-items:center;gap:clamp(16px,2vw,32px);font-size:16.5px;font-weight:600}
 .tech-links a{color:#14161C}
 .tech-links a.active{color:#1F52B8}
-.tech-cta{display:inline-flex;align-items:center;gap:7px;background:#2E6BE6;color:#fff;padding:11px 20px;border-radius:999px;font-weight:500;font-size:15px}
+.tech-cta{display:inline-flex;align-items:center;gap:7px;background:#2E6BE6;color:#fff;padding:11px 20px;border-radius:8px;font-weight:500;font-size:15px}
 /* language switcher (EN / NL / PL) */
 /* Language switcher: a <details> dropdown, so it works with no JS at all. The
    script only adds outside-click / Escape closing on top of that. */
@@ -510,7 +513,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .lang-dd > summary{
   display:inline-flex;align-items:center;gap:6px;list-style:none;cursor:pointer;
   font-size:12.5px;font-weight:600;color:#14161C;line-height:1;
-  padding:7px 10px;border:1px solid rgba(24,30,48,.14);border-radius:999px;
+  padding:7px 10px;border:1px solid rgba(24,30,48,.14);border-radius:8px;
   transition:border-color .2s ease,background .2s ease;
   /* the switcher is a 3-item control - keep it comfortably tappable (WCAG 2.5.8) */
   min-height:32px;
@@ -557,7 +560,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
   }
   .tech-nav[data-open="1"] .tech-links{display:flex}
   .tech-cta{display:none}            /* desktop CTA hidden; lives inside the menu on mobile */
-  .tech-cta-mobile{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#2E6BE6;color:#fff;padding:12px 20px;border-radius:999px;font-weight:500;font-size:15px}
+  .tech-cta-mobile{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#2E6BE6;color:#fff;padding:12px 20px;border-radius:8px;font-weight:500;font-size:15px}
   .tech-burger{display:flex}
   /* the fixed nav is ~69px tall; guarantee the page content below it clears
      the bar on every subpage (some heroes only reserved ~72px and tucked under) */
@@ -679,7 +682,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .cf-privacy a{color:#1F52B8;text-decoration:underline}
 .cf-submit{
   align-self:flex-start;background:#2E6BE6;color:#fff;border:0;
-  min-height:48px;padding:13px 30px;border-radius:999px;
+  min-height:48px;padding:13px 30px;border-radius:8px;
   font:inherit;font-weight:500;font-size:16px;cursor:pointer;
   box-shadow:0 10px 30px rgba(46,107,230,.3);transition:transform .2s ease,background .2s ease;
 }
@@ -728,7 +731,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .cc-body a{color:#1F52B8;text-decoration:underline}
 .cc-actions{display:flex;flex-wrap:wrap;gap:10px}
 .cc-actions button{
-  min-height:44px;padding:11px 22px;border-radius:999px;
+  min-height:44px;padding:11px 22px;border-radius:8px;
   font:inherit;font-size:15px;font-weight:500;cursor:pointer;
   transition:background .18s ease-out,border-color .18s ease-out,transform .18s cubic-bezier(.16,1,.3,1);
 }

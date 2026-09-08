@@ -207,7 +207,7 @@ export default function CaseStudyPage({ lang, doc }: { lang: Locale; doc: CaseSt
             <h2 style={{ margin: "0 0 8px", fontSize: "clamp(21px,2.4vw,28px)", fontWeight: 600, letterSpacing: "-.02em" }}>{t.ctaHeading}</h2>
             <p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 16, lineHeight: 1.55 }}>{t.ctaBody}</p>
           </div>
-          <a href={ctaHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "15px 26px", borderRadius: 999, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>
+          <a href={ctaHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "15px 26px", borderRadius: 8, fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" }}>
             {t.ctaButton} <ArrowUpRight />
           </a>
         </section>

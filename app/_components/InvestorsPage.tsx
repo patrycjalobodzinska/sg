@@ -80,7 +80,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
             <p style={{ margin: "24px 0 0", color: "rgba(255,255,255,.75)", fontSize: "clamp(16px,1.7vw,19px)", lineHeight: 1.6, maxWidth: 620 }}>{hero.body1}</p>
             <p style={{ margin: "16px 0 0", color: "rgba(255,255,255,.6)", fontSize: 16, lineHeight: 1.6, maxWidth: 620 }}>{hero.body2}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 32 }}>
-              <a href={deckHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 26px", borderRadius: 999, fontWeight: 600, fontSize: 16, boxShadow: "0 14px 36px rgba(46,107,230,.4)" }}>{hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight /></a>
+              <a href={deckHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "16px 26px", borderRadius: 8, fontWeight: 600, fontSize: 16, boxShadow: "0 14px 36px rgba(46,107,230,.4)" }}>{hero.primaryCta?.label || t.heroPrimary} <ArrowUpRight /></a>
               <a href={irHref} style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", color: "#fff", padding: "16px 24px", borderRadius: 12, fontWeight: 500, fontSize: 16 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
             </div>
           </div>

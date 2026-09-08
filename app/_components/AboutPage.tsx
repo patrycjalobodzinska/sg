@@ -76,7 +76,7 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
             </h1>
             <p style={{ margin: "22px 0 0", color: "#4A5163", fontSize: "clamp(16.5px,1.7vw,19px)", lineHeight: 1.65, maxWidth: 540 }}>{hero.lead}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 26px", marginTop: 30 }}>
-              <a href={techHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 999, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.primary} <ArrowUpRight /></a>
+              <a href={techHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 8, fontWeight: 500, fontSize: 16 }}>{hero.primaryCta?.label || t.primary} <ArrowUpRight /></a>
               <a href={contactHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.secondary} <ArrowUpRight /></a>
             </div>
           </div>
@@ -206,7 +206,7 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
         <div style={{ color: "#5A6275", fontSize: 13, fontWeight: 500, letterSpacing: ".04em", marginBottom: 18 }}>{partnersLabel}</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
           {partners.map((p) => (
-            <span key={p} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.1)", color: "#4A5163", fontSize: 14, fontWeight: 500, padding: "10px 16px", borderRadius: 999 }}>{p}</span>
+            <span key={p} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.1)", color: "#4A5163", fontSize: 14, fontWeight: 500, padding: "10px 16px", borderRadius: 8 }}>{p}</span>
           ))}
         </div>
       </section>
