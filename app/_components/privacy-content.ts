@@ -61,7 +61,7 @@ export const PRIVACY_EN: PrivacySection[] = [
     heading: "Cookies",
     paragraphs: [
       "The website does not use advertising or tracking cookies. Any storage in your browser is what is needed to display the pages you request.",
-      "If we add analytics or other non-essential tracking, we will ask for your consent first and update this notice.",
+      "Analytics runs only if you accept it. When you first arrive we ask, nothing is measured until you say yes, and you can change your mind at any time through “Cookie settings” at the bottom of any page.",
     ],
   },
   {

@@ -1,5 +1,6 @@
 import "../globals.css";
 import { Montserrat } from "next/font/google";
+import CookieConsent from "./CookieConsent";
 import type { Locale } from "../i18n";
 
 const montserrat = Montserrat({
@@ -58,6 +59,7 @@ export default function RootDocument({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
         {children}
+        <CookieConsent lang={lang} />
       </body>
     </html>
   );

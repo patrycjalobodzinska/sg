@@ -17,6 +17,13 @@ const isExternal = (href: string) => /^https?:/.test(href);
  *  plain text beats shipping an anchor that silently goes nowhere. */
 const isPlaceholder = (href: string) => !href || href === "#" || href.endsWith("#top");
 
+/** Reopens the consent banner; CookieConsent listens for the data attribute. */
+const COOKIE_LABEL: Record<Locale, string> = {
+  en: "Cookie settings",
+  nl: "Cookie-instellingen",
+  pl: "Ustawienia cookie",
+};
+
 export default async function SiteFooter({ lang = defaultLocale }: { lang?: Locale }) {
   const s = await getSiteSettings(lang);
   return (
@@ -58,7 +65,10 @@ export default async function SiteFooter({ lang = defaultLocale }: { lang?: Loca
       </div>
       <div style={{ maxWidth: 1240, margin: "24px auto 0", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, color: "#5A6275", fontSize: 14 }}>
         <div>{s.footerCopyright}</div>
-        <div style={{ display: "flex", gap: 20 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
+          <button type="button" data-cookie-settings="1" style={{ background: "none", border: 0, padding: 0, color: "#5A6275", font: "inherit", fontSize: 14, cursor: "pointer", textAlign: "left" }}>
+            {COOKIE_LABEL[lang]}
+          </button>
           {s.legalLinks.map((l, i) =>
             isPlaceholder(l.href) ? (
               <span key={i} style={{ color: "#5A6275", opacity: 0.55 }}>{l.label}</span>
