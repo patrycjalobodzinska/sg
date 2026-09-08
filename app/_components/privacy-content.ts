@@ -58,10 +58,11 @@ export const PRIVACY_EN: PrivacySection[] = [
     ],
   },
   {
-    heading: "Cookies",
+    heading: "Cookies and analytics",
     paragraphs: [
-      "The website does not use advertising or tracking cookies. Any storage in your browser is what is needed to display the pages you request.",
-      "Analytics runs only if you accept it. When you first arrive we ask, nothing is measured until you say yes, and you can change your mind at any time through “Cookie settings” at the bottom of any page.",
+      "We do not use advertising cookies, and we do not sell or share your data with advertisers.",
+      "With your consent we use Google Analytics to see how the site is used, so that we can improve it. It stores a cookie in your browser and sends usage data, including a shortened IP address, to Google as our service provider.",
+      "Analytics runs only if you accept it. We ask when you first arrive, nothing is measured until you say yes, and you can change your mind at any time through “Cookie settings” at the bottom of any page. Everything else stored in your browser is what is needed to display the pages you request.",
     ],
   },
   {

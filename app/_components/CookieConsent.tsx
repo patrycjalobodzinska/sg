@@ -55,16 +55,18 @@ function readChoice(): Choice | null {
 
 /** The banner plus the analytics loader it gates.
  *
- *  Google Analytics only mounts when two things are true: the visitor accepted,
- *  and a measurement ID is configured. Without `NEXT_PUBLIC_GA_ID` nothing loads
- *  at all — accepting simply records the choice, so the banner can ship before
- *  the tag does (audit ch. 13). */
+ *  Google Analytics only mounts once the visitor has accepted. Consent Mode
+ *  starts denied, the tag is never requested before the click, and declining
+ *  keeps it that way (audit ch. 13). */
 export default function CookieConsent({ lang }: { lang: Locale }) {
   const t = COPY[lang];
   const [choice, setChoice] = useState<Choice | null>(null);
   const [open, setOpen] = useState(false);
   const acceptRef = useRef<HTMLButtonElement>(null);
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  // A GA4 measurement ID is public by design - it ships in every page of the
+  // property already - so it is defaulted here and the deploy needs no env var.
+  // NEXT_PUBLIC_GA_ID still overrides it, e.g. for a staging property.
+  const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-SL2B6TPEWF";
 
   // Read after mount: the server has no way to know the visitor's choice, and
   // rendering the banner during hydration would flash it for everyone.
