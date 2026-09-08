@@ -188,7 +188,7 @@ export const HOME_EN: HomeContent = {
     linkedInHref: "https://pl.linkedin.com/company/sg-papertronics-b-v",
   },
   seo: {
-    title: "SG Papertronics - At-line process monitoring for biotech and fermentation",
+    title: "SG Papertronics - At-line analytics for living processes",
     description: "Q‑Tector is an at-line testing platform built for living processes. Turn small samples into actionable process data - from development to production.",
   },
   images: {

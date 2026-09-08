@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-export const SITE_TITLE =
-  "SG Papertronics - At-line process monitoring for biotech and fermentation";
+// 56 characters: a search result cuts the title around 60.
+export const SITE_TITLE = "SG Papertronics - At-line analytics for living processes";
 export const SITE_DESC =
   "Q‑Tector is an at-line testing platform built for living processes. Turn small samples into actionable process data - from development to production.";
 
