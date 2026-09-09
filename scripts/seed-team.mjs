@@ -35,9 +35,9 @@ const TEAM = [
   { key: "diederik", name: "Diederik, PhD", role: "COO", photo: `${BASE}/2023/05/Diederik-sgpapertronics-1.jpeg` },
   { key: "mags", name: "Mags", role: "Financial & Business Controller", photo: `${BASE}/2023/06/mags.jpeg` },
   { key: "steven", name: "Steven", role: "Product Design and Sourcing", photo: `${BASE}/2023/05/steven-sgpapertronics-1024x1024-1.webp` },
-  { key: "ruby", name: "Ruby Karsten, PhD", role: "R&D Scientist", photo: `${BASE}/2024/09/Ruby-Karsten.jpeg` },
-  { key: "hubert", name: "Hubert Hurban", role: "Marketing Specialist", photo: `${BASE}/2024/09/hubert-hurban.jpeg` },
-  { key: "anna", name: "Anna Maria Lis", role: "Product Design and Content Creator Intern", photo: `${BASE}/2024/09/WhatsApp-Image-2024-09-26-at-11.27.16.jpeg` },
+  // Ruby, Hubert and Anna Maria Lis have left (scripts/update-team.mjs took them
+  // off the page). Do not re-add them here.
+  { key: "jelmer", name: "Jelmer Coenradij", role: "R&D Scientist", local: "public/assets/team/jelmer-coenradij.jpg" },
   { key: "adrian", name: "Adrian", role: "R&D Intern", photo: `${BASE}/2023/05/adrian-rufli-sgpapertronics-1024x1024-1.jpeg` },
 ];
 
@@ -52,10 +52,17 @@ for (const [i, m] of TEAM.entries()) {
 
   let photo;
   try {
-    const res = await fetch(m.photo);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const buffer = Buffer.from(await res.arrayBuffer());
-    const asset = await client.assets.upload("image", buffer, { filename: `${m.key}${path.extname(new URL(m.photo).pathname)}` });
+    // `local` is a file in this repo; `photo` is a URL on the old WordPress site.
+    let buffer;
+    if (m.local) {
+      buffer = readFileSync(`${root}/${m.local}`);
+    } else {
+      const res = await fetch(m.photo);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      buffer = Buffer.from(await res.arrayBuffer());
+    }
+    const ext = m.local ? path.extname(m.local) : path.extname(new URL(m.photo).pathname);
+    const asset = await client.assets.upload("image", buffer, { filename: `${m.key}${ext}` });
     photo = { _type: "imageWithAlt", asset: { _type: "reference", _ref: asset._id }, alt: `${m.name}, ${m.role}` };
   } catch (err) {
     console.log(`  ! photo skipped (${err.message}) - add it in the Studio`);
