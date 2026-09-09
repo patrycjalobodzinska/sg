@@ -1,5 +1,6 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import ArrowUpRight from "./ArrowUpRight";
+import BodyImage from "./BodyImage";
 import SiteNav from "../site-nav";
 import SiteFooter from "../site-footer";
 import { urlFor } from "../../sanity/lib/image";
@@ -82,7 +83,15 @@ const components: PortableTextComponents = {
     ),
   },
   listItem: { bullet: ({ children }) => <li>{children}</li> },
-  marks: { strong: ({ children }) => <strong style={{ fontWeight: 600, color: "#14161C" }}>{children}</strong> },
+  marks: {
+    strong: ({ children }) => <strong style={{ fontWeight: 600, color: "#14161C" }}>{children}</strong>,
+    link: ({ children, value }) => (
+      <a href={value?.href} target="_blank" rel="noopener noreferrer" style={{ color: "#2E6BE6", textDecoration: "underline", textUnderlineOffset: 3 }}>
+        {children}
+      </a>
+    ),
+  },
+  types: { imageWithAlt: ({ value }) => <BodyImage value={value} /> },
 };
 
 const pill = (text: string, tone: "brand" | "neutral" = "brand") => (
@@ -154,14 +163,14 @@ export default function CaseStudyPage({ lang, doc }: { lang: Locale; doc: CaseSt
         {doc.description ? <p style={{ margin: "18px 0 0", color: "#4A5163", fontSize: "clamp(17px,1.7vw,20px)", lineHeight: 1.6 }}>{doc.description}</p> : null}
 
         {hero ? (
-          <div style={{ margin: "clamp(28px,4vw,40px) 0 0", borderRadius: 18, overflow: "hidden", background: "#E7EAF0" }}>
+          <div style={{ margin: "clamp(28px,4vw,40px) 0 0", borderRadius: 12, overflow: "hidden", background: "#E7EAF0" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={hero} alt={doc.image?.alt || ""} style={{ display: "block", width: "100%", height: "auto" }} />
           </div>
         ) : null}
 
         {known.length ? (
-          <section style={{ marginTop: "clamp(28px,4vw,40px)", background: "#fff", border: "1px solid rgba(24,30,48,.08)", borderRadius: 18, padding: "clamp(20px,2.4vw,28px)" }}>
+          <section style={{ marginTop: "clamp(28px,4vw,40px)", background: "#fff", border: "1px solid rgba(24,30,48,.08)", borderRadius: 12, padding: "clamp(20px,2.4vw,28px)" }}>
             <div style={{ color: "#5A6275", fontSize: 11.5, fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", marginBottom: 16 }}>{t.facts}</div>
             <dl style={{ margin: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: "18px 28px" }}>
               {known.map(([label, value]) => (
@@ -184,7 +193,7 @@ export default function CaseStudyPage({ lang, doc }: { lang: Locale; doc: CaseSt
         ) : null}
 
         {doc.quote ? (
-          <blockquote style={{ margin: "clamp(28px,4vw,40px) 0 0", padding: "clamp(20px,2.4vw,28px)", background: "#fff", borderLeft: "3px solid #2E6BE6", borderRadius: "0 18px 18px 0" }}>
+          <blockquote style={{ margin: "clamp(28px,4vw,40px) 0 0", padding: "clamp(20px,2.4vw,28px)", background: "#fff", borderLeft: "3px solid #2E6BE6", borderRadius: "0 12px 12px 0" }}>
             <p style={{ margin: 0, color: "#14161C", fontSize: "clamp(17px,1.8vw,20px)", lineHeight: 1.55 }}>“{doc.quote}”</p>
             {doc.quoteAuthor ? <footer style={{ marginTop: 12, color: "#5A6275", fontSize: 14.5, fontWeight: 500 }}>{doc.quoteAuthor}</footer> : null}
           </blockquote>

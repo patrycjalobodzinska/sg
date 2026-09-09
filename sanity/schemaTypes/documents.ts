@@ -55,7 +55,20 @@ export const caseStudy = defineType({
     defineField({ name: "workflow", title: "Workflow", type: "text", rows: 3, group: "story" }),
     defineField({ name: "partner", title: "Partner", type: "string", group: "story" }),
     defineField({ name: "nextMilestone", title: "Next milestone", type: "string", group: "story" }),
-    defineField({ name: "body", title: "Full story (optional)", type: "array", of: [defineArrayMember({ type: "block" })], group: "story" }),
+    // The client writes the story here: a plain rich-text editor with headings,
+    // bold, lists and links, and photos dropped in between the paragraphs -
+    // the same editor the news articles use, so there is one thing to learn.
+    defineField({
+      name: "body",
+      title: "Full story (optional)",
+      type: "array",
+      group: "story",
+      description: "Free text with photos. Use “Image” in the “+” menu to place a photo between paragraphs; give every photo alt text.",
+      of: [
+        defineArrayMember({ type: "block" }),
+        defineArrayMember({ type: "imageWithAlt" }),
+      ],
+    }),
     defineField({ name: "seo", title: "SEO", type: "seo", group: "story" }),
   ],
   groups: [

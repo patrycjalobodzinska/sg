@@ -1,5 +1,6 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import ArrowUpRight from "./ArrowUpRight";
+import BodyImage from "./BodyImage";
 import SiteFooter from "../site-footer";
 import SiteNav from "../site-nav";
 import { getNewsArticle, formatNewsDate } from "../../sanity/lib/news";
@@ -34,6 +35,7 @@ const components: PortableTextComponents = {
       </a>
     ),
   },
+  types: { imageWithAlt: ({ value }) => <BodyImage value={value} /> },
 };
 
 const heroImg = (img: unknown) => {
@@ -74,7 +76,7 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
         )}
 
         {cover && (
-          <div style={{ position: "relative", aspectRatio: "16 / 9", borderRadius: 18, overflow: "hidden", margin: "28px 0 36px", background: "#E7EAF0", boxShadow: "0 18px 52px rgba(20,26,48,.08)" }}>
+          <div style={{ position: "relative", aspectRatio: "16 / 9", borderRadius: 12, overflow: "hidden", margin: "28px 0 36px", background: "#E7EAF0", boxShadow: "0 18px 52px rgba(20,26,48,.08)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={cover} alt={a.coverImage?.alt || a.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
