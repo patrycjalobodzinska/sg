@@ -3,6 +3,7 @@ import { contactUrl } from "./contact-intent";
 import ArrowUpRight from "./ArrowUpRight";
 import SiteNav from "../site-nav";
 import type { Locale } from "../i18n";
+import { urlFor } from "../../sanity/lib/image";
 
 type Cta = { label?: string; href?: string };
 type Step = { n?: string; title?: string; text?: string };
@@ -104,11 +105,20 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
   const lead = hero.lead || EN.heroLead;
   const body1 = hero.body1 || EN.heroBody1;
   const body2 = hero.body2 || EN.heroBody2;
-  /** The hero art is the brand's chrome form, not `hero.image`: every device photo
-   *  we hold carries the Beer-o-Meter mark, and this page is about Q-Tector (audit
-   *  ch. 1 and 5). Rendered small and cropped into the corner, echoing the home hero.
-   *  Swap it for a neutrally branded Q-Tector shot once the product session exists. */
+  /** The hero shows `hero.image` when the Studio holds one, and falls back to the
+   *  brand's chrome form when it does not. The image used to be ignored on purpose:
+   *  the only device photo we had was the Beer-o-Meter, mark and all, and this page
+   *  is about Q-Tector (audit ch. 1 and 5). The reader-on-the-tank shot solves that
+   *  - same hardware, no wordmark in frame - so the photo can lead again. */
   const heroArt = "/assets/hero-chrome.png";
+  const heroPhoto = (() => {
+    try {
+      return hero.image ? urlFor(hero.image).width(1200).height(900).fit("crop").auto("format").url() : null;
+    } catch {
+      return null;
+    }
+  })();
+  const heroAlt = (hero.image as { alt?: string } | undefined)?.alt ?? "";
 
   // Audit ch. 12: each CTA carries its own intent instead of dropping everyone on
   // the homepage's #contact anchor, which bypassed the intent-aware form entirely.
@@ -145,8 +155,19 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
             </div>
           </div>
           <div style={{ position: "relative", minHeight: 300, aspectRatio: "4 / 3" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={heroArt} alt="" aria-hidden="true" style={{ position: "absolute", right: 0, bottom: 0, width: "auto", height: "auto", maxWidth: "92%", maxHeight: "92%", pointerEvents: "none" }} />
+            {heroPhoto ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={heroPhoto}
+                alt={heroAlt}
+                {...(heroAlt ? {} : { "aria-hidden": true })}
+                fetchPriority="high"
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", borderRadius: 12, background: "#E7EAF0" }}
+              />
+            ) : (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={heroArt} alt="" aria-hidden="true" style={{ position: "absolute", right: 0, bottom: 0, width: "auto", height: "auto", maxWidth: "92%", maxHeight: "92%", pointerEvents: "none" }} />
+            )}
           </div>
         </div>
       </header>
@@ -205,7 +226,7 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
               ))}
             </div>
           </div>
-          <div style={{ position: "relative", borderRadius: 18, overflow: "hidden", background: "#fff", border: "1px solid rgba(24,30,48,.07)", boxShadow: "0 16px 44px rgba(20,26,48,.06)", aspectRatio: "4 / 3", minHeight: 220 }}>
+          <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", background: "#fff", border: "1px solid rgba(24,30,48,.07)", boxShadow: "0 16px 44px rgba(20,26,48,.06)", aspectRatio: "4 / 3", minHeight: 220 }}>
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
               <defs>
                 <linearGradient id="qtAreaT" x1="0" y1="0" x2="0" y2="1">
@@ -255,7 +276,7 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
             <p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 17, lineHeight: 1.6 }}>{scale.body2 || EN.scaleBody2}</p>
             <a href={ctaScaleHref} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 30, background: "#2E6BE6", color: "#fff", padding: "14px 26px", borderRadius: 8, fontWeight: 500, fontSize: 16 }}>{t.scaleCta} <ArrowUpRight /></a>
           </div>
-          <div style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 18, padding: "clamp(22px,3vw,30px)" }}>
+          <div style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 12, padding: "clamp(22px,3vw,30px)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", color: "rgba(255,255,255,.55)", fontSize: 12, marginBottom: 18 }}>
               {t.stages.map((s) => <span key={s}>{s}</span>)}
             </div>
