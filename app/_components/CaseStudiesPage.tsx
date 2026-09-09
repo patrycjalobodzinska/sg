@@ -54,7 +54,7 @@ export default function CaseStudiesPage({ lang, items }: { lang: Locale; items: 
               <a
                 key={c._id}
                 href={localizedPath(`/case-studies/${c.slug}`, lang)}
-                style={{ background: "#fff", borderRadius: 18, border: "1px solid rgba(24,30,48,.07)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column", color: "inherit" }}
+                style={{ background: "#fff", borderRadius: 12, border: "1px solid rgba(24,30,48,.07)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column", color: "inherit" }}
               >
                 {img ? (
                   <div style={{ position: "relative", aspectRatio: "16 / 10", background: "#E7EAF0" }}>

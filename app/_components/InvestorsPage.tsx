@@ -84,7 +84,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
               <a href={irHref} style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", color: "#fff", padding: "16px 24px", borderRadius: 12, fontWeight: 500, fontSize: 16 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
             </div>
           </div>
-          <div style={{ position: "relative", borderRadius: 18, overflow: "hidden", aspectRatio: "4 / 3", background: "#141C2E", boxShadow: "0 30px 60px rgba(0,0,0,.4)" }}>
+          <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "4 / 3", background: "#141C2E", boxShadow: "0 30px 60px rgba(0,0,0,.4)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/SG-papertronics009b.jpg" alt="SG Papertronics team in the lab" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 38%" }} />
           </div>
@@ -102,7 +102,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
             <p style={{ margin: "0 0 14px", color: "#4A5163", fontSize: 16.5, lineHeight: 1.65 }}>{why.body1}</p>
             <p style={{ margin: 0, color: "#4A5163", fontSize: 16.5, lineHeight: 1.65 }}>{why.body2}</p>
           </div>
-          <div style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 18, padding: "clamp(24px,3vw,32px)", boxShadow: "0 12px 40px rgba(20,26,48,.04)" }}>
+          <div style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 12, padding: "clamp(24px,3vw,32px)", boxShadow: "0 12px 40px rgba(20,26,48,.04)" }}>
             {(why.painPoints ?? []).map((p) => (
               <div key={p} style={{ display: "flex", gap: 12, padding: "12px 0", borderBottom: "1px solid rgba(24,30,48,.07)", color: "#14161C", fontSize: 15.5, lineHeight: 1.45 }}>
                 <span style={{ color: "#1F52B8", flex: "none" }}>›</span>{p}
@@ -158,7 +158,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
         </div>
         <div data-invbenefits="1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {benefits.map((b, i) => (
-            <div key={b.tag || i} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 18, padding: "clamp(26px,3vw,34px)", boxShadow: "0 12px 40px rgba(20,26,48,.05)" }}>
+            <div key={b.tag || i} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 12, padding: "clamp(26px,3vw,34px)", boxShadow: "0 12px 40px rgba(20,26,48,.05)" }}>
               <span style={{ display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#1F52B8", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 }}>{b.tag}</span>
               <p style={{ margin: "18px 0 14px", color: "#4A5163", fontSize: 15.5, lineHeight: 1.6 }}>{b.text}</p>
               <div style={{ display: "flex", gap: 8, alignItems: "flex-start", color: "#14161C", fontSize: 14.5, fontWeight: 600, lineHeight: 1.45 }}>
@@ -172,7 +172,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
       {/* COMMERCIAL FOUNDATION (chrome — not in schema) */}
       <section style={{ maxWidth: 1440, margin: "0 auto", padding: "clamp(12px,2vw,28px) clamp(20px,5vw,64px)" }}>
         <div data-inv2="1" style={{ display: "grid", gridTemplateColumns: "1fr 1.05fr", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
-          <div style={{ position: "relative", borderRadius: 18, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 18px 48px rgba(20,26,48,.1)" }}>
+          <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 18px 48px rgba(20,26,48,.1)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/beerometer-1080x675.jpeg" alt="Beer-o-Meter - the first commercial validation" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
@@ -207,7 +207,7 @@ export default function InvestorsPage({ lang, doc }: { lang: Locale; doc: InvDoc
         </div>
         <div data-invmarket="1" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18 }}>
           {seriesA.map((s, i) => (
-            <div key={s.title || i} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 18, padding: 28, boxShadow: "0 12px 40px rgba(20,26,48,.04)" }}>
+            <div key={s.title || i} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 12, padding: 28, boxShadow: "0 12px 40px rgba(20,26,48,.04)" }}>
               <span style={{ display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#1F52B8", background: "#E9F0FC", padding: "4px 11px", borderRadius: 999, fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
               <h3 style={{ margin: "16px 0 8px", fontSize: 19, fontWeight: 600, letterSpacing: "-.01em" }}>{s.title}</h3>
               <p style={{ margin: 0, color: "#5A6275", fontSize: 15, lineHeight: 1.5 }}>{s.text}</p>

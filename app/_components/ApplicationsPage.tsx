@@ -77,7 +77,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
               <a href={techHref} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "#14161C", fontSize: 16, fontWeight: 500, borderBottom: "1px solid rgba(20,26,48,.2)", paddingBottom: 4 }}>{hero.secondaryCta?.label || t.heroSecondary} <ArrowUpRight /></a>
             </div>
           </div>
-          <div style={{ position: "relative", borderRadius: 18, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 24px 60px rgba(20,26,48,.12)" }}>
+          <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 24px 60px rgba(20,26,48,.12)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={HERO_IMG} alt="Fermentation process monitoring" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
             <div style={{ position: "absolute", left: 16, bottom: 16, background: "rgba(255,255,255,.9)", backdropFilter: "blur(8px)", padding: "7px 13px", borderRadius: 999, fontSize: 13, fontWeight: 500 }}>{t.heroCaption}</div>
@@ -93,7 +93,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
         </div>
         <div data-appcats="1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
           {cats.map((c, i) => (
-            <div key={c.tag || i} style={{ background: "#fff", borderRadius: 18, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 14px 44px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+            <div key={c.tag || i} style={{ background: "#fff", borderRadius: 12, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 14px 44px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <div style={{ position: "relative", aspectRatio: "16 / 8", background: "#E7EAF0" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={CAT_IMG[i] || CAT_IMG[0]} alt={c.title || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
@@ -123,7 +123,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
         </div>
         <div data-appcases="1" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
           {cases.map((c, i) => (
-            <article key={c._id || i} style={{ background: "#fff", borderRadius: 18, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+            <article key={c._id || i} style={{ background: "#fff", borderRadius: 12, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <div style={{ position: "relative", aspectRatio: "16 / 10", background: "#E7EAF0" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={caseImg(c._id)} alt={c.title || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />

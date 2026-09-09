@@ -49,7 +49,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
       {/* FEATURED */}
       {featured && (
         <section style={{ maxWidth: 1440, margin: "0 auto", padding: "clamp(14px,2vw,24px) clamp(20px,5vw,64px)" }}>
-          <a href={href(featured.slug)} data-newsfeat="1" style={{ display: "grid", gridTemplateColumns: "1.15fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "stretch", background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 18, overflow: "hidden", boxShadow: "0 18px 52px rgba(20,26,48,.06)", color: "inherit" }}>
+          <a href={href(featured.slug)} data-newsfeat="1" style={{ display: "grid", gridTemplateColumns: "1.15fr 1fr", gap: "clamp(24px,4vw,48px)", alignItems: "stretch", background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 12, overflow: "hidden", boxShadow: "0 18px 52px rgba(20,26,48,.06)", color: "inherit" }}>
             <div style={{ position: "relative", minHeight: 300, background: "#E7EAF0" }}>
               {cover(featured.coverImage, 1000, 720) && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -74,7 +74,7 @@ export default async function NewsListPage({ lang }: { lang: Locale }) {
         <section style={{ maxWidth: 1440, margin: "0 auto", padding: "clamp(24px,4vw,48px) clamp(20px,5vw,64px) clamp(20px,4vw,40px)" }}>
           <NewsCarousel>
             {items.map((it) => (
-              <a key={it._id} href={href(it.slug)} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 18, overflow: "hidden", boxShadow: "0 12px 40px rgba(20,26,48,.05)", display: "flex", flexDirection: "column", color: "inherit" }}>
+              <a key={it._id} href={href(it.slug)} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.06)", borderRadius: 12, overflow: "hidden", boxShadow: "0 12px 40px rgba(20,26,48,.05)", display: "flex", flexDirection: "column", color: "inherit" }}>
                 <div style={{ position: "relative", aspectRatio: "16 / 10", background: "#EEF1F6" }}>
                   {cover(it.coverImage, 720, 450) && (
                     // eslint-disable-next-line @next/next/no-img-element

@@ -22,18 +22,102 @@ h1,h2{
 h1 span,h2 span{font-family:inherit}
 
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes heroRise{from{opacity:0;transform:translateY(46px)}to{opacity:1;transform:translateY(0)}}
 @keyframes heroFade{from{opacity:0}to{opacity:1}}
 @keyframes heroRiseSoft{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 @keyframes qtDraw{to{stroke-dashoffset:0}}
-@keyframes heroBlobIn{from{opacity:0;transform:translate3d(-28px,26px,0) scale(1.06)}to{opacity:1;transform:none}}
-@keyframes heroDrift{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-14px,0)}}
+@keyframes heroPop{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+
+/* ===================== HOME HERO — editorial collage =====================
+   Copy holds a calm column on the left; four photographs of deliberately
+   unequal height sit beside it — the tank hall full height, the reader over the
+   lab bench, the crop field running the full height of the last column. Corners
+   are almost square: the reference is a picture spread, not a card deck.
+   Three of the four frames are stock stand-ins until the photo session
+   (audit ch. 10); all four are swappable in the Studio. */
+.hed{
+  max-width:1500px;margin:0 auto;
+  padding:clamp(112px,13vh,152px) clamp(20px,4vw,56px) clamp(44px,5vw,72px);
+  display:grid;
+  /* the collage takes clearly more than half — roughly 38 / 62 */
+  grid-template-columns:minmax(0,1fr) minmax(0,1.32fr);
+  gap:clamp(28px,3.2vw,48px);
+  align-items:center;
+}
+.hed-eyebrow{
+  margin:0 0 18px;color:#1F52B8;font-size:12.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.hed-title{
+  margin:0;color:#14161C;font-size:clamp(32px,4vw,54px);font-weight:600;
+  letter-spacing:-.032em;line-height:1;
+}
+.hed-title span{color:#767D91;font-weight:500}
+.hed-lead{margin:clamp(26px,3vw,36px) 0 0;max-width:520px}
+.hed-lead p{margin:0;color:#4A5163;font-size:16px;line-height:1.6}
+.hed-focus{
+  display:flex;align-items:center;gap:9px;margin:18px 0 0 !important;
+  color:#14161C;font-size:14.5px !important;font-weight:600;line-height:1.4 !important;
+}
+.hed-focus > span{flex:none;width:7px;height:7px;border-radius:50%;background:#2E6BE6}
+.hed-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:clamp(28px,3vw,40px)}
+.hed-btn{
+  display:inline-flex;align-items:center;gap:9px;min-height:48px;
+  padding:14px 24px;border-radius:8px;background:#14161C;color:#fff;
+  font-size:16px;font-weight:500;
+  transition:transform .18s cubic-bezier(.16,1,.3,1),background .18s ease-out;
+}
+.hed-btn:hover{background:#000;transform:translateY(-1px)}
+/* the narrower copy column fits one button; the second action becomes a link,
+   the way the reference sets a single call to action */
+.hed-btn--ghost{
+  padding:8px 0 5px;min-height:0;border-radius:0;background:none;color:#14161C;
+  border-bottom:1px solid rgba(20,26,48,.25);
+}
+.hed-btn--ghost:hover{background:none;transform:none;border-bottom-color:#14161C}
+
+.hed-grid{
+  display:grid;grid-template-columns:.78fr .95fr .8fr;gap:8px;
+  height:clamp(420px,62vh,640px);align-items:start;
+}
+.hed-grid figure{
+  position:relative;margin:0;overflow:hidden;border-radius:6px;background:#E7EAF0;
+  animation:heroPop 420ms cubic-bezier(.16,1,.3,1) var(--d,0ms) both;
+}
+.hed-grid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hed-col{display:flex;flex-direction:column;gap:8px;height:100%;min-height:0}
+.hed-col figure{min-height:0}
+/* the tank hall and the crop field run full height; the reader and the bench
+   split the middle column unevenly */
+.hed-tanks,.hed-field{height:100%}
+.hed-device{flex:1.15}
+.hed-lab{flex:.85}
+/* the reader sits high in its own frame; show it rather than the tank below */
+.hed-device img{object-position:50% 42%}
+
+.hed-rise{animation:heroRiseSoft 560ms cubic-bezier(.16,1,.3,1) var(--d,0ms) both}
+@media (prefers-reduced-motion:reduce){
+  .hed-rise,.hed-grid figure{animation:heroFade 220ms ease-out var(--d,0ms) both}
+}
+
+/* Tablets: the copy sits above the collage, which becomes a banner over two
+   columns - the tank hall across the top, then the middle column and the field
+   each two rows tall, so nothing gets squeezed into a sliver. The range is
+   closed at 641px: below it the stack takes over and would inherit the spans. */
+@media (min-width:641px) and (max-width:1000px){
+  .hed{grid-template-columns:minmax(0,1fr);padding-top:clamp(96px,12vh,124px)}
+  .hed-grid{grid-template-columns:1fr 1fr;grid-auto-rows:186px;height:auto}
+  .hed-tanks{grid-column:span 2;height:220px}
+  .hed-col,.hed-field{grid-row:span 2;height:100%}
+}
+@media (max-width:640px){
+  .hed{grid-template-columns:minmax(0,1fr)}
+}
 
 /* liquid-glass cards: refracted, blurred backdrop + inset highlights.
    The distortion (filter:url(#glass-distortion)) renders in Chromium; other
    browsers gracefully fall back to a plain frosted panel. */
 .lg-card{
-  position:relative;overflow:hidden;border-radius:18px;
+  position:relative;overflow:hidden;border-radius:12px;
   background:rgba(255,255,255,.3);
   border:1px solid rgba(255,255,255,.6);
   box-shadow:0 8px 24px rgba(20,26,48,.12),inset 2px 2px 1px 0 rgba(255,255,255,.6),inset -1px -1px 1px 1px rgba(255,255,255,.45);
@@ -182,6 +266,10 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
   .hero-tile{animation:none}
   .hero-tile img,.hero-tile-name{transition:none}
 }
+/* The mosaic's rows are built from the bottom and the short ones are pushed
+   right (see mosaicColumnStarts). The start is a three-column figure, so it is
+   applied only where the mosaic actually has three columns. */
+@media (min-width:561px){ [data-heromosaic] > li{grid-column-start:var(--cs,auto)} }
 @media (max-width:560px){ [data-heromosaic]{grid-template-columns:repeat(2,1fr) !important} }
 
 /* team grid on About */
@@ -231,6 +319,13 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .carousel-arrow:disabled{opacity:.32;cursor:default;box-shadow:none}
 
 /* data-lifecycle: 3 columns (card + photo) → stack on smaller screens */
+/* Above the stack, the three text cards share one row track (subgrid), so they
+   are the same height whatever their copy wraps to and the photos below them
+   all start on the same line. */
+@media (min-width:641px){
+  [data-lifecols]{grid-template-rows:auto 1fr}
+  [data-lifecols] > *{display:grid !important;grid-template-rows:subgrid;grid-row:span 2}
+}
 @media (max-width:1000px){ [data-lifecols]{grid-template-columns:1fr 1fr !important} }
 @media (max-width:640px){
   [data-lifecols]{grid-template-columns:1fr !important;gap:16px !important}
@@ -238,7 +333,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
      as a liquid-glass panel */
   [data-lifecols] > *{
     position:relative;min-height:360px;gap:0 !important;
-    border-radius:18px;overflow:hidden;
+    border-radius:12px;overflow:hidden;
     box-shadow:0 16px 40px rgba(20,26,48,.16);
   }
   /* the image fills the whole tile */
@@ -253,7 +348,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
     -webkit-backdrop-filter:blur(22px) saturate(160%);
     backdrop-filter:blur(22px) saturate(160%);
     border:1px solid rgba(255,255,255,.7) !important;
-    border-radius:18px !important;
+    border-radius:12px !important;
     padding:14px 16px !important;
     box-shadow:0 10px 30px rgba(8,12,24,.28),inset 0 1px 0 rgba(255,255,255,.6) !important;
   }
@@ -266,8 +361,6 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
   /* smaller type in the glass panel */
   [data-lifecols] h3{font-size:16px !important;color:#0E1526 !important}
   [data-lifecols] [style*="font-size:15.5px"]{font-size:12.5px !important;line-height:1.45 !important;color:#1B2130 !important}
-  /* col 3's little bar chart: keep it compact on the glass */
-  [data-lifecols] > * > *:first-child > div[style*="height:44px"]{height:30px !important;margin-bottom:10px !important}
 }
 
 /* alt-style benefits grid */
@@ -370,27 +463,19 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
   [data-footgrid] > *:first-child{grid-column:1 / -1 !important}
   footer .brand-logo{height:38px !important;width:auto !important;max-width:100% !important}
 
-  [data-hero-mobile]{display:none !important}
-  /* Phones: the two hero columns collapse to one - headline, actions, then the lead
-     card - and the chrome form drops behind the bottom of the section at low opacity
-     so the dark copy stays readable over it. */
-  [data-hero-desktop]{min-height:0 !important}
-  [data-hero-desktop] > div:last-child{
-    padding-top:clamp(108px,16vh,140px) !important;
-    padding-bottom:clamp(56px,10vw,80px) !important;
-  }
-  [data-herogrid]{display:flex !important;flex-direction:column;align-items:stretch !important;gap:clamp(20px,4vw,28px) !important}
-  [data-herocol]{display:contents}
-  [data-herocard]{order:2;margin-top:0 !important}
-  [data-heroctas]{order:3;margin:0 !important}
-  [data-heroblob]{
-    opacity:.32;right:-30% !important;bottom:0 !important;
-    width:138% !important;height:46% !important;
-  }
-  /* Phones: the hero reads as one centred column. */
-  [data-herogrid]{text-align:center}
-  [data-heroctas]{flex-direction:column;align-items:stretch;gap:16px}
-  [data-heroctas] a{width:100%;justify-content:center}
+  /* Phones: the collage stacks under the copy, one frame per row, and the two
+     actions become full-width blocks. The copy stays left-aligned - centring it
+     used to hide that the old hero had no image beside it, and it does now. */
+  .hed{padding-top:clamp(96px,14vh,124px) !important;padding-bottom:clamp(40px,8vw,64px) !important}
+  .hed-grid{grid-template-columns:1fr;grid-auto-rows:210px}
+  .hed-tanks{grid-column:span 1;height:210px}
+  /* the middle column spans two rows instead of splitting one between its two
+     frames, so all four photographs get the same height in the stack */
+  .hed-col{grid-row:span 2;height:100%;flex-direction:column}
+  .hed-device,.hed-lab{flex:1}
+  .hed-actions{flex-direction:column;align-items:stretch;gap:14px}
+  .hed-btn{width:100%;justify-content:center}
+  .hed-btn--ghost{padding:14px 24px;min-height:48px;border:1px solid #CBD3E0;border-radius:8px;background:rgba(255,255,255,.82)}
 
   section:has([data-benefprod]){padding-top:24px !important}
   /* hero nav keeps the desktop behaviour: transparent over the image at the top,
@@ -456,7 +541,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
     position:absolute;top:72px;right:20px;left:20px;
     flex-direction:column;align-items:flex-start;
     background:rgba(255,255,255,.96);backdrop-filter:blur(14px);
-    padding:20px;border-radius:18px;
+    padding:20px;border-radius:12px;
     box-shadow:0 20px 50px rgba(0,0,0,.15);
   }
   nav[data-nav][data-open="1"] [data-nav-links]{display:flex !important}
@@ -555,7 +640,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
     position:absolute;top:60px;right:16px;left:16px;
     flex-direction:column;align-items:stretch;gap:14px;
     background:rgba(255,255,255,.98);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    padding:20px;border-radius:18px;
+    padding:20px;border-radius:12px;
     box-shadow:0 20px 50px rgba(8,12,24,.16);border:1px solid rgba(24,30,48,.06);
   }
   .tech-nav[data-open="1"] .tech-links{display:flex}
@@ -689,7 +774,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .cf-submit:hover:not(:disabled){transform:translateY(-3px)}
 .cf-submit:focus-visible{outline:3px solid #14161C;outline-offset:3px}
 .cf-submit:disabled{background:#7D9BE0;cursor:progress;box-shadow:none;transform:none}
-.cf-success{background:#E9F0FC;border:1px solid rgba(46,107,230,.25);border-radius:18px;padding:28px;color:#16346E;font-size:17px;line-height:1.5}
+.cf-success{background:#E9F0FC;border:1px solid rgba(46,107,230,.25);border-radius:12px;padding:28px;color:#16346E;font-size:17px;line-height:1.5}
 /* Off-screen rather than display:none so bots that skip hidden inputs still fill it. */
 .cf-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .cf-side-link:hover{color:#8FB6FF}
@@ -721,7 +806,7 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 .cc-inner{
   max-width:1000px;margin:0 auto;
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 28px;
-  padding:18px 22px;border-radius:18px;
+  padding:18px 22px;border-radius:12px;
   background:#fff;border:1px solid rgba(24,30,48,.12);
   box-shadow:0 18px 44px rgba(20,26,48,.16);
 }
