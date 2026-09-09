@@ -22,8 +22,21 @@ function imgUrl(src: unknown, w: number): string | null {
   }
 }
 
+/** A hero-collage frame: the Studio's photograph and its alt when both are set,
+ *  the EN default otherwise. 1200px is enough - the widest frame is roughly a
+ *  third of a 1560px container, served at 2x on the densest screen we target.
+ *  Alt falls back on its own: a photograph swapped in without alt text should
+ *  not inherit the previous picture's description. */
+function photo(src: unknown, fallback: { src: string; alt: string }) {
+  const url = imgUrl(src, 1200);
+  if (!url) return fallback;
+  const alt = (src as { alt?: string } | undefined)?.alt?.trim();
+  return { src: url, alt: alt || "" };
+}
+
 type RawImages = {
   heroBg?: unknown;
+  heroCollage?: { device?: unknown; tanks?: unknown; lab?: unknown; field?: unknown };
   lifecycle?: unknown[];
 };
 
@@ -32,8 +45,15 @@ function resolveImages(raw: RawImages | undefined): HomeContent["images"] {
   const d = HOME_EN.images;
   if (!raw) return d;
   const life = raw.lifecycle ?? [];
+  const col = raw.heroCollage ?? {};
   return {
     heroBg: imgUrl(raw.heroBg, 2400) ?? d.heroBg,
+    heroCollage: {
+      device: photo(col.device, d.heroCollage.device),
+      tanks: photo(col.tanks, d.heroCollage.tanks),
+      lab: photo(col.lab, d.heroCollage.lab),
+      field: photo(col.field, d.heroCollage.field),
+    },
     lifecycle: [
       imgUrl(life[0], 900) ?? d.lifecycle[0],
       imgUrl(life[1], 900) ?? d.lifecycle[1],

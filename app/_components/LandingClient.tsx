@@ -59,20 +59,13 @@ export default function LandingClient({
     wire("style-hover", "mouseenter", "mouseleave");
     wire("style-focus", "focus", "blur");
 
-    // The hero runs full-bleed with square corners now, so the old corner covers
-    // (which painted the page background over the 30px radius) are gone.
-    const parallax = root.querySelector<HTMLElement>("[data-parallax]");
-
-    // ---- sticky nav: translucent over hero, solid on scroll + hero parallax ----
+    // ---- sticky nav: translucent over hero, solid on scroll ----
     const nav = root.querySelector<HTMLElement>("[data-nav]");
     const onScroll = () => {
       // Sticky header: transparent over the hero at the top, solid frosted bar
       // once the page starts scrolling.
       if (nav)
         nav.setAttribute("data-scrolled", window.scrollY > 24 ? "1" : "0");
-      if (parallax)
-        parallax.style.transform =
-          window.scrollY > 0 ? `translateY(${window.scrollY * 0.18}px)` : "none";
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -218,21 +211,6 @@ export default function LandingClient({
           threshold: 0.3,
         });
     }
-
-    // ---- pilot-scale bars grow from the baseline (replays on re-entry) ----
-    root.querySelectorAll<HTMLElement>("[data-bars]").forEach((wrap) => {
-      const bars = Array.from(wrap.children) as HTMLElement[];
-      const targets = bars.map((b) => b.style.height);
-      if (reduceMotion) return;
-      bars.forEach((b, i) => {
-        b.style.transition = "height .8s cubic-bezier(.2,.7,.2,1)";
-        b.style.transitionDelay = `${i * 90}ms`;
-        b.style.height = "0%";
-      });
-      once(wrap, () => bars.forEach((b, i) => (b.style.height = targets[i])), {
-        threshold: 0.4,
-      });
-    });
 
     // ---- 3D tilt on cards (skip touch + reduced-motion + cards with an existing hover) ----
     if (!reduceMotion && !window.matchMedia("(hover: none)").matches) {

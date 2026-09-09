@@ -74,6 +74,11 @@ export type HomeContent = {
   // overrides any that have a Sanity asset. Alts stay in the template.
   images: {
     heroBg: string;
+    /** The four frames beside the hero copy. Only `device` is our own photograph;
+     *  the rest are stock stand-ins until the product session (audit ch. 10).
+     *  Alt travels with the URL: these photographs carry meaning, and the one
+     *  in the Studio is the one an editor can translate. */
+    heroCollage: Record<"device" | "tanks" | "lab" | "field", { src: string; alt: string }>;
     lifecycle: [string, string, string];
   };
 };
@@ -193,6 +198,12 @@ export const HOME_EN: HomeContent = {
   },
   images: {
     heroBg: "/assets/hero-chrome.png",
+    heroCollage: {
+      device: { src: "/assets/DC9FCB4B-0CCC-4CC8-A2F3-261DBF2B686B.jpeg", alt: "The Q‑Tector reader standing on a fermentation tank" },
+      tanks: { src: "/assets/pexels-theshuttervision-13655238.jpg", alt: "Stainless fermentation tanks outside a brewery at night" },
+      lab: { src: "/assets/pexels-jorge-chan-515189442-24293768.jpg", alt: "A microscope and sample racks on a laboratory bench" },
+      field: { src: "/assets/pexels-anna-3014674-37775778.jpg", alt: "Rows of a green crop field" },
+    },
     lifecycle: [
       "https://images.pexels.com/photos/9574338/pexels-photo-9574338.jpeg?auto=compress&cs=tinysrgb&w=900",
       "https://images.pexels.com/photos/8770737/pexels-photo-8770737.jpeg?auto=compress&cs=tinysrgb&w=900",

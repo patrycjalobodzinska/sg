@@ -81,6 +81,17 @@ export const homePage = defineType({
     ]}),
     defineField({ name: "images", title: "Landing images", type: "object", group: "content", fields: [
       img("heroBg", "Hero background"),
+      // The hero collage: four frames in fixed positions, so each is its own
+      // field rather than an array - swapping "the tall one on the right" must
+      // not depend on remembering which index it was.
+      defineField({ name: "heroCollage", title: "Hero collage (4 photos)", type: "object",
+        description: "The photographs beside the hero copy. Reader = the tall frame in the middle column; the crop field and tank hall are stock stand-ins until the photo session (audit ch. 10).",
+        fields: [
+          img("device", "Reader (middle column, top)"),
+          img("tanks", "Tank hall (left, full height)"),
+          img("lab", "Laboratory (middle column, bottom)"),
+          img("field", "Crop field (right, full height)"),
+        ]}),
       defineField({ name: "lifecycle", title: "Data lifecycle (3)", type: "array", of: [defineArrayMember({ type: "imageWithAlt" })] }),
     ]}),
     seoField,
