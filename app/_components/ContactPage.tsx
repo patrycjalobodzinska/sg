@@ -26,11 +26,11 @@ const SIDE: Record<Locale, ContactSidePanel> = {
   pl: {
     headingLine1: "Porozmawiajmy",
     headingLine2: "o Twoim procesie.",
-    body: "Podaj organizm, etap procesu i cel - wskażemy, gdzie Q‑Tector ma zastosowanie.",
+    body: "Napisz nam, z jakim organizmem pracujesz, na jakim etapie jest proces i jaki masz cel - podpowiemy, gdzie sprawdzi się Q‑Tector.",
     emailLabel: "E-mail",
     visitLabel: "Odwiedź nas",
     visitValue: "Blauwborgje 31, 9747 AW Groningen, NL",
-    beerLabel: "Beer-o-Meter - zastosowanie Q‑Tectora w browarnictwie",
+    beerLabel: "Beer‑o‑Meter - zastosowanie Q‑Tectora w browarnictwie",
   },
 };
 

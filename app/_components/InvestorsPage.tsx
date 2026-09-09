@@ -38,10 +38,10 @@ const CHROME: Record<Locale, {
   },
   pl: {
     heroPrimary: "Poproś o deck inwestorski", heroSecondary: "Kontakt dla inwestorów",
-    benefitsEyebrow: "Korzyści dla klientów", benefitsHeading: "Lepsze dane. Szybsze decyzje. Mocniejsze skalowanie.",
-    cfEyebrow: "Fundament komercyjny", cfHeading: "Od monitorowania procesu w browarnictwie do szerszego biotechu",
-    cfBody1: "SG Papertronics zbudował silną walidację rynkową dzięki Beer-o-Meter - naszemu zastosowaniu technologii Q‑Tector do monitorowania procesu w browarnictwie. Pokazało to, że producenci cenią proste, szybkie i użyteczne pomiary blisko procesu, i stworzyło rzeczywiste środowisko walidacji oraz pętlę informacji zwrotnej od klientów.",
-    cfBody2: "Rozszerzamy teraz tę samą logikę platformy na szersze rynki fermentacji, biotechu, CDMO i fermentacji precyzyjnej - co jest centralnym elementem naszej strategii wzrostu w rundzie Series A.",
+    benefitsEyebrow: "Korzyści dla klientów", benefitsHeading: "Lepsze dane. Szybsze decyzje. Pewniejsze skalowanie.",
+    cfEyebrow: "Fundament komercyjny", cfHeading: "Od kontroli procesu w browarze do szerokiego biotechu",
+    cfBody1: "SG Papertronics zbudował silną walidację rynkową dzięki Beer‑o‑Meter - naszemu zastosowaniu technologii Q‑Tector do kontroli procesu w browarze. Pokazało ono, że producenci cenią proste, szybkie i użyteczne pomiary blisko procesu, i dało nam rzeczywiste środowisko walidacji oraz stały dopływ informacji zwrotnej od klientów.",
+    cfBody2: "Tę samą logikę platformy rozszerzamy teraz na szersze rynki fermentacji, biotechu, CDMO i fermentacji precyzyjnej - to oś naszej strategii wzrostu w rundzie Series A.",
   },
 };
 

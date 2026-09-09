@@ -75,7 +75,7 @@ const PARTNERS = ["Bioclear Earth", "Fascinating", "University of Groningen", "H
 const CHROME: Record<Locale, { primary: string; secondary: string; partnersLabel: string; teamEyebrow: string; teamHeading: string }> = {
   en: { primary: "Talk to us", secondary: "See the technology", partnersLabel: "Working with industry & research", teamEyebrow: "The team", teamHeading: "One team across assay, device and application development" },
   nl: { primary: "Neem contact op", secondary: "Bekijk de technologie", partnersLabel: "Samenwerking met industrie & onderzoek", teamEyebrow: "Het team", teamHeading: "Eén team voor assay-, apparaat- en applicatieontwikkeling" },
-  pl: { primary: "Napisz do nas", secondary: "Zobacz technologię", partnersLabel: "Współpraca z przemysłem i nauką", teamEyebrow: "Zespół", teamHeading: "Jeden zespół: assaye, urządzenie i rozwój zastosowań" },
+  pl: { primary: "Napisz do nas", secondary: "Zobacz technologię", partnersLabel: "Współpracujemy z przemysłem i nauką", teamEyebrow: "Zespół", teamHeading: "Jeden zespół: assaye, urządzenie i rozwój zastosowań" },
 };
 
 export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }) {

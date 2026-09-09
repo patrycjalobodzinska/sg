@@ -51,20 +51,20 @@ export const NEWS_CHROME: Record<Locale, NewsChrome> = {
     articleCta: "Praat met ons over jouw proces",
   },
   pl: {
-    heroTitle: "Aktualności i",
-    heroAccent: "nowości",
+    heroTitle: "Nowości i",
+    heroAccent: "kamienie milowe",
     heroLead:
-      "Kamienie milowe produktów, wydarzenia, granty, partnerstwa i ogłoszenia firmowe SG Papertronics.",
+      "Kamienie milowe produktu, wydarzenia, granty, partnerstwa i ogłoszenia firmowe SG Papertronics.",
     listDesc:
-      "Aktualności i nowości SG Papertronics - kamienie milowe Q‑Tectora, jego browarnicze zastosowanie Beer‑o‑Meter, wydarzenia, granty, partnerstwa i ogłoszenia firmowe.",
+      "Aktualności SG Papertronics - kamienie milowe Q‑Tectora, jego browarnicze zastosowanie Beer‑o‑Meter, wydarzenia, granty, partnerstwa i ogłoszenia firmowe.",
     categoryDefault: "Firma",
-    readMore: "Przeczytaj całą historię",
+    readMore: "Przeczytaj całość",
     ctaHeading: "Masz na myśli konkretne zastosowanie?",
     ctaBody:
-      "Napisz nam, jaki to organizm, na jakim etapie jest proces i jaki analit Cię interesuje - odpowiemy, czy pasuje istniejące workflow Q‑Tector, czy sensowna jest ścieżka rozwoju zastosowania.",
-    ctaButton: "Omów swoje zastosowanie",
+      "Napisz nam, z jakim organizmem pracujesz, na jakim etapie jest proces i jaki analit Cię interesuje - odpowiemy, czy pasuje istniejące workflow Q‑Tectora, czy raczej ma sens ścieżka rozwoju nowego zastosowania.",
+    ctaButton: "Porozmawiajmy o zastosowaniu",
     allNews: "Wszystkie aktualności",
     comingSoon: "Pełny artykuł już wkrótce.",
-    articleCta: "Porozmawiaj z nami o swoim procesie",
+    articleCta: "Porozmawiajmy o Twoim procesie",
   },
 };

@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 const META: Record<string, { title: string; description: string }> = {
   nl: { title: "Case studies", description: "Commerciële validatie en applicatieontwikkeling met Q‑Tector: wat werd gemeten, in welke matrix, met welke partner en wat het opleverde." },
-  pl: { title: "Case studies", description: "Walidacja komercyjna i rozwój zastosowań Q‑Tectora: co mierzono, w jakiej matrycy, z jakim partnerem i co to zmieniło." },
+  pl: { title: "Studia przypadków", description: "Walidacja komercyjna i rozwój zastosowań Q‑Tectora: co mierzono, w jakiej matrycy, z jakim partnerem i co to zmieniło." },
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {

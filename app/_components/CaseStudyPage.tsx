@@ -26,7 +26,7 @@ export const CASE_CHROME = {
     ctaHeading: "A process like this?",
     ctaBody: "Tell us what you are producing, what you need to measure and which decision the result should support.",
     ctaButton: "Request a process-fit review",
-    index: "Case studies",
+    index: "Studia przypadków",
     indexLead: "Commercial validation and application development.",
     readMore: "Read the case study",
   },
@@ -50,7 +50,7 @@ export const CASE_CHROME = {
     readMore: "Lees de case study",
   },
   pl: {
-    back: "Wszystkie case studies",
+    back: "Wszystkie studia przypadków",
     facts: "W skrócie",
     analyte: "Analit",
     matrix: "Matryca próbki",
@@ -62,11 +62,11 @@ export const CASE_CHROME = {
     result: "Wynik",
     next: "Następny kamień milowy",
     ctaHeading: "Masz podobny proces?",
-    ctaBody: "Napisz nam, co produkujesz, co musisz mierzyć i jaką decyzję ma wspierać wynik.",
-    ctaButton: "Poproś o przegląd dopasowania procesu",
+    ctaBody: "Powiedz nam, co produkujesz, co potrzebujesz zmierzyć i jaką decyzję ma wspierać wynik.",
+    ctaButton: "Sprawdź dopasowanie do procesu",
     index: "Case studies",
     indexLead: "Walidacja komercyjna i rozwój zastosowań.",
-    readMore: "Przeczytaj case study",
+    readMore: "Przeczytaj studium przypadku",
   },
 } as const;
 

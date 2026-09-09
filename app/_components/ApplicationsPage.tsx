@@ -42,7 +42,7 @@ const EN = {
 const CHROME: Record<Locale, { heroCaption: string; heroPrimary: string; heroSecondary: string }> = {
   en: { heroCaption: "At-line, close to the process", heroPrimary: "Talk to us about your process", heroSecondary: "See the technology" },
   nl: { heroCaption: "At-line, dicht bij het proces", heroPrimary: "Praat met ons over uw proces", heroSecondary: "Bekijk de technologie" },
-  pl: { heroCaption: "Przyprocesowo, blisko procesu", heroPrimary: "Porozmawiaj z nami o swoim procesie", heroSecondary: "Zobacz technologię" },
+  pl: { heroCaption: "At-line, tuż przy procesie", heroPrimary: "Porozmawiajmy o Twoim procesie", heroSecondary: "Zobacz technologię" },
 };
 
 const tagPill = { display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#1F52B8", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 };

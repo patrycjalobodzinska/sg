@@ -19,7 +19,7 @@ const META: Record<string, { title: string; description: string }> = {
   pl: {
     title: "Technologia Q‑Tector",
     description:
-      "Prowadzone assaye at-line i połączone dane dla produkcji biologicznej: kompaktowy czytnik, gotowe pody assay, workflow z kodem QR i wyniki w chmurze.",
+      "Prowadzone assaye at-line i połączone dane dla produkcji biologicznej: kompaktowy czytnik, gotowe wkłady assay, workflow prowadzone kodem QR i wyniki w chmurze.",
   },
 };
 

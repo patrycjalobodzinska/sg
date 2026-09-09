@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 const META: Record<string, { title: string; description: string }> = {
   nl: { title: "Toepassingen", description: "Q‑Tector-toepassingen in biotech & precisiefermentatie, CDMO's, gefermenteerd eten & drinken en toegepaste biotech & agri-food." },
-  pl: { title: "Zastosowania", description: "Zastosowania Q‑Tectora w biotechnologii i fermentacji precyzyjnej, CDMO, fermentowanej żywności i napojach oraz agri-food." },
+  pl: { title: "Zastosowania", description: "Zastosowania Q‑Tectora w biotechnologii i fermentacji precyzyjnej, w CDMO, w żywności i napojach fermentowanych oraz w agri-food i biotechnologii stosowanej." },
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {

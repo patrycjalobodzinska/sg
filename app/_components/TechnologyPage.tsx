@@ -39,7 +39,7 @@ const EN = {
 
 // "Chrome" strings not modelled in the schema — translated in-code.
 const CHROME: Record<Locale, {
-  heroAccent: string; heroEyebrow: string; heroPrimary: string; heroSecondary: string; heroFocus: string;
+  heroTitleLead: string; heroAccent: string; heroEyebrow: string; heroPrimary: string; heroSecondary: string; heroFocus: string;
   atLineEyebrow: string; atLineHeading: string; atLineBody1: string; atLineBody2: string;
   focusNote: string;
   customEyebrow: string; customHeading: string; customBody: string; customCta: string;
@@ -48,7 +48,7 @@ const CHROME: Record<Locale, {
   scaleEyebrow: string; scaleHeading: string; scaleCta: string; stages: string[]; scaleChartCaption: string;
 }> = {
   en: {
-    heroAccent: "technology",
+    heroTitleLead: "Q‑Tector", heroAccent: "technology",
     heroEyebrow: "Q‑Tector platform",
     atLineEyebrow: "What at-line means", atLineHeading: "A result near the process - not days later",
     atLineBody1: "At-line testing means that an operator takes a small process sample and runs a guided assay in a nearby work area. Q‑Tector adds the result to the process history.",
@@ -63,7 +63,7 @@ const CHROME: Record<Locale, {
     stages: ["R&D", "Dev", "Pilot", "Production"], scaleChartCaption: "Comparable datasets accumulate as the process moves toward production.",
   },
   nl: {
-    heroAccent: "technologie",
+    heroTitleLead: "Q‑Tector", heroAccent: "technologie",
     heroEyebrow: "Q‑Tector-platform",
     atLineEyebrow: "Wat at-line betekent", atLineHeading: "Een resultaat dicht bij het proces - niet dagen later",
     atLineBody1: "At-line testen betekent dat een operator een klein procesmonster neemt en een begeleide assay uitvoert in een werkruimte vlakbij. Q‑Tector voegt het resultaat toe aan de processhistorie.",
@@ -78,18 +78,18 @@ const CHROME: Record<Locale, {
     stages: ["R&D", "Dev", "Pilot", "Productie"], scaleChartCaption: "Vergelijkbare datasets stapelen zich op naarmate het proces richting productie beweegt.",
   },
   pl: {
-    heroAccent: "technologia",
+    heroTitleLead: "Technologia", heroAccent: "Q‑Tector",
     heroEyebrow: "Platforma Q‑Tector",
-    atLineEyebrow: "Co znaczy at-line", atLineHeading: "Wynik blisko procesu - nie po kilku dniach",
-    atLineBody1: "Testowanie at-line oznacza, że operator pobiera małą próbkę procesową i wykonuje prowadzony assay w pobliskim stanowisku pracy. Q‑Tector dopisuje wynik do historii procesu.",
-    atLineBody2: "Jest przeznaczony do częstego monitorowania w trakcie przebiegu; nie jest ciągłym czujnikiem online.",
-    focusNote: "Parametry assaya zależą od analitu, zakresu stężeń i matrycy próbki. Skontaktuj się z nami, aby potwierdzić dopasowanie do Twojego procesu.",
+    atLineEyebrow: "Co znaczy at-line", atLineHeading: "Wynik blisko procesu - a nie po kilku dniach",
+    atLineBody1: "Pomiar at-line oznacza, że operator pobiera niewielką próbkę procesową i wykonuje prowadzony assay na stanowisku obok. Q‑Tector dopisuje wynik do historii procesu.",
+    atLineBody2: "Jest przeznaczony do częstego pomiaru w trakcie serii - nie jest ciągłym czujnikiem online.",
+    focusNote: "Parametry assayu zależą od analitu, zakresu stężeń i matrycy próbki. Napisz do nas, żeby potwierdzić dopasowanie do Twojego procesu.",
     customEyebrow: "Rozwój zastosowań", customHeading: "Potrzebujesz innego analitu lub matrycy próbki?",
-    customBody: "Napisz nam, co musisz mierzyć, w jakiej matrycy, w jakim zakresie stężeń i jaką decyzję ma wspierać wynik. Ocenimy dopasowanie techniczne i zaproponujemy ścieżkę studium wykonalności lub współrozwoju.",
-    customCta: "Poproś o ocenę zastosowania", heroPrimary: "Zobacz obecne assaye", heroSecondary: "Omów swoją matrycę próbki", heroFocus: "Obecny zakres analityczny: glukoza i sacharoza w podłożach hodowlanych",
+    customBody: "Napisz nam, co potrzebujesz zmierzyć, w jakiej matrycy, w jakim zakresie stężeń i jaką decyzję ma wspierać wynik. Ocenimy dopasowanie techniczne i zaproponujemy ścieżkę studium wykonalności albo wspólnego rozwoju.",
+    customCta: "Poproś o ocenę zastosowania", heroPrimary: "Zobacz dostępne assaye", heroSecondary: "Omówmy Twoją matrycę próbki", heroFocus: "Obecny zakres analityczny: glukoza i sacharoza w podłożach hodowlanych",
     howEyebrow: "Jak to działa", howLead: "Od próbki do decyzji,", howAccent: "w pięciu krokach",
     chartLabel: "Glukoza · g/L", chartCaption: "Spadek w trakcie fermentacji",
-    scaleEyebrow: "Zbudowany pod skalowanie", scaleHeading: "Przenieś wiedzę procesową do pilotażu i produkcji", scaleCta: "Poproś o wprowadzenie do Q‑Tectora",
+    scaleEyebrow: "Stworzony do skalowania", scaleHeading: "Przenieś wiedzę procesową do pilotażu i produkcji", scaleCta: "Poproś o wprowadzenie do Q‑Tectora",
     stages: ["B+R", "Dev", "Pilot", "Produkcja"], scaleChartCaption: "Porównywalne zbiory danych rosną, gdy proces zmierza ku produkcji.",
   },
 };
@@ -136,7 +136,7 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
           <div>
             <div style={{ color: "#1F52B8", fontSize: 12.5, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 16 }}>{t.heroEyebrow}</div>
             <h1 style={{ margin: 0, fontSize: "clamp(40px,6.4vw,76px)", lineHeight: 1.0, letterSpacing: "-.025em" }}>
-              Q‑Tector <span style={{ color: "#2E6BE6", fontWeight: 500 }}>{t.heroAccent}</span>
+              {t.heroTitleLead} <span style={{ color: "#2E6BE6", fontWeight: 500 }}>{t.heroAccent}</span>
             </h1>
             <p style={{ margin: "24px 0 0", color: "#1F52B8", fontSize: "clamp(17px,1.8vw,21px)", fontWeight: 500, lineHeight: 1.5, maxWidth: 560 }}>{lead}</p>
             <p style={{ margin: "16px 0 0", color: "#4A5163", fontSize: 16.5, lineHeight: 1.65, maxWidth: 600 }}>{body1}</p>
