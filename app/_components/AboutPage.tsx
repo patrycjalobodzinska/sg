@@ -38,6 +38,38 @@ function memberPhoto(photo: TeamMember["photo"]) {
   }
 }
 
+/** Where each face starts in the three-column mosaic.
+ *
+ *  Filling left to right leaves the hole in the bottom-right, which reads as a
+ *  missing person. So the rows are built from the bottom instead: the last row
+ *  is always full, whatever is left over is spread evenly across the rows above
+ *  it, and every short row is pushed to the right - the ragged edge sits on the
+ *  left, where it reads as margin rather than as an absence. Seven faces become
+ *  2 / 2 / 3; nine still form a plain 3x3 and need no offsets at all.
+ *
+ *  Returned as a custom property because the mosaic drops to two columns on
+ *  phones, where a start computed for three columns would be wrong; the CSS
+ *  applies it only above that breakpoint. */
+function mosaicColumnStarts(n: number): (number | undefined)[] {
+  const starts: (number | undefined)[] = new Array(n).fill(undefined);
+  if (n <= 3) return starts;
+  const rows: number[] = [];
+  let above = n - 3;
+  // floor, taken from the last row up, keeps the shorter rows at the top
+  for (let r = Math.ceil(above / 3); r > 0; r--) {
+    const take = Math.floor(above / r);
+    rows.push(take);
+    above -= take;
+  }
+  rows.push(3);
+  let i = 0;
+  for (const k of rows) {
+    if (k < 3) starts[i] = 4 - k;
+    i += k;
+  }
+  return starts;
+}
+
 const PARTNERS = ["Bioclear Earth", "Fascinating", "University of Groningen", "Hanze UAS", "ISPT"];
 
 const CHROME: Record<Locale, { primary: string; secondary: string; partnersLabel: string; teamEyebrow: string; teamHeading: string }> = {
@@ -58,6 +90,8 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
 
   const contactHref = contactUrl({ lang, intent: "general", sourcePage: "about", sourceCta: "hero-secondary" });
   const techHref = localizedPath("/technology", lang);
+  const faces = team.slice(0, 9);
+  const columnStarts = mosaicColumnStarts(faces.length);
 
   return (
     <div style={{ background: "#EFF1F5", color: "#14161C", overflowX: "hidden" }}>
@@ -84,13 +118,13 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
               the fold instead of with a lab shot (audit ch. 8, ch. 10). Names and
               roles surface on hover and focus; the full cards sit further down. */}
           <ul data-heromosaic="1" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "clamp(10px,1.2vw,16px)" }}>
-            {team.slice(0, 9).map((m, i) => {
+            {faces.map((m, i) => {
               const photo = memberPhoto(m.photo);
               return (
                 <li
                   key={m._id}
                   className="hero-tile"
-                  style={{ "--d": `${i * 55}ms`, position: "relative", aspectRatio: "1 / 1", borderRadius: 18, overflow: "hidden", background: "#E7EAF0" } as React.CSSProperties}
+                  style={{ "--d": `${i * 55}ms`, "--cs": columnStarts[i], position: "relative", aspectRatio: "1 / 1", borderRadius: 12, overflow: "hidden", background: "#E7EAF0" } as React.CSSProperties}
                 >
                   {photo ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -116,7 +150,7 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
             <p style={{ margin: "0 0 14px", color: "#4A5163", fontSize: 16.5, lineHeight: 1.65 }}>{why.body1}</p>
             <p style={{ margin: 0, color: "#4A5163", fontSize: 16.5, lineHeight: 1.65 }}>{why.body2}</p>
           </div>
-          <div style={{ position: "relative", borderRadius: 18, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 18px 48px rgba(20,26,48,.1)" }}>
+          <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "4 / 3", background: "#E7EAF0", boxShadow: "0 18px 48px rgba(20,26,48,.1)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/SG-papertronics009b.jpg" alt="At-line testing in the SG Papertronics lab" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }} />
           </div>
@@ -131,7 +165,7 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
         </div>
         <div data-aboutvals="1" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
           {values.map((v, i) => (
-            <div key={v.title || i} style={{ background: "#fff", borderRadius: 18, padding: 30, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.04)" }}>
+            <div key={v.title || i} style={{ background: "#fff", borderRadius: 12, padding: 30, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.04)" }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: "#E9F0FC", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
                 <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#2E6BE6" }} />
               </div>
@@ -173,7 +207,7 @@ export default function AboutPage({ lang, doc }: { lang: Locale; doc: AboutDoc }
             {team.map((m) => {
               const photo = memberPhoto(m.photo);
               return (
-                <li key={m._id} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.08)", borderRadius: 18, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+                <li key={m._id} style={{ background: "#fff", border: "1px solid rgba(24,30,48,.08)", borderRadius: 12, overflow: "hidden", display: "flex", flexDirection: "column" }}>
                   <div style={{ position: "relative", aspectRatio: "1 / 1", background: "#E7EAF0" }}>
                     {photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
