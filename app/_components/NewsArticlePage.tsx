@@ -91,7 +91,7 @@ export default async function NewsArticlePage({ lang, slug }: { lang: Locale; sl
         </div>
 
         <div style={{ marginTop: 44, paddingTop: 28, borderTop: "1px solid rgba(24,30,48,.1)" }}>
-          <a href={contactUrl({ lang, intent: "product", sourcePage: "news-article", sourceCta: "closing" })} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 8, fontWeight: 600, fontSize: 15.5 }}>
+          <a href={contactUrl({ lang, intent: "general", sourcePage: "news-article", sourceCta: "closing" })} className="sheen" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#2E6BE6", color: "#fff", padding: "14px 24px", borderRadius: 8, fontWeight: 600, fontSize: 15.5 }}>
             {t.articleCta} <ArrowUpRight />
           </a>
         </div>

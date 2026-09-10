@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { CONTACT_COPY, DEFAULT_INTENT, isIntent, type Intent } from "../_components/contact-content";
 import { defaultLocale, isLocale, type Locale } from "../i18n";
+import { getProductDoc } from "../../sanity/lib/settings";
 import type { ContactState } from "../_components/contact-state";
 
 
@@ -17,7 +18,7 @@ const str = (fd: FormData, key: string) => String(fd.get(key) ?? "").trim();
 
 /** Route the inquiry to a subject line the sales inbox can filter on. */
 const SUBJECT: Record<Intent, string> = {
-  product: "Q‑Tector evaluation",
+  docs: "Product documentation request",
   pilot: "Pilot / application project",
   assay: "Custom assay development",
   sales: "Sales and pricing",
@@ -31,8 +32,16 @@ const SUBJECT: Record<Intent, string> = {
  * then surface an error, never a success message. Silently dropping an inquiry
  * while telling the sender it was sent is the one outcome this must never have.
  */
-async function deliver(subject: string, body: string, replyTo: string): Promise<boolean> {
+type Attachment = { filename: string; path: string };
+
+async function deliver(
+  subject: string,
+  body: string,
+  replyTo: string,
+  opts: { to?: string; attachments?: Attachment[] } = {}
+): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
+  const to = opts.to ?? INBOX;
   if (!key) {
     // Unconfigured is a deployment fault, not a user error: log loudly and fail
     // closed so the visitor is told to email us directly.
@@ -43,7 +52,14 @@ async function deliver(subject: string, body: string, replyTo: string): Promise<
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: [INBOX], reply_to: replyTo, subject, text: body }),
+      body: JSON.stringify({
+        from: FROM,
+        to: [to],
+        reply_to: replyTo,
+        subject,
+        text: body,
+        ...(opts.attachments?.length ? { attachments: opts.attachments } : {}),
+      }),
     });
     if (!res.ok) {
       console.error("[contact] delivery failed", res.status, await res.text().catch(() => ""));
@@ -54,6 +70,40 @@ async function deliver(subject: string, body: string, replyTo: string): Promise<
     console.error("[contact] delivery threw", err);
     return false;
   }
+}
+
+/**
+ * Email the requester the product documentation. Returns true only when Resend
+ * accepted it, because the form's confirmation is allowed to mention the
+ * document only if it actually went out.
+ *
+ * Not configured yet is the normal case, not an error: until the client uploads
+ * the PDF in Studio (Site settings → Contact → Product documentation) this
+ * returns false, the sales inbox still receives the request, and the visitor is
+ * told only that we will reply. Failing to send must never turn a delivered
+ * inquiry into an error either - the request did reach a human.
+ */
+async function sendDocumentation(to: string, name: string, locale: Locale): Promise<boolean> {
+  const doc = await getProductDoc(locale);
+  if (!doc) {
+    console.warn("[contact] documentation requested but none is configured — request forwarded to the inbox only:", { to, locale });
+    return false;
+  }
+  const c = CONTACT_COPY[locale].docEmail;
+  const firstName = name.split(/\s+/)[0] || name;
+  const body = [
+    `${c.greeting} ${firstName},`,
+    "",
+    c.body,
+    "",
+    `${c.linkLabel} ${doc.url}`,
+    "",
+    c.signoff,
+  ].join("\n");
+  return deliver(c.subject, body, INBOX, {
+    to,
+    attachments: [{ filename: doc.filename, path: doc.url }],
+  });
 }
 
 export async function submitContact(_prev: ContactState, formData: FormData): Promise<ContactState> {
@@ -108,5 +158,13 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
   ].join("\n");
 
   const ok = await deliver(`[${SUBJECT[intent]}] ${company} — ${name}`, body, email);
-  return ok ? { status: "success" } : { status: "error", message: t.states.error };
+  if (!ok) return { status: "error", message: t.states.error };
+
+  // The one intent with a side effect beyond the inbox. Deliberately after the
+  // inbox notification and deliberately non-fatal: if the document cannot go
+  // out, the inquiry still succeeded and the confirmation simply omits any
+  // mention of documentation instead of promising a file nobody sent.
+  const docsSent = intent === "docs" ? await sendDocumentation(email, name, locale) : false;
+
+  return { status: "success", docsSent };
 }

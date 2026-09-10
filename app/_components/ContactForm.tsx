@@ -43,7 +43,7 @@ export default function ContactForm({ lang, t, intent, sourcePage, sourceCta, ve
   if (state.status === "success") {
     return (
       <div className="cf-success" role="status">
-        {t.states.success}
+        {state.docsSent ? t.states.successDocs : t.states.success}
       </div>
     );
   }

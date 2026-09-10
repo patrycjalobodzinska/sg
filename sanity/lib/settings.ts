@@ -111,3 +111,37 @@ export async function getSiteSettings(lang: Locale = defaultLocale): Promise<Sit
     legalLinks: (s.legalLinks && s.legalLinks.length ? links(s.legalLinks, lang) : FALLBACK.legalLinks),
   };
 }
+
+/** The product documentation PDF offered by the contact form's
+ *  "Request product documentation" intent, for one language.
+ *
+ *  Returns null when the client has not uploaded a document yet, which is the
+ *  expected state until they do: the caller must then stay silent about
+ *  documentation rather than promise a file that does not exist. Falls back to
+ *  the English document when a language has none of its own, and to
+ *  PRODUCT_DOC_URL so a staging deploy can point at a file without Sanity. */
+export async function getProductDoc(
+  lang: Locale = defaultLocale
+): Promise<{ url: string; filename: string } | null> {
+  const envUrl = process.env.PRODUCT_DOC_URL;
+  try {
+    const rows = await client.fetch<
+      { language?: string; url?: string | null; filename?: string | null }[]
+    >(
+      `*[_id=="siteSettings"][0].productDoc[]{
+         language,
+         "url": file.asset->url,
+         "filename": file.asset->originalFilename
+       }`
+    );
+    const hit =
+      (rows ?? []).find((r) => r.language === lang && r.url) ??
+      (rows ?? []).find((r) => r.language === defaultLocale && r.url);
+    if (hit?.url) {
+      return { url: hit.url, filename: hit.filename || "SG-Papertronics-Q-Tector.pdf" };
+    }
+  } catch {
+    // fall through to the env override
+  }
+  return envUrl ? { url: envUrl, filename: "SG-Papertronics-Q-Tector.pdf" } : null;
+}

@@ -420,16 +420,23 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
 /* tablet */
 @media (max-width:1000px){
   [data-benefitgrid],[data-newsgrid],[data-investgrid],[data-lifegrid]{grid-template-columns:repeat(2,1fr) !important}
-  [data-bento-a],[data-bento-b],[data-bento-c]{grid-template-columns:1fr !important}
+  [data-bento-a],[data-bento-b],[data-bento-c]{grid-template-columns:minmax(0,1fr) !important}
   [data-stepgrid]{grid-template-columns:1fr 1fr !important;gap:32px !important}
   [data-stepline]{display:none !important}
   [data-footgrid]{grid-template-columns:1fr 1fr !important}
-  [data-whygrid],[data-introgrid],[data-investtop]{grid-template-columns:1fr !important}
-  [data-techgrid],[data-techfocus],[data-techscale]{grid-template-columns:1fr !important}
+  /* minmax(0,1fr), not 1fr: a bare 1fr track is minmax(auto,1fr), so its auto
+     minimum grows the track to the widest grid item's min-content and the track
+     can end up wider than the grid itself. [data-techgrid] hit exactly that -
+     its hero figure carries min-height:300px with aspect-ratio 4/3, a 400px
+     min-content, so at 390px the 350px container held a 400px track and the
+     whole hero column overflowed the screen, visible only as clipped text
+     because html has overflow-x:hidden. minmax(0,1fr) lets the track shrink. */
+  [data-whygrid],[data-introgrid],[data-investtop]{grid-template-columns:minmax(0,1fr) !important}
+  [data-techgrid],[data-techfocus],[data-techscale]{grid-template-columns:minmax(0,1fr) !important}
   [data-techsteps]{grid-template-columns:repeat(2,1fr) !important}
   [data-projrow],[data-storygrid]{grid-template-columns:repeat(2,1fr) !important}
-  [data-csgrid]{grid-template-columns:1fr !important}
-  [data-bentotop]{grid-template-columns:1fr !important}
+  [data-csgrid]{grid-template-columns:minmax(0,1fr) !important}
+  [data-bentotop]{grid-template-columns:minmax(0,1fr) !important}
   [data-bentobot]{grid-template-columns:repeat(2,1fr) !important}
 }
 
@@ -463,27 +470,49 @@ nav[data-nav][data-scrolled="1"] [data-nav-burger] span{background:#14161C !impo
   [data-footgrid] > *:first-child{grid-column:1 / -1 !important}
   footer .brand-logo{height:38px !important;width:auto !important;max-width:100% !important}
 
-  /* Phones: the collage is a single strip of four small frames under the copy,
-     and the two actions become full-width blocks. The copy stays left-aligned -
-     centring it used to hide that the old hero had no image beside it.
+  /* Phones: the collage is a compact 2x2 mosaic sitting between the headline and
+     the lead paragraph, so the four worlds Q-Tector works in are visible while
+     the headline is still on screen, and the two actions become full-width
+     blocks. The copy stays left-aligned - centring it used to hide that the old
+     hero had no image beside it.
 
-     One frame per row used to cost ~860px of scroll and, worse, overflowed the
-     grid: the base rule pins .hed-grid to clamp(420px,62vh,640px) and this block
-     set the rows without releasing that height, so the last photographs spilled
-     ~340px past the header and the next section painted over them. height:auto
-     is what fixes the overlap; the tablet range above already does the same.
+     Three things make that possible:
+     - display:contents on .hed-copy promotes the eyebrow, headline, lead and
+       actions to grid items of .hed, so `order` can slot the collage between the
+       headline and the lead even though they sit in different parents;
+     - gap:0, because the elements already carry their own vertical margins and
+       the base 28px grid gap would double every gap once they are grid items;
+     - height:auto on .hed-grid. The base rule pins it to clamp(420px,62vh,640px)
+       and this block used to set the rows without releasing that height, so the
+       photographs overflowed their own grid by ~340px at 390px wide and the
+       section below painted over them. The tablet range already releases it.
 
-     display:contents promotes the middle column's two figures to grid items, so
-     all four photographs sit side by side in one row. */
-  .hed{padding-top:clamp(96px,14vh,124px) !important;padding-bottom:clamp(40px,8vw,64px) !important}
+     display:contents on .hed-col promotes the middle column's two figures to
+     grid items too, which is what lets four photographs fill a 2x2. */
+  .hed{
+    padding-top:clamp(96px,14vh,124px) !important;
+    padding-bottom:clamp(40px,8vw,64px) !important;
+    gap:0;
+  }
+  .hed-copy{display:contents}
+  .hed-eyebrow{order:1}
+  .hed-title{order:2}
+  .hed-grid{order:3}
+  .hed-lead{order:4}
+  .hed-actions{order:5}
+
   .hed-grid{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    grid-auto-rows:auto;height:auto;gap:6px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-rows:auto;height:auto;gap:7px;
+    margin:clamp(22px,5vw,28px) 0 0;
   }
   .hed-col{display:contents}
-  .hed-grid figure{height:auto;aspect-ratio:3 / 4;border-radius:5px}
+  .hed-grid figure{height:auto;aspect-ratio:4 / 3;border-radius:6px}
   .hed-tanks,.hed-field{grid-column:auto;grid-row:auto}
   .hed-device,.hed-lab{flex:none}
+  /* the tank hall is a tall frame on desktop; in a landscape crop its interest
+     sits low, so bias the crop down rather than centre it */
+  .hed-tanks img{object-position:50% 62%}
   .hed-actions{flex-direction:column;align-items:stretch;gap:14px}
   .hed-btn{width:100%;justify-content:center}
   .hed-btn--ghost{padding:14px 24px;min-height:48px;border:1px solid #CBD3E0;border-radius:8px;background:rgba(255,255,255,.82)}

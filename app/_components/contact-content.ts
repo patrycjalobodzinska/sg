@@ -2,9 +2,15 @@ import type { Locale } from "../i18n";
 
 /** The seven inquiry intents from the client audit (ch. 12). The `value` is the
  *  stable key used in the `?intent=` query param, the routed subject line and
- *  the CRM hand-off — never translate it. */
+ *  the CRM hand-off — never translate it.
+ *
+ *  "docs" replaced the audit's "product" (Q-Tector evaluation): picking it makes
+ *  the server action email the requester the product documentation, so it is the
+ *  one intent with a side effect beyond the inbox notification. A legacy
+ *  ?intent=product link is not an intent any more and falls back to the default,
+ *  which is deliberate — it must not silently become a document request. */
 export const INTENTS = [
-  "product",
+  "docs",
   "pilot",
   "assay",
   "sales",
@@ -34,7 +40,15 @@ export type ContactCopy = {
   intents: Record<Intent, string>;
   submit: string;
   privacy: { text: string; linkLabel: string };
-  states: { sending: string; success: string; error: string };
+  states: {
+    sending: string;
+    success: string;
+    /** Shown instead of `success` only once the documentation really went out. */
+    successDocs: string;
+    error: string;
+  };
+  /** The documentation email itself, sent to the requester. */
+  docEmail: { subject: string; greeting: string; body: string; linkLabel: string; signoff: string };
   errors: {
     name: string;
     email: string;
@@ -64,7 +78,7 @@ const EN: ContactCopy = {
     },
   },
   intents: {
-    product: "Evaluate Q‑Tector",
+    docs: "Request product documentation",
     pilot: "Pilot or application project",
     assay: "Custom analyte or assay development",
     sales: "Sales and pricing",
@@ -77,6 +91,7 @@ const EN: ContactCopy = {
   states: {
     sending: "Sending…",
     success: "Thanks - your inquiry is on its way. We'll reply within one business day.",
+    successDocs: "Thanks - the product documentation is on its way to your inbox. We'll follow up within one business day.",
     error: "We couldn't send your inquiry. Please try again or email contact@sgpapertronics.com.",
   },
   errors: {
@@ -88,6 +103,13 @@ const EN: ContactCopy = {
     generic: "Please check the highlighted fields.",
   },
   required: "required",
+  docEmail: {
+    subject: "Q‑Tector product documentation",
+    greeting: "Hi",
+    body: "Thanks for your interest in Q‑Tector. The product documentation you requested is attached to this email.",
+    linkLabel: "You can also download it here:",
+    signoff: "If it raises questions about your own process - organism, stage, sample matrix, target analyte - just reply to this email and a person will answer.\n\nSG Papertronics\nBlauwborgje 31, 9747 AW Groningen, NL",
+  },
 };
 
 const NL: ContactCopy = {
@@ -106,7 +128,7 @@ const NL: ContactCopy = {
     },
   },
   intents: {
-    product: "Q‑Tector beoordelen",
+    docs: "Productdocumentatie aanvragen",
     pilot: "Pilot- of toepassingsproject",
     assay: "Ontwikkeling van een specifiek analyt of assay",
     sales: "Verkoop en prijzen",
@@ -119,6 +141,7 @@ const NL: ContactCopy = {
   states: {
     sending: "Versturen…",
     success: "Bedankt - uw aanvraag is onderweg. Wij reageren binnen één werkdag.",
+    successDocs: "Bedankt - de productdocumentatie is onderweg naar uw inbox. Wij nemen binnen één werkdag contact op.",
     error: "Uw aanvraag kon niet worden verzonden. Probeer het opnieuw of mail naar contact@sgpapertronics.com.",
   },
   errors: {
@@ -130,6 +153,13 @@ const NL: ContactCopy = {
     generic: "Controleer de gemarkeerde velden.",
   },
   required: "verplicht",
+  docEmail: {
+    subject: "Q‑Tector productdocumentatie",
+    greeting: "Hallo",
+    body: "Bedankt voor uw interesse in Q‑Tector. De aangevraagde productdocumentatie vindt u in de bijlage van deze e-mail.",
+    linkLabel: "U kunt het document ook hier downloaden:",
+    signoff: "Roept het vragen op over uw eigen proces - organisme, processtadium, monstermatrix, doelanalyt? Antwoord dan gewoon op deze e-mail; een mens leest mee.\n\nSG Papertronics\nBlauwborgje 31, 9747 AW Groningen, NL",
+  },
 };
 
 const PL: ContactCopy = {
@@ -148,7 +178,7 @@ const PL: ContactCopy = {
     },
   },
   intents: {
-    product: "Ocena Q‑Tectora",
+    docs: "Poproś o dokumentację produktu",
     pilot: "Projekt pilotażowy lub wdrożeniowy",
     assay: "Rozwój własnego analitu lub testu",
     sales: "Sprzedaż i cennik",
@@ -161,6 +191,7 @@ const PL: ContactCopy = {
   states: {
     sending: "Wysyłanie…",
     success: "Dziękujemy - zapytanie zostało wysłane. Odpowiemy w ciągu jednego dnia roboczego.",
+    successDocs: "Dziękujemy - dokumentacja produktu jest już w drodze na Twój adres. Odezwiemy się dodatkowo w ciągu jednego dnia roboczego.",
     error: "Nie udało się wysłać zapytania. Spróbuj ponownie lub napisz na contact@sgpapertronics.com.",
   },
   errors: {
@@ -172,6 +203,13 @@ const PL: ContactCopy = {
     generic: "Sprawdź zaznaczone pola.",
   },
   required: "wymagane",
+  docEmail: {
+    subject: "Dokumentacja produktu Q‑Tector",
+    greeting: "Cześć",
+    body: "Dziękujemy za zainteresowanie Q‑Tectorem. Dokumentację produktu, o którą prosiłaś lub prosiłeś, znajdziesz w załączniku do tej wiadomości.",
+    linkLabel: "Możesz ją też pobrać tutaj:",
+    signoff: "Jeśli po lekturze pojawią się pytania o Twój własny proces - organizm, etap, matrycę próbki, oznaczany analit - odpisz na tę wiadomość, odpowie Ci człowiek.\n\nSG Papertronics\nBlauwborgje 31, 9747 AW Groningen, NL",
+  },
 };
 
 export const CONTACT_COPY: Record<Locale, ContactCopy> = { en: EN, nl: NL, pl: PL };

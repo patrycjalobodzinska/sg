@@ -80,6 +80,31 @@ export const siteSettings = defineType({
       ],
     }),
 
+    defineField({
+      name: "productDoc",
+      title: "Product documentation (PDF)",
+      type: "array",
+      group: "contact",
+      description:
+        "Sent automatically to anyone who picks “Request product documentation” on the contact form. Add one entry per language; a visitor whose language has no entry gets the English one. Leave this empty and nothing is auto-sent - the request still reaches the inbox and the form promises only a reply, never a document.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "productDocFile",
+          fields: [
+            defineField({
+              name: "language",
+              title: "Language",
+              type: "string",
+              options: { list: [{ title: "English", value: "en" }, { title: "Nederlands", value: "nl" }, { title: "Polski", value: "pl" }], layout: "radio" },
+              validation: (r) => r.required(),
+            }),
+            defineField({ name: "file", title: "PDF", type: "file", options: { accept: ".pdf" }, validation: (r) => r.required() }),
+          ],
+          preview: { select: { title: "language", subtitle: "file.asset.originalFilename" } },
+        }),
+      ],
+    }),
     defineField({ name: "contactEmail", title: "Contact email", type: "string", group: "contact" }),
     defineField({ name: "address", title: "Address", type: "string", group: "contact" }),
     defineField({

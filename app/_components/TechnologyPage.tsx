@@ -154,7 +154,11 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
               </a>
             </div>
           </div>
-          <div style={{ position: "relative", minHeight: 300, aspectRatio: "4 / 3" }}>
+          {/* minWidth:0 and a viewport-capped minHeight, because a grid item's
+              automatic minimum is its min-content size: min-height:300px with
+              aspect-ratio 4/3 makes that 400px, which on a phone is wider than
+              the whole column and pushed the hero off screen. */}
+          <div style={{ position: "relative", minWidth: 0, minHeight: "min(300px, 62vw)", aspectRatio: "4 / 3" }}>
             {heroPhoto ? (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
@@ -226,7 +230,7 @@ export default function TechnologyPage({ lang, doc }: { lang: Locale; doc: TechD
               ))}
             </div>
           </div>
-          <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", background: "#fff", border: "1px solid rgba(24,30,48,.07)", boxShadow: "0 16px 44px rgba(20,26,48,.06)", aspectRatio: "4 / 3", minHeight: 220 }}>
+          <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", background: "#fff", border: "1px solid rgba(24,30,48,.07)", boxShadow: "0 16px 44px rgba(20,26,48,.06)", aspectRatio: "4 / 3", minHeight: "min(220px, 55vw)", minWidth: 0 }}>
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
               <defs>
                 <linearGradient id="qtAreaT" x1="0" y1="0" x2="0" y2="1">

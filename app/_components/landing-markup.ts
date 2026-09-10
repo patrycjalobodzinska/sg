@@ -110,8 +110,13 @@ function showcaseCard(card: HomeShowcaseCard, lang: Locale): string {
 
   const shell = "background:#fff;border-radius:12px;border:1px solid rgba(24,30,48,.07);box-shadow:0 12px 40px rgba(20,26,48,.05);overflow:hidden;display:flex;flex-direction:column;color:inherit;transition:transform .25s ease,box-shadow .25s ease";
 
+  /* The case studies store `link` as a bare site path ("/case-studies/..."), so a
+     Polish or Dutch reader used to be dropped on the English page. Localise
+     internal paths; leave absolute URLs to partners alone. */
+  const href = card.link.startsWith("/") ? localizedPath(card.link, lang) : card.link;
+
   return card.link
-    ? `<a href="${esc(card.link)}" style="${shell}" style-hover="transform:translateY(-4px);box-shadow:0 20px 50px rgba(20,26,48,.1)">${body}</a>`
+    ? `<a href="${esc(href)}" style="${shell}" style-hover="transform:translateY(-4px);box-shadow:0 20px 50px rgba(20,26,48,.1)">${body}</a>`
     : `<article style="${shell}">${body}</article>`;
 }
 
@@ -128,8 +133,8 @@ export function landingMarkup(c: HomeContent, lang: Locale): string {
   // in-page form, which defaults to the neutral `general` intent.
   const cta = (intent: Intent, sourceCta: string) =>
     contactUrl({ lang, intent, sourcePage: "home", sourceCta });
-  const contactFit = cta("product", "hero-secondary");
-  const contactTalk = cta("product", "nav-primary");
+  const contactFit = cta("general", "hero-secondary");
+  const contactTalk = cta("general", "nav-primary");
   const contactPilot = cta("pilot", "explore-primary");
   const contactFlow = cta("pilot", "workflow-flow");
   // The H1 accent opens with a dash ("- while you can still act."). A plain hyphen is

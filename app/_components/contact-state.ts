@@ -7,6 +7,9 @@ export type ContactState = {
   fieldErrors?: Partial<Record<"name" | "email" | "company" | "intent" | "message", string>>;
   /** Form-level message shown in the status region. */
   message?: string;
+  /** True only when the product documentation really was emailed to the sender,
+   *  so the confirmation may say so. Never set optimistically. */
+  docsSent?: boolean;
 };
 
 export const CONTACT_INITIAL_STATE: ContactState = { status: "idle" };

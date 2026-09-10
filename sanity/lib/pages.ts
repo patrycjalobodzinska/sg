@@ -18,7 +18,7 @@ export type AppContent = {
   categories?: { tag?: string; title?: string; text?: string; points?: string[] }[];
   caseStudiesEyebrow?: string;
   caseStudiesHeading?: string;
-  caseStudies?: { _id?: string; tag?: string; title?: string; text?: string }[];
+  caseStudies?: { _id?: string; tag?: string; title?: string; text?: string; slug?: string }[];
   cta?: { heading?: string; body?: string; button?: { label?: string } };
 } | null;
 
@@ -42,7 +42,7 @@ export async function getApplications(lang: string): Promise<AppContent> {
       hero, categoriesEyebrow, categoriesHeading,
       categories[]{tag,title,text,points},
       caseStudiesEyebrow, caseStudiesHeading,
-      "caseStudies": caseStudies[]->{_id, tag, title, "text": description},
+      "caseStudies": caseStudies[]->{_id, tag, title, "text": description, "slug": slug.current},
       cta
     }`,
     { lang }

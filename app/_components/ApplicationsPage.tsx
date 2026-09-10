@@ -30,19 +30,19 @@ const EN = {
   casesEyebrow: "Case studies",
   casesHeading: "Q‑Tector in the real world",
   cases: [
-    { tag: "Brewing", title: "Beer-o-Meter: brewing quality control", text: "Our first commercial application of Q‑Tector - fast, at-line testing of sugars, alcohol and key parameters for craft breweries, close to the tank.", id: "beer" },
-    { tag: "Precision fermentation", title: "Media & feed monitoring across runs", text: "Tracking glucose and sucrose in culture media so teams can compare feed strategies and act during the run - not days after it.", id: "ferment" },
-    { tag: "Agri-food", title: "PotatoSense - Fascinating / ISPT", text: "Applying Q‑Tector measurement workflows to agri-food process questions through a regional innovation collaboration.", id: "agri" },
+    { tag: "Brewing", title: "Beer-o-Meter: brewing quality control", text: "Our first commercial application of Q‑Tector - fast, at-line testing of sugars, alcohol and key parameters for craft breweries, close to the tank.", id: "beer", slug: "beer-o-meter" },
+    { tag: "Precision fermentation", title: "Media & feed monitoring across runs", text: "Tracking glucose and sucrose in culture media so teams can compare feed strategies and act during the run - not days after it.", id: "ferment", slug: "media-and-feed-monitoring" },
+    { tag: "Agri-food", title: "PotatoSense - Fascinating / ISPT", text: "Applying Q‑Tector measurement workflows to agri-food process questions through a regional innovation collaboration.", id: "agri", slug: "potatosense" },
   ],
   ctaHeading: "Have a process in mind?",
   ctaBody: "Tell us your organism, process stage and goal - we'll show where Q‑Tector fits and how fast you can start.",
   ctaButton: "Talk to us",
 };
 
-const CHROME: Record<Locale, { heroCaption: string; heroPrimary: string; heroSecondary: string }> = {
-  en: { heroCaption: "At-line, close to the process", heroPrimary: "Talk to us about your process", heroSecondary: "See the technology" },
-  nl: { heroCaption: "At-line, dicht bij het proces", heroPrimary: "Praat met ons over uw proces", heroSecondary: "Bekijk de technologie" },
-  pl: { heroCaption: "At-line, tuż przy procesie", heroPrimary: "Porozmawiajmy o Twoim procesie", heroSecondary: "Zobacz technologię" },
+const CHROME: Record<Locale, { heroCaption: string; heroPrimary: string; heroSecondary: string; caseCta: string }> = {
+  en: { heroCaption: "At-line, close to the process", heroPrimary: "Talk to us about your process", heroSecondary: "See the technology", caseCta: "View" },
+  nl: { heroCaption: "At-line, dicht bij het proces", heroPrimary: "Praat met ons over uw proces", heroSecondary: "Bekijk de technologie", caseCta: "Bekijken" },
+  pl: { heroCaption: "At-line, tuż przy procesie", heroPrimary: "Porozmawiajmy o Twoim procesie", heroSecondary: "Zobacz technologię", caseCta: "Zobacz" },
 };
 
 const tagPill = { display: "inline-flex", alignItems: "center", width: "fit-content", alignSelf: "flex-start", fontSize: 12, color: "#1F52B8", background: "#E9F0FC", padding: "5px 12px", borderRadius: 999, fontWeight: 600 };
@@ -52,7 +52,7 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
   const t = CHROME[lang];
   const hero = doc?.hero ?? {};
   const cats = doc?.categories?.length ? doc.categories : EN.categories;
-  const cases = doc?.caseStudies?.length ? doc.caseStudies : EN.cases.map((c) => ({ _id: c.id, tag: c.tag, title: c.title, text: c.text }));
+  const cases = doc?.caseStudies?.length ? doc.caseStudies : EN.cases.map((c) => ({ _id: c.id, tag: c.tag, title: c.title, text: c.text, slug: c.slug }));
 
   // Audit ch. 12. Both CTAs are genuinely "discuss an application", so they share
   // the intent but stay distinguishable in the inbox through source_cta.
@@ -121,20 +121,38 @@ export default function ApplicationsPage({ lang, doc }: { lang: Locale; doc: App
           <div style={eyebrow}>{doc?.caseStudiesEyebrow || EN.casesEyebrow}</div>
           <h2 style={{ margin: 0, fontSize: "clamp(26px,3.4vw,44px)", fontWeight: 600, letterSpacing: "-.025em", lineHeight: 1.06 }}>{doc?.caseStudiesHeading || EN.casesHeading}</h2>
         </div>
+        {/* These cards used to be plain <article>s: there was no way to reach the
+            case study from here on any device, which read as broken on a phone
+            where a card looks tappable. The whole card is the link now, with an
+            explicit button so the affordance is visible rather than implied. The
+            button is a <span>, not a nested <a>, so the card stays one control. */}
         <div data-appcases="1" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
-          {cases.map((c, i) => (
-            <article key={c._id || i} style={{ background: "#fff", borderRadius: 12, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-              <div style={{ position: "relative", aspectRatio: "16 / 10", background: "#E7EAF0" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={caseImg(c._id)} alt={c.title || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-              </div>
-              <div style={{ padding: 26, display: "flex", flexDirection: "column", flex: 1 }}>
-                <span style={tagPill}>{c.tag}</span>
-                <h3 style={{ margin: "14px 0 10px", fontSize: 19, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.2 }}>{c.title}</h3>
-                <p style={{ margin: 0, color: "#5A6275", fontSize: 15, lineHeight: 1.55 }}>{c.text}</p>
-              </div>
-            </article>
-          ))}
+          {cases.map((c, i) => {
+            const shell = { background: "#fff", borderRadius: 12, border: "1px solid rgba(24,30,48,.06)", boxShadow: "0 12px 40px rgba(20,26,48,.05)", overflow: "hidden", display: "flex", flexDirection: "column" as const, color: "inherit" };
+            const inner = (
+              <>
+                <div style={{ position: "relative", aspectRatio: "16 / 10", background: "#E7EAF0" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={caseImg(c._id)} alt={c.title || ""} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
+                <div style={{ padding: 26, display: "flex", flexDirection: "column", flex: 1 }}>
+                  <span style={tagPill}>{c.tag}</span>
+                  <h3 style={{ margin: "14px 0 10px", fontSize: 19, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.2 }}>{c.title}</h3>
+                  <p style={{ margin: 0, color: "#5A6275", fontSize: 15, lineHeight: 1.55 }}>{c.text}</p>
+                  {c.slug ? (
+                    <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, alignSelf: "flex-start", marginTop: "auto", minHeight: 44, padding: "11px 20px", borderRadius: 8, background: "#2E6BE6", color: "#fff", fontSize: 15, fontWeight: 600 }}>
+                      {t.caseCta} <ArrowUpRight size={14} />
+                    </span>
+                  ) : null}
+                </div>
+              </>
+            );
+            return c.slug ? (
+              <a key={c._id || i} href={localizedPath(`/case-studies/${c.slug}`, lang)} style={shell}>{inner}</a>
+            ) : (
+              <article key={c._id || i} style={shell}>{inner}</article>
+            );
+          })}
         </div>
       </section>
 
